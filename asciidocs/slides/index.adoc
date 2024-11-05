@@ -1,5 +1,5 @@
-= Config
-:author: Armin Salkovic
+= Configuration
+Armin Salkovic
 :revnumber: 1.0
 :revdate: {docdate}
 :encoding: utf-8
@@ -33,12 +33,10 @@ endif::[]
 
 Testing filter by changing documentation file
 
-== Slide w/ image
+== Config Sources
 
-[.stretch]
-image::img.png[]
+image::config-sources.png[]
 
-[.lightbg,background-opacity="0.7"]
 == Slide w/ text and background image
 
 image::img.png[background, size="contain"]

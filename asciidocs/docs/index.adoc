@@ -1,4 +1,20 @@
-= Index page
-ifndef::imagesdir[:imagesdir: images]
+= Configuration
+Armin Salkovic
+1.0.0, {docdate}
+:imagesdir: img
+:icons: font
+:sectnums:
+:toc:
+:experimental:
 
-image::img.png[]
+== Slides
+
+Die Folien sind https://2425-5bhif-wmc.github.io/01-referate-Armin1503/slides[hier^] zu finden.
+
+== Übersicht
+
+Dieses Projekt wurde im Rahmen einer Präsentation über Configurations entwickelt.
+
+=== Getting Started
+
+https://2425-5bhif-wmc.github.io/01-referate-Armin1503/docs/documentation.adoc[Getting Started^]
