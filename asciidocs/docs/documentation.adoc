@@ -1,0 +1,12 @@
+= Configuration - Getting Started
+Armin Salkovic
+1.0.0, {docdate}
+:imagesdir: img
+:icons: font
+:sectnums:
+:toc:
+:experimental:
+
+== Einführung
+
+In diesem Projekt ...

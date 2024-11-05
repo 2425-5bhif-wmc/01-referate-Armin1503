@@ -31,8 +31,6 @@ endif::[]
 :title-slide-transition: zoom
 :title-slide-transition-speed: fast
 
-Testing filter by changing documentation file
-
 == Config Sources
 
 image::config-sources.png[]
