@@ -1,9 +1,7 @@
-= Some Slide
-:author: firstname lastname
-:email: x.y@htl.at
+= Config
+:author: Armin Salkovic
 :revnumber: 1.0
 :revdate: {docdate}
-:revremark: SLIDEDEMO @ HTL Leonding
 :encoding: utf-8
 :lang: de
 :doctype: article
