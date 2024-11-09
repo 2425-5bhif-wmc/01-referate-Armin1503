@@ -21,101 +21,71 @@ endif::[]
 :title-slide-transition: zoom
 :title-slide-transition-speed: fast
 
+== Warum werden Configurations benötigt?
+
+=== Vermeidung von Hardcoding
+
+* keine festen Werte im Code
+* Anpassungen ohne Codeänderungen möglich
+
+=== Wartbarkeit und Flexibilität
+
+* Änderungen an Konfigurationen ohne neu deployen zu müssen
+* zentrale Verwaltung der Werte
+
+=== Umgebungsanpassung
+
+* verschiedene Einstellungen für verschiedene Umgebungen mithilfe von Profiles (dev, test, prod)
+* gleicher Code läuft in mehreren Umgebungen
+
+=== Sicherheit
+
+* sensible Daten wie Passwörter oder API-Keys sind nicht im Code bzw. im Repository zu finden
+
 == Config Sources
 
 image::config-sources.png[]
 
-== Slide w/ text and background image
+=== System Properties
 
-image::img.png[background, size="contain"]
-
-* Topic 1
-* Topic 2
-* Topic 3
-
-[%auto-animate]
-== !
-
-Matched element will be animated automatically!
-
-[%auto-animate]
-== !
-
-[.highlight]
-Matched element will be animated automatically!
-
-And move to the right position!
-
-[%hardbreaks]
-⬆️
-⬆️
-⬆️
-
-
-[%auto-animate]
-== !
-
-[source%linenums,js,data-id=planets]
+[source,bash]
 ----
-let planets = [
-  { name: 'mars', diameter: 6779 },
-]
+./mvnw quarkus:dev -Dquarkus.datasource.password=youshallnotpass
 ----
 
-[%auto-animate]
-== !
-
-[source%linenums,js,data-id=planets]
+[source,bash]
 ----
-let planets = [
-  { name: 'mars', diameter: 6779 },
-  { name: 'earth', diameter: 12742 },
-  { name: 'jupiter', diameter: 139820 }
-]
+java -Dquarkus.datasource.password=youshallnotpass -jar target/quarkus-app/quarkus-run.jar
 ----
 
-[%auto-animate]
-== !
+=== Environment Variables
 
-[source%linenums,js,data-id=planets]
+=== .env-Files
+
+[plantuml]
 ----
-let circumferenceReducer = ( c, planet ) => {
-  return c + planet.diameter * Math.PI;
-}
-
-let planets = [
-  { name: 'mars', diameter: 6779 },
-  { name: 'earth', diameter: 12742 },
-  { name: 'jupiter', diameter: 139820 }
-]
-
-let c = planets.reduce( circumferenceReducer, 0 )
+@startfiles
+/project/src/...
+/project/.env
+@endfiles
 ----
 
+=== config/application.properties
 
-[%auto-animate,auto-animate-unmatched=false]
-== Unmatched
+=== src/main/resources/application.properties
 
-Introduction. (matched)
+[plantuml]
+----
+@startfiles
+/project/src/main/resources/application.properties
+@endfiles
+----
 
-[%auto-animate,auto-animate-unmatched=false]
-== Unmatched
+=== microprofile-config.properties
 
-Introduction. (matched)
-
-This will be shown instantly ⚡ (unmatched)
-
-
-[%auto-animate,auto-animate-duration=5]
-== Duration
-
-This animation...
-
-[%auto-animate,auto-animate-duration=5]
-== Duration
-
-This animation...
-
-...will take 5 seconds! ⌚
-
-
+[plantuml]
+----
+@startfiles
+/project/src/main/resources/META-INF/microprofile-config.properties
+@endfiles
+----
