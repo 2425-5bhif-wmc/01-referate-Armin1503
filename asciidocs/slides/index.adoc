@@ -28,6 +28,11 @@ endif::[]
 * keine festen Werte im Code
 * Anpassungen ohne Codeänderungen möglich
 
+[source,java, role="strikethrough"]
+----
+public String greeting = "Hello, World!";
+----
+
 === Wartbarkeit und Flexibilität
 
 * Änderungen an Konfigurationen ohne neu deployen zu müssen

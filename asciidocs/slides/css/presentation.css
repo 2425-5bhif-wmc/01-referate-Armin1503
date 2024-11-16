@@ -11,3 +11,7 @@
 }
 
 .reveal .lightbg { background: white; }
+
+.strikethrough {
+    text-decoration: line-through;
+}
