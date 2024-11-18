@@ -436,6 +436,120 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge, pre.rouge .w {
+  color: #24292f;
+  background-color: #f6f8fa;
+}
+pre.rouge .k, pre.rouge .kd, pre.rouge .kn, pre.rouge .kp, pre.rouge .kr, pre.rouge .kt, pre.rouge .kv {
+  color: #cf222e;
+}
+pre.rouge .gr {
+  color: #f6f8fa;
+}
+pre.rouge .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+pre.rouge .nb {
+  color: #953800;
+}
+pre.rouge .nc {
+  color: #953800;
+}
+pre.rouge .no {
+  color: #953800;
+}
+pre.rouge .nn {
+  color: #953800;
+}
+pre.rouge .sr {
+  color: #116329;
+}
+pre.rouge .na {
+  color: #116329;
+}
+pre.rouge .nt {
+  color: #116329;
+}
+pre.rouge .gi {
+  color: #116329;
+  background-color: #dafbe1;
+}
+pre.rouge .kc {
+  color: #0550ae;
+}
+pre.rouge .l, pre.rouge .ld, pre.rouge .m, pre.rouge .mb, pre.rouge .mf, pre.rouge .mh, pre.rouge .mi, pre.rouge .il, pre.rouge .mo, pre.rouge .mx {
+  color: #0550ae;
+}
+pre.rouge .sb {
+  color: #0550ae;
+}
+pre.rouge .bp {
+  color: #0550ae;
+}
+pre.rouge .ne {
+  color: #0550ae;
+}
+pre.rouge .nl {
+  color: #0550ae;
+}
+pre.rouge .py {
+  color: #0550ae;
+}
+pre.rouge .nv, pre.rouge .vc, pre.rouge .vg, pre.rouge .vi, pre.rouge .vm {
+  color: #0550ae;
+}
+pre.rouge .o, pre.rouge .ow {
+  color: #0550ae;
+}
+pre.rouge .gh {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #0550ae;
+  font-weight: bold;
+}
+pre.rouge .s, pre.rouge .sa, pre.rouge .sc, pre.rouge .dl, pre.rouge .sd, pre.rouge .s2, pre.rouge .se, pre.rouge .sh, pre.rouge .sx, pre.rouge .s1, pre.rouge .ss {
+  color: #0a3069;
+}
+pre.rouge .nd {
+  color: #8250df;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #8250df;
+}
+pre.rouge .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cm, pre.rouge .cp, pre.rouge .cpf, pre.rouge .c1, pre.rouge .cs {
+  color: #6e7781;
+}
+pre.rouge .gl {
+  color: #6e7781;
+}
+pre.rouge .gt {
+  color: #6e7781;
+}
+pre.rouge .ni {
+  color: #24292f;
+}
+pre.rouge .si {
+  color: #24292f;
+}
+pre.rouge .ge {
+  color: #24292f;
+  font-style: italic;
+}
+pre.rouge .gs {
+  color: #24292f;
+  font-weight: bold;
+}
+</style>
+<style>
     pre.rouge .hll {
         background-color: #ffc;
         display: block;
@@ -451,12 +565,53 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="details">
 <span id="author" class="author">Armin Salkovic</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2024-11-16</span>
+<span id="revdate">2024-11-18</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_einführung">1. Einführung</a></li>
+<li><a href="#_einführung">1. Einführung</a>
+<ul class="sectlevel2">
+<li><a href="#_voraussetzungen">1.1. Voraussetzungen</a></li>
+</ul>
+</li>
+<li><a href="#_erstellung_des_projekts">2. Erstellung des Projekts</a>
+<ul class="sectlevel2">
+<li><a href="#_abhängigkeiten_hinzufügen">2.1. Abhängigkeiten hinzufügen</a></li>
+</ul>
+</li>
+<li><a href="#_konfiguration_hinzufügen">3. Konfiguration hinzufügen</a></li>
+<li><a href="#_zugriff_auf_die_konfigurationen">4. Zugriff auf die Konfigurationen</a>
+<ul class="sectlevel2">
+<li><a href="#_configproperty">4.1. @ConfigProperty</a></li>
+<li><a href="#_configmapping">4.2. @ConfigMapping</a></li>
+</ul>
+</li>
+<li><a href="#_default_values_definieren">5. Default-Values definieren</a></li>
+<li><a href="#_endpoint_erstellen">6. Endpoint erstellen</a></li>
+<li><a href="#testing">7. Testen des Projekts</a>
+<ul class="sectlevel2">
+<li><a href="#_requests_ausführen">7.1. Requests ausführen</a></li>
+</ul>
+</li>
+<li><a href="#_konfigurationen_im_yaml_format">8. Konfigurationen im YAML-Format</a>
+<ul class="sectlevel2">
+<li><a href="#_konvertierung_in_yaml">8.1. Konvertierung in YAML</a></li>
+</ul>
+</li>
+<li><a href="#_config_sources">9. Config-Sources</a>
+<ul class="sectlevel2">
+<li><a href="#_configapplication_properties">9.1. config/application.properties</a></li>
+<li><a href="#_env_files">9.2. .env-Files</a></li>
+<li><a href="#env-variables">9.3. Umgebungsvariablen</a></li>
+<li><a href="#_system_properties">9.4. System Properties</a></li>
+</ul>
+</li>
+<li><a href="#_profiles">10. Profiles</a>
+<ul class="sectlevel2">
+<li><a href="#_wie_setzt_man_profiles">10.1. Wie setzt man Profiles?</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -465,7 +620,1017 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_einführung"><a class="anchor" href="#_einführung"></a>1. Einführung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In diesem Projekt &#8230;&#8203;</p>
+<p>In diesem Projekt greifen wir mithilfe von <strong>@ConfigMapping</strong> auf unsere Konfigurationen aus verschiedensten Config-Sources zu.</p>
+</div>
+<div class="sect2">
+<h3 id="_voraussetzungen"><a class="anchor" href="#_voraussetzungen"></a>1.1. Voraussetzungen</h3>
+<div class="paragraph">
+<p>Folgendes wird benötigt:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Entwicklungsumgebung (IntelliJ IDEA)</p>
+</li>
+<li>
+<p>Java - Grundkenntnisse</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_erstellung_des_projekts"><a class="anchor" href="#_erstellung_des_projekts"></a>2. Erstellung des Projekts</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_abhängigkeiten_hinzufügen"><a class="anchor" href="#_abhängigkeiten_hinzufügen"></a>2.1. Abhängigkeiten hinzufügen</h3>
+<details>
+<summary class="title">pom.xml</summary>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="xml"><span class="nt">&lt;dependencies&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>io.quarkus<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>quarkus-resteasy<span class="nt">&lt;/artifactId&gt;</span> <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>io.quarkus<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>quarkus-resteasy-jackson<span class="nt">&lt;/artifactId&gt;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Ermöglicht die Erstellung von RESTful Web Services</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Ermöglicht Serialisierung und Deserialisierung von JSON zu Java-Objekten</td>
+</tr>
+</table>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_konfiguration_hinzufügen"><a class="anchor" href="#_konfiguration_hinzufügen"></a>3. Konfiguration hinzufügen</h2>
+<div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In diesem Schritt fügen wir in die <strong>application.properties</strong> Konfigurationen mit dem <strong>prefix custom</strong> hinzu.
+</td>
+</tr>
+</table>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-sources-application-properties.png" alt="config sources application properties">
+</div>
+<div class="title">Figure 1. application.properties</div>
+</div>
+<details>
+<summary class="title">Befülle die <strong>application.properties</strong> mit Konfigurationswerten</summary>
+<div class="content">
+<div class="imageblock">
+<div class="content">
+<img src="images/diag-plantuml-md5-2eb87fc0570b98ec17ae96e36f7a1096.png" alt="Diagram" width="353" height="108">
+</div>
+</div>
+<div class="listingblock">
+<div class="title">application.properties</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="properties"><span class="py">custom.city</span><span class="p">=</span><span class="s">Linz</span>
+<span class="err">custom.cities[0]=Vienna</span>
+<span class="err">custom.cities[1]=London</span>
+<span class="err">custom.cities[2]=Madrid</span>
+
+<span class="c"># nested configuration
+</span><span class="py">custom.other.city</span><span class="p">=</span><span class="s">Paris</span>
+<span class="err">custom.other.cities[0]=Berlin</span>
+<span class="err">custom.other.cities[1]=Chicago</span>
+<span class="err">custom.other.cities[2]=Boston</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_zugriff_auf_die_konfigurationen"><a class="anchor" href="#_zugriff_auf_die_konfigurationen"></a>4. Zugriff auf die Konfigurationen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Die Konfigurationen wurden im vorherigen Schritt gesetzt, nun möchte man auf diese im Code zugreifen können. Hierbei gibt es zwei Möglichkeiten, welche im folgenden Abschnitt erklärt werden.</p>
+</div>
+<div class="sect2">
+<h3 id="_configproperty"><a class="anchor" href="#_configproperty"></a>4.1. @ConfigProperty</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial eingebunden.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Einerseits kann man auf die Konfigurationen mithilfe von <strong>@ConfigProperty</strong> zugreifen.</p>
+</div>
+<details>
+<summary class="title">ConfigProperty</summary>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java">    <span class="o">...</span>
+
+    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.city"</span><span class="o">)</span>
+    <span class="nc">String</span> <span class="n">city</span><span class="o">;</span>
+
+    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.cities"</span><span class="o">)</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">cities</span><span class="o">;</span>
+
+    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.other.city"</span><span class="o">)</span>
+    <span class="nc">String</span> <span class="n">otherCity</span><span class="o">;</span>
+
+    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.other.cities"</span><span class="o">)</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">otherCities</span><span class="o">;</span>
+
+    <span class="o">...</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+<div class="paragraph">
+<p><strong>Vorteile:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Einfach zu verwenden, ideal für kleinere Projekte</p>
+</li>
+<li>
+<p>Direkter Zugriff einzelner Werte, ohne zusätzliche Klassen oder Interfaces</p>
+</li>
+<li>
+<p>Unterstützt Standardwerte (<strong>defaultValue</strong>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Nachteile:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Bei vielen Konfigurationen wird der Code unübersichtlich</p>
+</li>
+<li>
+<p>Zusammenhängende Konfigurationswerte (wie z. B. greeting.message und greeting.language) kann man nicht zusammenfassen</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configmapping"><a class="anchor" href="#_configmapping"></a>4.2. @ConfigMapping</h3>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Diese Option wird im Tutorial eingebaut.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Andererseits kann man auf die Konfigurationen mithilfe von <strong>@ConfigMapping</strong> zugreifen.</p>
+</div>
+<details>
+<summary class="title">ConfigMapping</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">entity/CustomConfiguration.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.configdemo.entity</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">io.smallrye.config.ConfigMapping</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="nd">@ConfigMapping</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">"custom"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomConfiguration</span> <span class="o">{</span>
+
+    <span class="nc">String</span> <span class="nf">city</span><span class="o">();</span>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">cities</span><span class="o">();</span>
+    <span class="nc">Other</span> <span class="nf">other</span><span class="o">();</span>
+
+    <span class="kd">interface</span> <span class="nc">Other</span> <span class="o">{</span>
+        <span class="nc">String</span> <span class="nf">city</span><span class="o">();</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">cities</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+<div class="paragraph">
+<p><strong>Vorteile:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Verwandte Konfigurationswerte können in einer Interface-Klasse zusammengefasst werden</p>
+</li>
+<li>
+<p>Besonders bei großen Projekten sorgt <strong>@ConfigMapping</strong> für saubere und wartbare Konfigurationsmodelle</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Nachteile:</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Standardwerte (<strong>defaultValue</strong>) kann man nicht direkt in der Interface-Klasse angeben</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_default_values_definieren"><a class="anchor" href="#_default_values_definieren"></a>5. Default-Values definieren</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Bei dem bisherigen Stand des Projekts werden die Konfigurationen aus der <strong>application.properties</strong> gelesen. Sollte jedoch ein Wert <strong>nicht gesetzt</strong> sein, der jedoch im Interface deklariert ist, fliegt eine <strong>NoSuchElementException</strong>. Um dies zu vermeiden, muss man <strong>Default-Values</strong> im Interface definieren.</p>
+</div>
+<details>
+<summary class="title">NoSuchElementException</summary>
+<div class="content">
+<div class="paragraph">
+<p><span class="image"><img src="images/no-such-element-exception.png" alt="no such element exception"></span></p>
+</div>
+</div>
+</details>
+<details>
+<summary class="title">ConfigMapping mit Default-Values</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">entity/CustomConfiguration.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.configdemo.entity</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">io.smallrye.config.ConfigMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.smallrye.config.WithDefault</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+
+<span class="nd">@ConfigMapping</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">"custom"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomConfiguration</span> <span class="o">{</span>
+
+    <span class="nd">@WithDefault</span><span class="o">(</span><span class="s">"Linz"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+    <span class="nc">String</span> <span class="nf">city</span><span class="o">();</span>
+
+    <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">cities</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
+
+    <span class="nc">Other</span> <span class="nf">other</span><span class="o">();</span>
+
+    <span class="kd">interface</span> <span class="nc">Other</span> <span class="o">{</span>
+
+        <span class="nd">@WithDefault</span><span class="o">(</span><span class="s">"Paris"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+        <span class="nc">String</span> <span class="nf">city</span><span class="o">();</span>
+
+        <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">cities</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><strong>@WithDefault</strong> ermöglicht es, einen Standardwert für eine Konfiguration festzulegen, falls diese in den application.properties oder anderen Konfigurationsquellen nicht gesetzt wurde</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Wenn ein Mapping nicht mit der Konfiguration übereinstimmt, wird eine <strong>NoSuchElementException</strong> ausgelöst, es sei denn, das zugeordnete Element ist <strong>Optional</strong></td>
+</tr>
+</table>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_endpoint_erstellen"><a class="anchor" href="#_endpoint_erstellen"></a>6. Endpoint erstellen</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Um die Konfigurationswerte auszugeben, erstellen wir einen REST-Endpoints. Dieser gibt die Konfigurationen als JSON-Objekt zurück. Um jedoch auf die Konfigurationen zugreifen zu können, benötigen wir eine <strong>Service-Klasse</strong>.</p>
+</div>
+<details>
+<summary class="title">Service-Klasse</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">control/CityConfig.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.configdemo.control</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">at.htl.configdemo.entity.CustomConfiguration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.enterprise.context.ApplicationScoped</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.inject.Inject</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+
+<span class="nd">@ApplicationScoped</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CityConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Inject</span>
+    <span class="nc">CustomConfiguration</span> <span class="n">configuration</span><span class="o">;</span> <i class="conum" data-value="2"></i><b>(2)</b>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getCity</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">city</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">getCities</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">cities</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">CustomConfiguration</span><span class="o">.</span><span class="na">Other</span> <span class="nf">getOther</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">other</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><strong>@ApplicationScoped</strong> sorgt dafür, dass die Klasse als CDI-Bean registriert wird</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td><strong>@Inject</strong> sorgt dafür, dass die <strong>CustomConfiguration</strong>-Instanz in die Klasse injiziert wird</td>
+</tr>
+</table>
+</div>
+</div>
+</details>
+<div class="paragraph">
+<p>Bevor die Resource-Klasse implementiert wird, erstellen wir eine <strong>RestConfig</strong>-Klasse, welche dafür sorgt, dass &#8230;&#8203;</p>
+</div>
+<details>
+<summary class="title">RestConfig</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">control/RestConfig.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.configdemo.control</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">jakarta.ws.rs.ApplicationPath</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.ws.rs.core.Application</span><span class="o">;</span>
+
+<span class="nd">@ApplicationPath</span><span class="o">(</span><span class="s">"api"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestConfig</span> <span class="kd">extends</span> <span class="nc">Application</span> <span class="o">{</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+<div class="paragraph">
+<p>Nun wird die <strong>Resource-Klasse</strong> implementiert, welche die Konfigurationen als JSON-Objekt per Endpoint zurückgibt.</p>
+</div>
+<details>
+<summary class="title">Resource-Klasse</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">boundary/CityConfigResource.java</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="kn">package</span> <span class="nn">at.htl.configdemo.boundary</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">at.htl.configdemo.control.CityConfig</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.inject.Inject</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.ws.rs.GET</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.ws.rs.Path</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.ws.rs.Produces</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">jakarta.ws.rs.core.MediaType</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+
+<span class="nd">@Path</span><span class="o">(</span><span class="s">"config"</span><span class="o">)</span>
+<span class="nd">@Produces</span><span class="o">(</span><span class="nc">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CityConfigResource</span> <span class="o">{</span>
+
+    <span class="nd">@Inject</span>
+    <span class="nc">CityConfig</span> <span class="n">cityConfig</span><span class="o">;</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"city"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getCity</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getCity</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"cities"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">getCities</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getCities</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"other/city"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getOtherCity</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getOther</span><span class="o">().</span><span class="na">city</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@GET</span>
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"other/cities"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">getOtherCities</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getOther</span><span class="o">().</span><span class="na">cities</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class="sect1">
+<h2 id="testing"><a class="anchor" href="#testing"></a>7. Testen des Projekts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Der Zugriff auf die Konfigurationen und die Endpoints zur Rückgabe der Werte sind implementiert. Um diese zu testen, benötigen wir vorerst ein <strong>requests.http</strong>-File.</p>
+</div>
+<details>
+<summary class="title">requests.http</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">http-requests/requests.http</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">@baseUrl = http://localhost:8080/api/config/
+
+### GET city
+GET {{baseUrl}}/city
+Accept: application/json
+
+### GET cities
+GET {{baseUrl}}/cities
+Accept: application/json
+
+### Get other city
+GET {{baseUrl}}/other/city
+Accept: application/json
+
+### Get other cities
+GET {{baseUrl}}/other/cities
+Accept: application/json</code></pre>
+</div>
+</div>
+</div>
+</details>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Nun muss nur noch der <strong>Quarkus-Server</strong> gestartet werden und die Requests im <strong>requests.http</strong>-File ausgeführt werden.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Server starten</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">./mvnw quarkus:dev clean</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_requests_ausführen"><a class="anchor" href="#_requests_ausführen"></a>7.1. Requests ausführen</h3>
+<div class="paragraph">
+<p>Nachdem der Server gestartet wurde, können die Requests im <strong>requests.http</strong>-File ausgeführt werden. Die Responses sollten hierbei wie folgt aussehen:</p>
+</div>
+<details>
+<summary class="title">GET city</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/response-get-city.png" alt="response get city">
+</div>
+<div class="title">Figure 2. Response</div>
+</div>
+</div>
+</details>
+<details>
+<summary class="title">GET cities</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">### GET cities
+GET http://localhost:8080/api/config/cities
+Accept: application/json</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/response-get-cities.png" alt="response get cities">
+</div>
+<div class="title">Figure 3. Response</div>
+</div>
+</div>
+</details>
+<details>
+<summary class="title">GET other city</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">### Get other city
+GET http://localhost:8080/api/config/other/city
+Accept: application/json</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/response-get-other-city.png" alt="response get other city">
+</div>
+<div class="title">Figure 4. Response</div>
+</div>
+</div>
+</details>
+<details>
+<summary class="title">GET other cities</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">### Get other cities
+GET http://localhost:8080/api/config/other/cities
+Accept: application/json</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/response-get-other-cities.png" alt="response get other cities">
+</div>
+<div class="title">Figure 5. Response</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_konfigurationen_im_yaml_format"><a class="anchor" href="#_konfigurationen_im_yaml_format"></a>8. Konfigurationen im YAML-Format</h2>
+<div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Bei komplexeren bzw. hierarchischen Strukturen empfiehlt es sich, die Konfigurationen im <strong>YAML-Format</strong> zu speichern. Da dies die Lesbarkeit der Konfigurationen erhöht.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_konvertierung_in_yaml"><a class="anchor" href="#_konvertierung_in_yaml"></a>8.1. Konvertierung in YAML</h3>
+<div class="paragraph">
+<p><span class="line-through">application.properties</span> wird nun von <strong>application.yaml</strong> abgelöst.</p>
+</div>
+<div class="listingblock">
+<div class="title">src/main/resources/application.yaml</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">custom</span><span class="pi">:</span>
+  <span class="na">city</span><span class="pi">:</span> <span class="s">Linz</span>
+  <span class="na">cities</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">Vienna</span>
+  <span class="pi">-</span> <span class="s">London</span>
+  <span class="pi">-</span> <span class="s">Madrid</span>
+  <span class="na">other</span><span class="pi">:</span>
+    <span class="na">city</span><span class="pi">:</span> <span class="s">Paris</span>
+    <span class="na">cities</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">Berlin</span>
+    <span class="pi">-</span> <span class="s">Chicago</span>
+    <span class="pi">-</span> <span class="s">Boston</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Damit die Konfigurationen aus dem <strong>application.yaml</strong>-File gelesen werden können, muss die <strong>pom.xml</strong> um folgende Dependency erweitert werden:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>io.quarkus<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>quarkus-config-yaml<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Nun sollte beim Testen des Projekts die gleiche Ausgabe wie zuvor erzielt werden. Siehe <a href="#testing">hier</a>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_config_sources"><a class="anchor" href="#_config_sources"></a>9. Config-Sources</h2>
+<div class="sectionbody">
+<div class="imageblock">
+<div class="content">
+<img src="images/config-sources.png" alt="config sources">
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen die Konfigurationen gelesen werden können. Je weiter links sich die Config-Source in der Grafik befindet, desto höher ist die Priorität, sprich desto mehr Vorrang hat sie.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Als nächsten Schritt werden die Konfigurationen aus verschiedensten Config-Sources gelesen und im Projekt verwendet.</p>
+</div>
+<div class="sect2">
+<h3 id="_configapplication_properties"><a class="anchor" href="#_configapplication_properties"></a>9.1. config/application.properties</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-sources-config-application-properties.png" alt="config sources config application properties">
+</div>
+<div class="title">Figure 6. config/application.properties</div>
+</div>
+<div class="paragraph">
+<p>Zuerst muss ein Verzeichnis <strong>config</strong> im Projekt-Root erstellt werden. In dieses Verzeichnis kommt schlussendlich entweder ein <strong>application.properties</strong>- oder <strong>application.yaml</strong>-File.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/diag-plantuml-md5-9626e0ec0b641f678781aa84ff21d17c.png" alt="Diagram" width="311" height="108">
+</div>
+</div>
+<div class="listingblock">
+<div class="title">application.properties</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="properties"><span class="py">custom.city</span><span class="p">=</span><span class="s">Salzburg</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">application.yaml</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">custom</span><span class="pi">:</span>
+  <span class="na">city</span><span class="pi">:</span> <span class="s">Salzburg</span></code></pre>
+</div>
+</div>
+<details>
+<summary class="title">Get city</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/response-config-application-properties-get-city.png" alt="response config application properties get city">
+</div>
+<div class="title">Figure 7. Response</div>
+</div>
+</div>
+</details>
+</div>
+<div class="sect2">
+<h3 id="_env_files"><a class="anchor" href="#_env_files"></a>9.2. .env-Files</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-sources-env-file.png" alt="config sources env file">
+</div>
+<div class="title">Figure 8. .env-file</div>
+</div>
+<div class="paragraph">
+<p>Das .env-File wird im Projekt-Root erstellt.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/diag-plantuml-md5-b612846c116268827fa4e1dcc6dda830.png" alt="Diagram" width="181" height="90">
+</div>
+</div>
+<div class="listingblock">
+<div class="title">.env</div>
+<div class="content">
+<pre class="rouge highlight"><code>CUSTOM_CITY=Moscow</code></pre>
+</div>
+</div>
+<details>
+<summary class="title">Get city</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/response-env-file-get-city.png" alt="response env file get city">
+</div>
+<div class="title">Figure 9. Response</div>
+</div>
+</div>
+</details>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Das .env-File soll <strong>nicht</strong> in das Repository gepusht werden, da es oft sensible Daten wie Passwörter oder API-Keys enthält.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="env-variables"><a class="anchor" href="#env-variables"></a>9.3. Umgebungsvariablen</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-sources-environment-variables.png" alt="config sources environment variables">
+</div>
+<div class="title">Figure 10. Umgebungsvariablen</div>
+</div>
+<div class="paragraph">
+<p>Hierbei benötigt man ein uberjar-File, welches man wie folgt bekommt:</p>
+</div>
+<div class="paragraph">
+<p>Zuerst application.properties um folgende Zeile erweitern:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="properties"><span class="py">quarkus.package.jar.type</span><span class="p">=</span><span class="s">uber-jar</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Oder application.yaml um folgende Zeile erweitern:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">quarkus</span><span class="pi">:</span>
+  <span class="na">package</span><span class="pi">:</span>
+    <span class="na">jar</span><span class="pi">:</span>
+      <span class="na">type</span><span class="pi">:</span> <span class="s">uber-jar</span></code></pre>
+</div>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Je nachdem, ob mit <strong>application.properties</strong> oder <strong>application.yaml</strong> gearbeitet wird, muss die entsprechende Datei erweitert werden.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Danach Package erstellen:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">./mvnw clean package</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nun sollte sich im <strong>target</strong>-Verzeichnis ein <strong>*-runner.jar</strong>-File befinden.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/diag-plantuml-md5-d0b6f05721a8efe21599a321fd207b8f.png" alt="Diagram" width="231" height="72">
+</div>
+</div>
+<div class="paragraph">
+<p>Nun kann das jar-File mit folgendem Befehl gestartet und mit einer <strong>Umgebungsvariable</strong> versehen werden:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash"><span class="nb">export </span><span class="nv">CUSTOM_CITY</span><span class="o">=</span>Munich <span class="p">;</span> java <span class="nt">-jar</span> target/<span class="k">*</span><span class="nt">-runner</span>.jar</code></pre>
+</div>
+</div>
+<details>
+<summary class="title">Get city</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/response-env-variables-get-city.png" alt="response env variables get city">
+</div>
+<div class="title">Figure 11. Response</div>
+</div>
+</div>
+</details>
+</div>
+<div class="sect2">
+<h3 id="_system_properties"><a class="anchor" href="#_system_properties"></a>9.4. System Properties</h3>
+<div class="imageblock">
+<div class="content">
+<img src="images/config-sources-system-properties.png" alt="config sources system properties">
+</div>
+<div class="title">Figure 12. System Properties</div>
+</div>
+<div class="paragraph">
+<p>System Properties können entweder beim Starten des Quarkus-Servers im Dev-Mode oder beim Starten des jar-Files mitgegeben werden.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Auch bei den System Properties benötigt man ein uber-jar (falls man den Server nicht im Dev-Mode starten möchte), genau wie bei den Umgebungsvariablen. Siehe <a href="#env-variables">hier</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_dev_mode"><a class="anchor" href="#_dev_mode"></a>9.4.1. Dev-Mode</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">./mvnw quarkus:dev <span class="nt">-Dcustom</span>.city<span class="o">=</span>Amsterdam</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_runner_jar"><a class="anchor" href="#_runner_jar"></a>9.4.2. Runner-Jar</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">java <span class="nt">-Dcustom</span>.city<span class="o">=</span>Amsterdam <span class="nt">-jar</span> target/config-demo-1.0-SNAPSHOT-runner.jar</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_response"><a class="anchor" href="#_response"></a>9.4.3. Response</h4>
+<details>
+<summary class="title">GET city</summary>
+<div class="content">
+<div class="listingblock">
+<div class="title">Request</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="httprequest">### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/response-system-properties-get-city.png" alt="response system properties get city">
+</div>
+<div class="title">Figure 13. Response</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_profiles"><a class="anchor" href="#_profiles"></a>10. Profiles</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Profiles ermöglichen es, verschiedene Konfigurationen für verschiedene Umgebungen zu setzen.</p>
+</div>
+<div class="paragraph">
+<p><strong>Default Profiles</strong>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>dev</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Ist im Entwicklungsmodus aktiv (quarkus:dev)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>test</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Ist beim Ausführen von Tests aktiv</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>prod</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Ist aktiv, wenn man nicht im Dev- oder Test-Modus ist</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres dazu ist <a href="https://docs.redhat.com/en/documentation/red_hat_build_of_quarkus/1.3/html/configuring_your_quarkus_applications/proc-using-configuration-profiles_quarkus-configuration-guide#proc-setting-custom-configuration-profile_quarkus-configuration-guide">hier</a> zu finden.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_wie_setzt_man_profiles"><a class="anchor" href="#_wie_setzt_man_profiles"></a>10.1. Wie setzt man Profiles?</h3>
+<div class="listingblock">
+<div class="title">Im *.properties-File setzen</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="properties"><span class="err">%&lt;Profile&gt;</span><span class="py">.custom.city</span><span class="p">=</span><span class="s">Vienna</span></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Im Terminal ausführen</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="bash">./mvnw quarkus:&lt;Profile&gt; clean</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+&lt;Profile&gt; ist hierbei der Platzhalter für das jeweilige Profile (dev, test, prod, &#8230;&#8203;).
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Je nachdem mit welchem Profile man den Server startet, wird die entsprechende Konfiguration aus dem <strong>*.properties</strong>-File genommen.</p>
+</div>
 </div>
 </div>
 </div>
@@ -473,7 +1638,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-11-16 15:11:03 UTC
+Last updated 2024-11-18 21:44:54 UTC
 </div>
 </div>
 </body>
