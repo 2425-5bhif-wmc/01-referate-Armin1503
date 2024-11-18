@@ -17,4 +17,4 @@ Dieses Projekt wurde im Rahmen einer Präsentation über Configurations entwicke
 
 === Getting Started
 
-https://2425-5bhif-wmc.github.io/01-referate-Armin1503/docs/documentation.html[Getting Started^]
+https://2425-5bhif-wmc.github.io/01-referate-Armin1503/documentation.html[Getting Started^]
