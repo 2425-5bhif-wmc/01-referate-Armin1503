@@ -1,7 +1,7 @@
 = Configuration - Getting Started
 Armin Salkovic
 1.0.0, {docdate}
-:imagesdir: img
+:imagesdir: images
 :icons: font
 :sectnums:
 :toc:
@@ -9,4 +9,686 @@ Armin Salkovic
 
 == Einführung
 
-In diesem Projekt ...
+In diesem Projekt greifen wir mithilfe von **@ConfigMapping** auf unsere Konfigurationen aus verschiedensten Config-Sources zu.
+
+=== Voraussetzungen
+
+Folgendes wird benötigt:
+
+* Entwicklungsumgebung (IntelliJ IDEA)
+* Java - Grundkenntnisse
+
+== Erstellung des Projekts
+
+
+=== Abhängigkeiten hinzufügen
+
+.pom.xml
+[%collapsible]
+====
+[source,xml]
+----
+<dependencies>
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-resteasy</artifactId> <1>
+    </dependency>
+    <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-resteasy-jackson</artifactId> <2>
+    </dependency>
+</dependencies>
+----
+
+<1> Ermöglicht die Erstellung von RESTful Web Services
+<2> Ermöglicht Serialisierung und Deserialisierung von JSON zu Java-Objekten
+====
+
+== Konfiguration hinzufügen
+
+TIP: In diesem Schritt fügen wir in die **application.properties** Konfigurationen mit dem **prefix custom** hinzu.
+
+.application.properties
+image::config-sources-application-properties.png[]
+
+.Befülle die **application.properties** mit Konfigurationswerten
+
+[%collapsible]
+====
+[plantuml]
+----
+@startfiles
+/project/src/main/resources/application.properties
+@endfiles
+----
+
+.application.properties
+[source,properties]
+----
+custom.city=Linz
+custom.cities[0]=Vienna
+custom.cities[1]=London
+custom.cities[2]=Madrid
+
+# nested configuration
+custom.other.city=Paris
+custom.other.cities[0]=Berlin
+custom.other.cities[1]=Chicago
+custom.other.cities[2]=Boston
+----
+====
+
+== Zugriff auf die Konfigurationen
+
+Die Konfigurationen wurden im vorherigen Schritt gesetzt, nun möchte man auf diese im Code zugreifen können. Hierbei gibt es zwei Möglichkeiten, welche im folgenden Abschnitt erklärt werden.
+
+=== @ConfigProperty
+
+IMPORTANT: Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial eingebunden.
+
+Einerseits kann man auf die Konfigurationen mithilfe von **@ConfigProperty** zugreifen.
+
+.ConfigProperty
+[%collapsible]
+====
+[source,java]
+----
+    ...
+
+    @ConfigProperty(name = "custom.city")
+    String city;
+
+    @ConfigProperty(name = "custom.cities")
+    List<String> cities;
+
+    @ConfigProperty(name = "custom.other.city")
+    String otherCity;
+
+    @ConfigProperty(name = "custom.other.cities")
+    List<String> otherCities;
+
+    ...
+----
+====
+
+**Vorteile:**
+
+* Einfach zu verwenden, ideal für kleinere Projekte
+* Direkter Zugriff einzelner Werte, ohne zusätzliche Klassen oder Interfaces
+* Unterstützt Standardwerte (**defaultValue**)
+
+**Nachteile:**
+
+* Bei vielen Konfigurationen wird der Code unübersichtlich
+* Zusammenhängende Konfigurationswerte (wie z. B. greeting.message und greeting.language) kann man nicht zusammenfassen
+
+=== @ConfigMapping
+
+TIP: Diese Option wird im Tutorial eingebaut.
+
+Andererseits kann man auf die Konfigurationen mithilfe von **@ConfigMapping** zugreifen.
+
+.ConfigMapping
+[%collapsible]
+====
+
+.entity/CustomConfiguration.java
+[source,java]
+----
+package at.htl.configdemo.entity;
+
+import io.smallrye.config.ConfigMapping;
+
+import java.util.List;
+
+@ConfigMapping(prefix = "custom")
+public interface CustomConfiguration {
+
+    String city();
+    List<String> cities();
+    Other other();
+
+    interface Other {
+        String city();
+        List<String> cities();
+    }
+}
+----
+====
+
+**Vorteile:**
+
+* Verwandte Konfigurationswerte können in einer Interface-Klasse zusammengefasst werden
+* Besonders bei großen Projekten sorgt **@ConfigMapping** für saubere und wartbare Konfigurationsmodelle
+
+**Nachteile:**
+
+* Standardwerte (**defaultValue**) kann man nicht direkt in der Interface-Klasse angeben
+
+
+== Default-Values definieren
+
+Bei dem bisherigen Stand des Projekts werden die Konfigurationen aus der **application.properties** gelesen. Sollte jedoch ein Wert **nicht gesetzt** sein, der jedoch im Interface deklariert ist, fliegt eine **NoSuchElementException**. Um dies zu vermeiden, muss man **Default-Values** im Interface definieren.
+
+.NoSuchElementException
+[%collapsible]
+====
+image:no-such-element-exception.png[]
+====
+
+.ConfigMapping mit Default-Values
+[%collapsible]
+====
+.entity/CustomConfiguration.java
+[source,java]
+----
+package at.htl.configdemo.entity;
+
+import io.smallrye.config.ConfigMapping;
+import io.smallrye.config.WithDefault;
+
+import java.util.List;
+import java.util.Optional;
+
+@ConfigMapping(prefix = "custom")
+public interface CustomConfiguration {
+
+    @WithDefault("Linz") <1>
+    String city();
+
+    Optional<List<String>> cities(); <2>
+
+    Other other();
+
+    interface Other {
+
+        @WithDefault("Paris") <1>
+        String city();
+
+        Optional<List<String>> cities(); <2>
+    }
+}
+----
+
+<1> **@WithDefault** ermöglicht es, einen Standardwert für eine Konfiguration festzulegen, falls diese in den application.properties oder anderen Konfigurationsquellen nicht gesetzt wurde
+<2> Wenn ein Mapping nicht mit der Konfiguration übereinstimmt, wird eine **NoSuchElementException** ausgelöst, es sei denn, das zugeordnete Element ist **Optional**
+====
+
+== Endpoint erstellen
+Um die Konfigurationswerte auszugeben, erstellen wir einen REST-Endpoints. Dieser gibt die Konfigurationen als JSON-Objekt zurück. Um jedoch auf die Konfigurationen zugreifen zu können, benötigen wir eine **Service-Klasse**.
+
+.Service-Klasse
+[%collapsible]
+====
+.control/CityConfig.java
+[source,java]
+----
+package at.htl.configdemo.control;
+
+import at.htl.configdemo.entity.CustomConfiguration;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+import java.util.List;
+import java.util.Optional;
+
+@ApplicationScoped <1>
+public class CityConfig {
+
+    @Inject
+    CustomConfiguration configuration; <2>
+
+    public String getCity(){
+        return configuration.city();
+    }
+
+    public Optional<List<String>> getCities(){
+        return configuration.cities();
+    }
+
+    public CustomConfiguration.Other getOther(){
+        return configuration.other();
+    }
+}
+----
+
+<1> **@ApplicationScoped** sorgt dafür, dass die Klasse als CDI-Bean registriert wird
+
+<2> **@Inject** sorgt dafür, dass die **CustomConfiguration**-Instanz in die Klasse injiziert wird
+====
+
+Bevor die Resource-Klasse implementiert wird, erstellen wir eine **RestConfig**-Klasse, welche dafür sorgt, dass ...
+
+.RestConfig
+[%collapsible]
+====
+.control/RestConfig.java
+[source,java]
+----
+package at.htl.configdemo.control;
+
+import jakarta.ws.rs.ApplicationPath;
+import jakarta.ws.rs.core.Application;
+
+@ApplicationPath("api")
+public class RestConfig extends Application {
+}
+----
+====
+
+Nun wird die **Resource-Klasse** implementiert, welche die Konfigurationen als JSON-Objekt per Endpoint zurückgibt.
+
+.Resource-Klasse
+[%collapsible]
+====
+.boundary/CityConfigResource.java
+[source,java]
+----
+package at.htl.configdemo.boundary;
+
+import at.htl.configdemo.control.CityConfig;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+
+import java.util.List;
+import java.util.Optional;
+
+@Path("config")
+@Produces(MediaType.APPLICATION_JSON)
+public class CityConfigResource {
+
+    @Inject
+    CityConfig cityConfig;
+
+    @GET
+    @Path("city")
+    public String getCity(){
+        return cityConfig.getCity();
+    }
+
+    @GET
+    @Path("cities")
+    public Optional<List<String>> getCities(){
+        return cityConfig.getCities();
+    }
+
+    @GET
+    @Path("other/city")
+    public String getOtherCity(){
+        return cityConfig.getOther().city();
+    }
+
+    @GET
+    @Path("other/cities")
+    public Optional<List<String>> getOtherCities(){
+        return cityConfig.getOther().cities();
+    }
+}
+----
+====
+
+== Testen des Projekts [[testing]]
+
+Der Zugriff auf die Konfigurationen und die Endpoints zur Rückgabe der Werte sind implementiert. Um diese zu testen, benötigen wir vorerst ein **requests.http**-File.
+
+.requests.http
+[%collapsible]
+====
+.http-requests/requests.http
+[source, httprequest]
+----
+@baseUrl = http://localhost:8080/api/config/
+
+### GET city
+GET {{baseUrl}}/city
+Accept: application/json
+
+### GET cities
+GET {{baseUrl}}/cities
+Accept: application/json
+
+### Get other city
+GET {{baseUrl}}/other/city
+Accept: application/json
+
+### Get other cities
+GET {{baseUrl}}/other/cities
+Accept: application/json
+----
+====
+
+TIP: Nun muss nur noch der **Quarkus-Server** gestartet werden und die Requests im **requests.http**-File ausgeführt werden.
+
+.Server starten
+[source, bash]
+----
+./mvnw quarkus:dev clean
+----
+
+=== Requests ausführen
+
+Nachdem der Server gestartet wurde, können die Requests im **requests.http**-File ausgeführt werden. Die Responses sollten hierbei wie folgt aussehen:
+
+.GET city
+[%collapsible]
+====
+.Request
+[source, httprequest]
+----
+### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json
+----
+
+.Response
+image::response-get-city.png[]
+====
+
+.GET cities
+[%collapsible]
+====
+.Request
+[source, httprequest]
+----
+### GET cities
+GET http://localhost:8080/api/config/cities
+Accept: application/json
+----
+
+.Response
+image::response-get-cities.png[]
+====
+
+.GET other city
+[%collapsible]
+====
+.Request
+[source, httprequest]
+----
+### Get other city
+GET http://localhost:8080/api/config/other/city
+Accept: application/json
+----
+
+.Response
+image::response-get-other-city.png[]
+====
+
+.GET other cities
+[%collapsible]
+====
+.Request
+[source, httprequest]
+----
+### Get other cities
+GET http://localhost:8080/api/config/other/cities
+Accept: application/json
+----
+
+.Response
+image::response-get-other-cities.png[]
+====
+
+== Konfigurationen im YAML-Format
+
+TIP: Bei komplexeren bzw. hierarchischen Strukturen empfiehlt es sich, die Konfigurationen im **YAML-Format** zu speichern. Da dies die Lesbarkeit der Konfigurationen erhöht.
+
+=== Konvertierung in YAML
+
+[.line-through]#application.properties# wird nun von **application.yaml** abgelöst.
+
+.src/main/resources/application.yaml
+[source,yaml]
+----
+custom:
+  city: Linz
+  cities:
+  - Vienna
+  - London
+  - Madrid
+  other:
+    city: Paris
+    cities:
+    - Berlin
+    - Chicago
+    - Boston
+----
+
+Damit die Konfigurationen aus dem **application.yaml**-File gelesen werden können, muss die **pom.xml** um folgende Dependency erweitert werden:
+
+[source,xml]
+----
+<dependency>
+    <groupId>io.quarkus</groupId>
+    <artifactId>quarkus-config-yaml</artifactId>
+</dependency>
+----
+
+TIP: Nun sollte beim Testen des Projekts die gleiche Ausgabe wie zuvor erzielt werden. Siehe <<testing,hier>>.
+
+== Config-Sources
+
+image::config-sources.png[]
+
+TIP: In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen die Konfigurationen gelesen werden können. Je weiter links sich die Config-Source in der Grafik befindet, desto höher ist die Priorität, sprich desto mehr Vorrang hat sie.
+
+Als nächsten Schritt werden die Konfigurationen aus verschiedensten Config-Sources gelesen und im Projekt verwendet.
+
+=== config/application.properties
+
+.config/application.properties
+image::config-sources-config-application-properties.png[]
+
+Zuerst muss ein Verzeichnis **config** im Projekt-Root erstellt werden. In dieses Verzeichnis kommt schlussendlich entweder ein **application.properties**- oder **application.yaml**-File.
+
+[plantuml]
+----
+@startfiles
+/config-demo/src/...
+/config-demo/config/application.properties
+@endfiles
+----
+
+.application.properties
+[source,properties]
+----
+custom.city=Salzburg
+----
+
+.application.yaml
+[source,yaml]
+----
+custom:
+  city: Salzburg
+----
+
+.Get city
+[%collapsible]
+====
+.Request
+[source, httprequest]
+----
+### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json
+----
+
+.Response
+image::response-config-application-properties-get-city.png[]
+====
+
+=== .env-Files
+
+..env-file
+image::config-sources-env-file.png[]
+
+Das .env-File wird im Projekt-Root erstellt.
+
+[plantuml]
+----
+@startfiles
+/config-demo/src/...
+/config-demo/.env
+@endfiles
+----
+
+..env
+[source]
+----
+CUSTOM_CITY=Moscow
+----
+
+.Get city
+[%collapsible]
+====
+.Request
+[source, httprequest]
+----
+### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json
+----
+
+.Response
+image::response-env-file-get-city.png[]
+====
+
+IMPORTANT: Das .env-File soll **nicht** in das Repository gepusht werden, da es oft sensible Daten wie Passwörter oder API-Keys enthält.
+
+=== Umgebungsvariablen [[env-variables]]
+
+.Umgebungsvariablen
+image::config-sources-environment-variables.png[]
+
+Hierbei benötigt man ein uberjar-File, welches man wie folgt bekommt:
+
+Zuerst application.properties um folgende Zeile erweitern:
+[source, properties]
+----
+quarkus.package.jar.type=uber-jar
+----
+
+Oder application.yaml um folgende Zeile erweitern:
+[source, yaml]
+----
+quarkus:
+  package:
+    jar:
+      type: uber-jar
+----
+
+IMPORTANT: Je nachdem, ob mit **application.properties** oder **application.yaml** gearbeitet wird, muss die entsprechende Datei erweitert werden.
+
+Danach Package erstellen:
+[source, bash]
+----
+./mvnw clean package
+----
+
+Nun sollte sich im **target**-Verzeichnis ein ***-runner.jar**-File befinden.
+
+[plantuml]
+----
+@startfiles
+/config-demo/target/*-runner.jar
+@endfiles
+----
+
+Nun kann das jar-File mit folgendem Befehl gestartet und mit einer **Umgebungsvariable** versehen werden:
+
+[source, bash]
+----
+export CUSTOM_CITY=Munich ; java -jar target/*-runner.jar
+----
+
+.Get city
+[%collapsible]
+====
+.Request
+[source, httprequest]
+----
+### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json
+----
+
+.Response
+image::response-env-variables-get-city.png[]
+====
+
+=== System Properties
+
+.System Properties
+image::config-sources-system-properties.png[]
+
+System Properties können entweder beim Starten des Quarkus-Servers im Dev-Mode oder beim Starten des jar-Files mitgegeben werden.
+
+TIP: Auch bei den System Properties benötigt man ein uber-jar (falls man den Server nicht im Dev-Mode starten möchte), genau wie bei den Umgebungsvariablen. Siehe <<env-variables,hier>>.
+
+==== Dev-Mode
+
+[source, bash]
+----
+./mvnw quarkus:dev -Dcustom.city=Amsterdam
+----
+
+==== Runner-Jar
+
+[source, bash]
+----
+java -Dcustom.city=Amsterdam -jar target/config-demo-1.0-SNAPSHOT-runner.jar
+----
+
+
+==== Response
+
+.GET city
+[%collapsible]
+====
+.Request
+[source, httprequest]
+----
+### GET city
+GET http://localhost:8080/api/config/city
+Accept: application/json
+----
+
+.Response
+image::response-system-properties-get-city.png[]
+====
+
+== Profiles
+
+Profiles ermöglichen es, verschiedene Konfigurationen für verschiedene Umgebungen zu setzen.
+
+**Default Profiles**:
+
+* **dev**
+** Ist im Entwicklungsmodus aktiv (quarkus:dev)
+* **test**
+** Ist beim Ausführen von Tests aktiv
+* **prod**
+** Ist aktiv, wenn man nicht im Dev- oder Test-Modus ist
+
+TIP: Außerdem kann man noch **Custom Profiles** erstellen. Genaueres dazu ist https://docs.redhat.com/en/documentation/red_hat_build_of_quarkus/1.3/html/configuring_your_quarkus_applications/proc-using-configuration-profiles_quarkus-configuration-guide#proc-setting-custom-configuration-profile_quarkus-configuration-guide[hier] zu finden.
+
+=== Wie setzt man Profiles?
+
+.Im *.properties-File setzen
+[source, properties]
+----
+%<Profile>.custom.city=Vienna
+----
+
+.Im Terminal ausführen
+[source, bash]
+----
+./mvnw quarkus:<Profile> clean
+----
+
+TIP: <Profile> ist hierbei der Platzhalter für das jeweilige Profile (dev, test, prod, ...).
+
+Je nachdem mit welchem Profile man den Server startet, wird die entsprechende Konfiguration aus dem ***.properties**-File genommen.

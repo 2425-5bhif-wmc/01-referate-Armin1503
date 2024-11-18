@@ -1,0 +1,17 @@
+@baseUrl = http://localhost:8080/api/config/
+
+### GET city
+GET {{baseUrl}}/city
+Accept: application/json
+
+### GET cities
+GET {{baseUrl}}/cities
+Accept: application/json
+
+### Get other city
+GET {{baseUrl}}/other/city
+Accept: application/json
+
+### Get other cities
+GET {{baseUrl}}/other/cities
+Accept: application/json

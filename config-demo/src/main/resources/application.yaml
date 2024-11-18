@@ -1,0 +1,17 @@
+quarkus:
+  package:
+    jar:
+      type: uber-jar
+
+custom:
+  city: Linz
+  cities:
+  - Vienna
+  - London
+  - Madrid
+  other:
+    city: Paris
+    cities:
+    - Berlin
+    - Chicago
+    - Boston
