@@ -590,7 +590,7 @@ pre.rouge .gs {
 </ul>
 </li>
 <li><a href="#_default_values_definieren">5. Default-Values definieren</a></li>
-<li><a href="#_endpoint_erstellen">6. Endpoint erstellen</a></li>
+<li><a href="#_endpoints_erstellen">6. Endpoints erstellen</a></li>
 <li><a href="#testing">7. Testen des Projekts</a>
 <ul class="sectlevel2">
 <li><a href="#_requests_ausführen">7.1. Requests ausführen</a></li>
@@ -905,16 +905,6 @@ Diese Option wird im Tutorial eingebaut.
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p><strong>Nachteile:</strong></p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Standardwerte (<strong>defaultValue</strong>) kann man nicht direkt in der Interface-Klasse angeben</p>
-</li>
-</ul>
-</div>
 </div>
 </div>
 </div>
@@ -983,7 +973,7 @@ Diese Option wird im Tutorial eingebaut.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_endpoint_erstellen"><a class="anchor" href="#_endpoint_erstellen"></a>6. Endpoint erstellen</h2>
+<h2 id="_endpoints_erstellen"><a class="anchor" href="#_endpoints_erstellen"></a>6. Endpoints erstellen</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Um die Konfigurationswerte auszugeben, erstellen wir einen REST-Endpoints. Dieser gibt die Konfigurationen als JSON-Objekt zurück. Um jedoch auf die Konfigurationen zugreifen zu können, benötigen wir eine <strong>Service-Klasse</strong>.</p>
@@ -1027,18 +1017,18 @@ Diese Option wird im Tutorial eingebaut.
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><strong>@ApplicationScoped</strong> sorgt dafür, dass die Klasse als CDI-Bean registriert wird</td>
+<td><strong>@ApplicationScoped</strong> sorgt dafür, dass alle Klassen, die diese Klasse per @Inject nutzen, auf dieselbe Instanz zugreifen.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td><strong>@Inject</strong> sorgt dafür, dass die <strong>CustomConfiguration</strong>-Instanz in die Klasse injiziert wird</td>
+<td><strong>@Inject</strong> sorgt dafür, dass die <strong>CustomConfiguration</strong>-Instanz in die Klasse injiziert wird.</td>
 </tr>
 </table>
 </div>
 </div>
 </details>
 <div class="paragraph">
-<p>Bevor die Resource-Klasse implementiert wird, erstellen wir eine <strong>RestConfig</strong>-Klasse, welche dafür sorgt, dass &#8230;&#8203;</p>
+<p>Bevor die Resource-Klasse implementiert wird, erstellen wir eine <strong>RestConfig</strong>-Klasse, welche dafür sorgt, dass alle REST-Endpunkte in der Anwendung mit <strong>/api</strong> beginnen.</p>
 </div>
 <details>
 <summary class="title">RestConfig</summary>
@@ -1681,7 +1671,7 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-11-19 12:28:26 UTC
+Last updated 2024-11-19 13:13:21 UTC
 </div>
 </div>
 </body>
