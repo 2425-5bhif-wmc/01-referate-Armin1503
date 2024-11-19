@@ -565,7 +565,7 @@ pre.rouge .gs {
 <div class="details">
 <span id="author" class="author">Armin Salkovic</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2024-11-18</span>
+<span id="revdate">2024-11-19</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -577,7 +577,9 @@ pre.rouge .gs {
 </li>
 <li><a href="#_erstellung_des_projekts">2. Erstellung des Projekts</a>
 <ul class="sectlevel2">
-<li><a href="#_abhängigkeiten_hinzufügen">2.1. Abhängigkeiten hinzufügen</a></li>
+<li><a href="#_projekt_erstellen">2.1. Projekt erstellen</a></li>
+<li><a href="#_abhängigkeiten_hinzufügen">2.2. Abhängigkeiten hinzufügen</a></li>
+<li><a href="#_projektstruktur">2.3. Projektstruktur</a></li>
 </ul>
 </li>
 <li><a href="#_konfiguration_hinzufügen">3. Konfiguration hinzufügen</a></li>
@@ -644,11 +646,43 @@ pre.rouge .gs {
 <h2 id="_erstellung_des_projekts"><a class="anchor" href="#_erstellung_des_projekts"></a>2. Erstellung des Projekts</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_abhängigkeiten_hinzufügen"><a class="anchor" href="#_abhängigkeiten_hinzufügen"></a>2.1. Abhängigkeiten hinzufügen</h3>
-<details>
-<summary class="title">pom.xml</summary>
-<div class="content">
+<h3 id="_projekt_erstellen"><a class="anchor" href="#_projekt_erstellen"></a>2.1. Projekt erstellen</h3>
+<div class="sect3">
+<h4 id="_intellij_idea"><a class="anchor" href="#_intellij_idea"></a>2.1.1. IntelliJ IDEA</h4>
+<div class="paragraph">
+<p><span class="image"><img src="images/create-project-1.png" alt="create project 1"></span></p>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="images/create-project-2.png" alt="create project 2"></span></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_maven"><a class="anchor" href="#_maven"></a>2.1.2. Maven</h4>
 <div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">mvn io.quarkus.platform:quarkus-maven-plugin:3.16.3:create <span class="se">\</span>
+    <span class="nt">-DprojectGroupId</span><span class="o">=</span>at.htl.configdemo <span class="se">\</span>
+    <span class="nt">-DprojectArtifactId</span><span class="o">=</span>config-demo
+<span class="nb">cd </span>config-demo
+idea .</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_quarkus_cli"><a class="anchor" href="#_quarkus_cli"></a>2.1.3. Quarkus CLI</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">quarkus create app at.htl.configdemo:config-demo
+<span class="nb">cd </span>config-demo
+idea .</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_abhängigkeiten_hinzufügen"><a class="anchor" href="#_abhängigkeiten_hinzufügen"></a>2.2. Abhängigkeiten hinzufügen</h3>
+<div class="listingblock">
+<div class="title">pom.xml</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="xml"><span class="nt">&lt;dependencies&gt;</span>
     <span class="nt">&lt;dependency&gt;</span>
@@ -675,7 +709,16 @@ pre.rouge .gs {
 </table>
 </div>
 </div>
-</details>
+<div class="sect2">
+<h3 id="_projektstruktur"><a class="anchor" href="#_projektstruktur"></a>2.3. Projektstruktur</h3>
+<div class="paragraph">
+<p>Bevor die Implementierung beginnt, werden alle Verzeichnisse und Klassen, die im weiteren Verlauf benötigt werden, erstellt. Die Projektstruktur soll wie folgt aussehen:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="https://www.plantuml.com/plantuml/png/fT313S8m30NGUtS1hr2f6x21ILqmIkt8Tf2wFMtQ0oSau1Ob-K_VxZtGOk9Cta5IcVXs6cbMS4im8miyy8c00VV8nuVsVjKg8ze20ySojFiBkLPBTDuYNsdRCKpp6_O7ilQ8dn6IM3l0K3rqtfLg6Apo2RDZT0Si9NFQ0yMqa0MJTpt9sBRy0W00" alt="fT313S8m30NGUtS1hr2f6x21ILqmIkt8Tf2wFMtQ0oSau1Ob K VxZtGOk9Cta5IcVXs6cbMS4im8miyy8c00VV8nuVsVjKg8ze20ySojFiBkLPBTDuYNsdRCKpp6 O7ilQ8dn6IM3l0K3rqtfLg6Apo2RDZT0Si9NFQ0yMqa0MJTpt9sBRy0W00">
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -705,7 +748,7 @@ In diesem Schritt fügen wir in die <strong>application.properties</strong> Konf
 <div class="content">
 <div class="imageblock">
 <div class="content">
-<img src="images/diag-plantuml-md5-2eb87fc0570b98ec17ae96e36f7a1096.png" alt="Diagram" width="353" height="108">
+<img src="https://www.plantuml.com/plantuml/png/7Sl13O1020J0lyL82zSAmJN1d0TPi7-DyvzHhUpJ9sgJP5ombgB9hRw4g7XeAD7CwQRjiVPa9DZ-bO5r_Fa5" alt="7Sl13O1020J0lyL82zSAmJN1d0TPi7 DyvzHhUpJ9sgJP5ombgB9hRw4g7XeAD7CwQRjiVPa9DZ bO5r Fa5">
 </div>
 </div>
 <div class="listingblock">
@@ -1307,7 +1350,7 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/diag-plantuml-md5-9626e0ec0b641f678781aa84ff21d17c.png" alt="Diagram" width="311" height="108">
+<img src="https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqa_EpqlBJDTDIStDroykIjRNqzFJHn65ilKJ2mfoCfCJIpBpy_GAYl8BKejACe46EAJcfO2D0W00" alt="SoWkIImgISlCIItcqa EpqlBJDTDIStDroykIjRNqzFJHn65ilKJ2mfoCfCJIpBpy GAYl8BKejACe46EAJcfO2D0W00">
 </div>
 </div>
 <div class="listingblock">
@@ -1356,7 +1399,7 @@ Accept: application/json</code></pre>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/diag-plantuml-md5-b612846c116268827fa4e1dcc6dda830.png" alt="Diagram" width="181" height="90">
+<img src="https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqa_EpqlBJDTDIStDroykIjRNqzFJHnNLIyqhut98pKi1wm00" alt="SoWkIImgISlCIItcqa EpqlBJDTDIStDroykIjRNqzFJHnNLIyqhut98pKi1wm00">
 </div>
 </div>
 <div class="listingblock">
@@ -1452,7 +1495,7 @@ Je nachdem, ob mit <strong>application.properties</strong> oder <strong>applicat
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/diag-plantuml-md5-d0b6f05721a8efe21599a321fd207b8f.png" alt="Diagram" width="231" height="72">
+<img src="https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqa_EpqlBJDTDIStDrmSAfwUMw6lf5fNcvQKMwMKb5d4vfEQbW9K20000" alt="SoWkIImgISlCIItcqa EpqlBJDTDIStDrmSAfwUMw6lf5fNcvQKMwMKb5d4vfEQbW9K20000">
 </div>
 </div>
 <div class="paragraph">
@@ -1597,7 +1640,7 @@ Accept: application/json</code></pre>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres dazu ist <a href="https://docs.redhat.com/en/documentation/red_hat_build_of_quarkus/1.3/html/configuring_your_quarkus_applications/proc-using-configuration-profiles_quarkus-configuration-guide#proc-setting-custom-configuration-profile_quarkus-configuration-guide">hier</a> zu finden.
+Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres dazu ist <a href="https://docs.redhat.com/en/documentation/red_hat_build_of_quarkus/1.3/html/configuring_your_quarkus_applications/proc-using-configuration-profiles_quarkus-configuration-guide#proc-setting-custom-configuration-profile_quarkus-configuration-guide" target="_blank" rel="noopener">hier</a> zu finden.
 </td>
 </tr>
 </table>
@@ -1638,7 +1681,7 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-11-18 21:53:37 UTC
+Last updated 2024-11-19 11:12:47 UTC
 </div>
 </div>
 </body>
