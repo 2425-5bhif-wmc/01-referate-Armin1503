@@ -7,6 +7,7 @@ Armin Salkovic
 :toc:
 :experimental:
 
+
 == Einführung
 
 In diesem Projekt greifen wir mithilfe von **@ConfigMapping** auf unsere Konfigurationen aus verschiedensten Config-Sources zu.
@@ -20,12 +21,36 @@ Folgendes wird benötigt:
 
 == Erstellung des Projekts
 
+=== Projekt erstellen
+
+==== IntelliJ IDEA
+image:create-project-1.png[]
+
+image:create-project-2.png[]
+
+==== Maven
+
+[source, shell]
+----
+mvn io.quarkus.platform:quarkus-maven-plugin:3.16.3:create \
+    -DprojectGroupId=at.htl.configdemo \
+    -DprojectArtifactId=config-demo
+cd config-demo
+idea .
+----
+
+==== Quarkus CLI
+
+[source, shell]
+----
+quarkus create app at.htl.configdemo:config-demo
+cd config-demo
+idea .
+----
 
 === Abhängigkeiten hinzufügen
 
 .pom.xml
-[%collapsible]
-====
 [source,xml]
 ----
 <dependencies>
@@ -42,7 +67,11 @@ Folgendes wird benötigt:
 
 <1> Ermöglicht die Erstellung von RESTful Web Services
 <2> Ermöglicht Serialisierung und Deserialisierung von JSON zu Java-Objekten
-====
+
+=== Projektstruktur
+Bevor die Implementierung beginnt, werden alle Verzeichnisse und Klassen, die im weiteren Verlauf benötigt werden, erstellt. Die Projektstruktur soll wie folgt aussehen:
+
+image::https://www.plantuml.com/plantuml/png/fT313S8m30NGUtS1hr2f6x21ILqmIkt8Tf2wFMtQ0oSau1Ob-K_VxZtGOk9Cta5IcVXs6cbMS4im8miyy8c00VV8nuVsVjKg8ze20ySojFiBkLPBTDuYNsdRCKpp6_O7ilQ8dn6IM3l0K3rqtfLg6Apo2RDZT0Si9NFQ0yMqa0MJTpt9sBRy0W00[]
 
 == Konfiguration hinzufügen
 
@@ -55,12 +84,7 @@ image::config-sources-application-properties.png[]
 
 [%collapsible]
 ====
-[plantuml]
-----
-@startfiles
-/project/src/main/resources/application.properties
-@endfiles
-----
+image::https://www.plantuml.com/plantuml/png/7Sl13O1020J0lyL82zSAmJN1d0TPi7-DyvzHhUpJ9sgJP5ombgB9hRw4g7XeAD7CwQRjiVPa9DZ-bO5r_Fa5[]
 
 .application.properties
 [source,properties]
@@ -484,13 +508,7 @@ image::config-sources-config-application-properties.png[]
 
 Zuerst muss ein Verzeichnis **config** im Projekt-Root erstellt werden. In dieses Verzeichnis kommt schlussendlich entweder ein **application.properties**- oder **application.yaml**-File.
 
-[plantuml]
-----
-@startfiles
-/config-demo/src/...
-/config-demo/config/application.properties
-@endfiles
-----
+image::https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqa_EpqlBJDTDIStDroykIjRNqzFJHn65ilKJ2mfoCfCJIpBpy_GAYl8BKejACe46EAJcfO2D0W00[]
 
 .application.properties
 [source,properties]
@@ -527,13 +545,7 @@ image::config-sources-env-file.png[]
 
 Das .env-File wird im Projekt-Root erstellt.
 
-[plantuml]
-----
-@startfiles
-/config-demo/src/...
-/config-demo/.env
-@endfiles
-----
+image::https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqa_EpqlBJDTDIStDroykIjRNqzFJHnNLIyqhut98pKi1wm00[]
 
 ..env
 [source]
@@ -590,12 +602,7 @@ Danach Package erstellen:
 
 Nun sollte sich im **target**-Verzeichnis ein ***-runner.jar**-File befinden.
 
-[plantuml]
-----
-@startfiles
-/config-demo/target/*-runner.jar
-@endfiles
-----
+image::https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqa_EpqlBJDTDIStDrmSAfwUMw6lf5fNcvQKMwMKb5d4vfEQbW9K20000[]
 
 Nun kann das jar-File mit folgendem Befehl gestartet und mit einer **Umgebungsvariable** versehen werden:
 
@@ -673,7 +680,7 @@ Profiles ermöglichen es, verschiedene Konfigurationen für verschiedene Umgebun
 * **prod**
 ** Ist aktiv, wenn man nicht im Dev- oder Test-Modus ist
 
-TIP: Außerdem kann man noch **Custom Profiles** erstellen. Genaueres dazu ist https://docs.redhat.com/en/documentation/red_hat_build_of_quarkus/1.3/html/configuring_your_quarkus_applications/proc-using-configuration-profiles_quarkus-configuration-guide#proc-setting-custom-configuration-profile_quarkus-configuration-guide[hier] zu finden.
+TIP: Außerdem kann man noch **Custom Profiles** erstellen. Genaueres dazu ist https://docs.redhat.com/en/documentation/red_hat_build_of_quarkus/1.3/html/configuring_your_quarkus_applications/proc-using-configuration-profiles_quarkus-configuration-guide#proc-setting-custom-configuration-profile_quarkus-configuration-guide[hier^] zu finden.
 
 === Wie setzt man Profiles?
 

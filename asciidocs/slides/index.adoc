@@ -67,30 +67,14 @@ java -Dquarkus.datasource.password=youshallnotpass -jar target/quarkus-app/quark
 
 === .env-Files
 
-[plantuml]
-----
-@startfiles
-/project/src/...
-/project/.env
-@endfiles
-----
+image::https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqYyeoizAJIxHBovArjVJqzD7YEYbvfLnEQJcfO1L0W00[]
 
 === config/application.properties
 
 === src/main/resources/application.properties
 
-[plantuml]
-----
-@startfiles
-/project/src/main/resources/application.properties
-@endfiles
-----
+image::https://www.plantuml.com/plantuml/png/7Sl13O1020J0lyL82zSAmJN1d0TPi7-DyvzHhUpJ9sgJP5ombgB9hRw4g7XeAD7CwQRjiVPa9DZ-bO5r_Fa5[]
 
 === microprofile-config.properties
 
-[plantuml]
-----
-@startfiles
-/project/src/main/resources/META-INF/microprofile-config.properties
-@endfiles
-----
+image::https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqYyeoizAJIxHBovArizDpCpJBqejpYyjIaujrlTr3N7KzVHpqy_DJ2xA1oe4QT5DpizBoqpN0t8BKejACe5cEAJcfO1D0m00[]
