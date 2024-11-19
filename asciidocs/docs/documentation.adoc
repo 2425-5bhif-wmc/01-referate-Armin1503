@@ -185,11 +185,6 @@ public interface CustomConfiguration {
 * Verwandte Konfigurationswerte können in einer Interface-Klasse zusammengefasst werden
 * Besonders bei großen Projekten sorgt **@ConfigMapping** für saubere und wartbare Konfigurationsmodelle
 
-**Nachteile:**
-
-* Standardwerte (**defaultValue**) kann man nicht direkt in der Interface-Klasse angeben
-
-
 == Default-Values definieren
 
 Bei dem bisherigen Stand des Projekts werden die Konfigurationen aus der **application.properties** gelesen. Sollte jedoch ein Wert **nicht gesetzt** sein, der jedoch im Interface deklariert ist, fliegt eine **NoSuchElementException**. Um dies zu vermeiden, muss man **Default-Values** im Interface definieren.
@@ -238,7 +233,7 @@ public interface CustomConfiguration {
 <2> Wenn ein Mapping nicht mit der Konfiguration übereinstimmt, wird eine **NoSuchElementException** ausgelöst, es sei denn, das zugeordnete Element ist **Optional**
 ====
 
-== Endpoint erstellen
+== Endpoints erstellen
 Um die Konfigurationswerte auszugeben, erstellen wir einen REST-Endpoints. Dieser gibt die Konfigurationen als JSON-Objekt zurück. Um jedoch auf die Konfigurationen zugreifen zu können, benötigen wir eine **Service-Klasse**.
 
 .Service-Klasse
@@ -276,12 +271,12 @@ public class CityConfig {
 }
 ----
 
-<1> **@ApplicationScoped** sorgt dafür, dass die Klasse als CDI-Bean registriert wird
+<1> **@ApplicationScoped** sorgt dafür, dass alle Klassen, die diese Klasse per @Inject nutzen, auf dieselbe Instanz zugreifen.
 
-<2> **@Inject** sorgt dafür, dass die **CustomConfiguration**-Instanz in die Klasse injiziert wird
+<2> **@Inject** sorgt dafür, dass die **CustomConfiguration**-Instanz in die Klasse injiziert wird.
 ====
 
-Bevor die Resource-Klasse implementiert wird, erstellen wir eine **RestConfig**-Klasse, welche dafür sorgt, dass ...
+Bevor die Resource-Klasse implementiert wird, erstellen wir eine **RestConfig**-Klasse, welche dafür sorgt, dass alle REST-Endpunkte in der Anwendung mit **/api** beginnen.
 
 .RestConfig
 [%collapsible]
