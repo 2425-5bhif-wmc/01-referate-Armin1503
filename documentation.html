@@ -565,7 +565,7 @@ pre.rouge .gs {
 <div class="details">
 <span id="author" class="author">Armin Salkovic</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2024-11-19</span>
+<span id="revdate">2024-11-20</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -577,8 +577,8 @@ pre.rouge .gs {
 </li>
 <li><a href="#_erstellung_des_projekts">2. Erstellung des Projekts</a>
 <ul class="sectlevel2">
-<li><a href="#_projekt_erstellen">2.1. Projekt erstellen</a></li>
-<li><a href="#_abhängigkeiten_hinzufügen">2.2. Abhängigkeiten hinzufügen</a></li>
+<li><a href="#_quarkus_projekt_erstellen">2.1. Quarkus-Projekt erstellen</a></li>
+<li><a href="#_dependencies_hinzufügen">2.2. Dependencies hinzufügen</a></li>
 <li><a href="#_projektstruktur">2.3. Projektstruktur</a></li>
 </ul>
 </li>
@@ -587,13 +587,14 @@ pre.rouge .gs {
 <ul class="sectlevel2">
 <li><a href="#_configproperty">4.1. @ConfigProperty</a></li>
 <li><a href="#_configmapping">4.2. @ConfigMapping</a></li>
+<li><a href="#_fazit">4.3. Fazit</a></li>
 </ul>
 </li>
 <li><a href="#_default_values_definieren">5. Default-Values definieren</a></li>
 <li><a href="#_endpoints_erstellen">6. Endpoints erstellen</a></li>
-<li><a href="#testing">7. Testen des Projekts</a>
+<li><a href="#_testen_des_projekts">7. Testen des Projekts</a>
 <ul class="sectlevel2">
-<li><a href="#_requests_ausführen">7.1. Requests ausführen</a></li>
+<li><a href="#testing">7.1. Requests ausführen</a></li>
 </ul>
 </li>
 <li><a href="#_konfigurationen_im_yaml_format">8. Konfigurationen im YAML-Format</a>
@@ -605,13 +606,14 @@ pre.rouge .gs {
 <ul class="sectlevel2">
 <li><a href="#_configapplication_properties">9.1. config/application.properties</a></li>
 <li><a href="#_env_files">9.2. .env-Files</a></li>
-<li><a href="#env-variables">9.3. Umgebungsvariablen</a></li>
+<li><a href="#_umgebungsvariablen">9.3. Umgebungsvariablen</a></li>
 <li><a href="#_system_properties">9.4. System Properties</a></li>
 </ul>
 </li>
 <li><a href="#_profiles">10. Profiles</a>
 <ul class="sectlevel2">
-<li><a href="#_wie_setzt_man_profiles">10.1. Wie setzt man Profiles?</a></li>
+<li><a href="#_default_profiles">10.1. Default Profiles</a></li>
+<li><a href="#_wie_setzt_man_profiles">10.2. Wie setzt man Profiles?</a></li>
 </ul>
 </li>
 </ul>
@@ -622,7 +624,7 @@ pre.rouge .gs {
 <h2 id="_einführung"><a class="anchor" href="#_einführung"></a>1. Einführung</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In diesem Projekt greifen wir mithilfe von <strong>@ConfigMapping</strong> auf unsere Konfigurationen aus verschiedensten Config-Sources zu.</p>
+<p>Das Ziel dieses Tutorials ist es, mithilfe von <strong>@ConfigMapping</strong> auf Konfigurationen aus verschiedensten Config-Sources zuzugreifen. Besonders ersichtlich wird hierbei auch, welche Config-Source den Vorrang hat, wenn Konfigurationen aus mehreren Sources gelesen werden.</p>
 </div>
 <div class="sect2">
 <h3 id="_voraussetzungen"><a class="anchor" href="#_voraussetzungen"></a>1.1. Voraussetzungen</h3>
@@ -634,9 +636,6 @@ pre.rouge .gs {
 <li>
 <p>Entwicklungsumgebung (IntelliJ IDEA)</p>
 </li>
-<li>
-<p>Java - Grundkenntnisse</p>
-</li>
 </ul>
 </div>
 </div>
@@ -646,14 +645,18 @@ pre.rouge .gs {
 <h2 id="_erstellung_des_projekts"><a class="anchor" href="#_erstellung_des_projekts"></a>2. Erstellung des Projekts</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_projekt_erstellen"><a class="anchor" href="#_projekt_erstellen"></a>2.1. Projekt erstellen</h3>
+<h3 id="_quarkus_projekt_erstellen"><a class="anchor" href="#_quarkus_projekt_erstellen"></a>2.1. Quarkus-Projekt erstellen</h3>
 <div class="sect3">
 <h4 id="_intellij_idea"><a class="anchor" href="#_intellij_idea"></a>2.1.1. IntelliJ IDEA</h4>
-<div class="paragraph">
-<p><span class="image"><img src="images/create-project-1.png" alt="create project 1"></span></p>
+<div class="imageblock">
+<div class="content">
+<img src="images/create-project-1.png" alt="create project 1">
 </div>
-<div class="paragraph">
-<p><span class="image"><img src="images/create-project-2.png" alt="create project 2"></span></p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/create-project-2.png" alt="create project 2">
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -680,7 +683,7 @@ idea .</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_abhängigkeiten_hinzufügen"><a class="anchor" href="#_abhängigkeiten_hinzufügen"></a>2.2. Abhängigkeiten hinzufügen</h3>
+<h3 id="_dependencies_hinzufügen"><a class="anchor" href="#_dependencies_hinzufügen"></a>2.2. Dependencies hinzufügen</h3>
 <div class="listingblock">
 <div class="title">pom.xml</div>
 <div class="content">
@@ -712,12 +715,13 @@ idea .</code></pre>
 <div class="sect2">
 <h3 id="_projektstruktur"><a class="anchor" href="#_projektstruktur"></a>2.3. Projektstruktur</h3>
 <div class="paragraph">
-<p>Bevor die Implementierung beginnt, werden alle Verzeichnisse und Klassen, die im weiteren Verlauf benötigt werden, erstellt. Die Projektstruktur soll wie folgt aussehen:</p>
+<p>Bevor die Implementierung beginnt, sollen alle Verzeichnisse und Klassen, die im weiteren Verlauf zum Einsatz kommen, erstellt werden. Die Projektstruktur soll wie folgt aussehen:</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="https://www.plantuml.com/plantuml/png/fT313S8m30NGUtS1hr2f6x21ILqmIkt8Tf2wFMtQ0oSau1Ob-K_VxZtGOk9Cta5IcVXs6cbMS4im8miyy8c00VV8nuVsVjKg8ze20ySojFiBkLPBTDuYNsdRCKpp6_O7ilQ8dn6IM3l0K3rqtfLg6Apo2RDZT0Si9NFQ0yMqa0MJTpt9sBRy0W00" alt="fT313S8m30NGUtS1hr2f6x21ILqmIkt8Tf2wFMtQ0oSau1Ob K VxZtGOk9Cta5IcVXs6cbMS4im8miyy8c00VV8nuVsVjKg8ze20ySojFiBkLPBTDuYNsdRCKpp6 O7ilQ8dn6IM3l0K3rqtfLg6Apo2RDZT0Si9NFQ0yMqa0MJTpt9sBRy0W00">
 </div>
+<div class="title">Figure 1. Projektstruktur</div>
 </div>
 </div>
 </div>
@@ -741,30 +745,40 @@ In diesem Schritt fügen wir in die <strong>application.properties</strong> Konf
 <div class="content">
 <img src="images/config-sources-application-properties.png" alt="config sources application properties">
 </div>
-<div class="title">Figure 1. application.properties</div>
+<div class="title">Figure 2. application.properties</div>
 </div>
 <details>
 <summary class="title">Befülle die <strong>application.properties</strong> mit Konfigurationswerten</summary>
 <div class="content">
 <div class="imageblock">
 <div class="content">
-<img src="https://www.plantuml.com/plantuml/png/7Sl13O1020J0lyL82zSAmJN1d0TPi7-DyvzHhUpJ9sgJP5ombgB9hRw4g7XeAD7CwQRjiVPa9DZ-bO5r_Fa5" alt="7Sl13O1020J0lyL82zSAmJN1d0TPi7 DyvzHhUpJ9sgJP5ombgB9hRw4g7XeAD7CwQRjiVPa9DZ bO5r Fa5">
+<img src="https://www.plantuml.com/plantuml/png/7SpH3SCm20N0_-xIie9NGHXNI3QW1za_KGQu6zMCNhQrFYJXo_xVgIUe87JOdA0L5qIBE7ERS5luBn6fQ7lOK9zlS0C0" alt="7SpH3SCm20N0  xIie9NGHXNI3QW1za KGQu6zMCNhQrFYJXo xVgIUe87JOdA0L5qIBE7ERS5luBn6fQ7lOK9zlS0C0">
 </div>
 </div>
 <div class="listingblock">
 <div class="title">application.properties</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="properties"><span class="py">custom.city</span><span class="p">=</span><span class="s">Linz</span>
-<span class="err">custom.cities[0]=Vienna</span>
-<span class="err">custom.cities[1]=London</span>
-<span class="err">custom.cities[2]=Madrid</span>
+
+<span class="c"># list of cities (array)
+</span><span class="err">custom.cities[0]=Vienna</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="err">custom.cities[1]=London</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="err">custom.cities[2]=Madrid</span> <i class="conum" data-value="1"></i><b>(1)</b>
 
 <span class="c"># nested configuration
 </span><span class="py">custom.other.city</span><span class="p">=</span><span class="s">Paris</span>
-<span class="err">custom.other.cities[0]=Berlin</span>
-<span class="err">custom.other.cities[1]=Chicago</span>
-<span class="err">custom.other.cities[2]=Boston</span></code></pre>
+<span class="err">custom.other.cities[0]=Berlin</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="err">custom.other.cities[1]=Chicago</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="err">custom.other.cities[2]=Boston</span> <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Um eine Liste von Konfigurationen zu erstellen, wird der Index in eckigen Klammern angegeben. Diese Liste ist damit leicht erweiterbar.</td>
+</tr>
+</table>
 </div>
 </div>
 </details>
@@ -774,7 +788,7 @@ In diesem Schritt fügen wir in die <strong>application.properties</strong> Konf
 <h2 id="_zugriff_auf_die_konfigurationen"><a class="anchor" href="#_zugriff_auf_die_konfigurationen"></a>4. Zugriff auf die Konfigurationen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Die Konfigurationen wurden im vorherigen Schritt gesetzt, nun möchte man auf diese im Code zugreifen können. Hierbei gibt es zwei Möglichkeiten, welche im folgenden Abschnitt erklärt werden.</p>
+<p>Die Konfigurationen wurden im vorherigen Schritt gesetzt, nun möchte man auf diese im Code zugreifen können. Hierbei gibt es zwei Möglichkeiten, welche in den folgenden 2 Abschnitten erklärt werden.</p>
 </div>
 <div class="sect2">
 <h3 id="_configproperty"><a class="anchor" href="#_configproperty"></a>4.1. @ConfigProperty</h3>
@@ -800,31 +814,35 @@ Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial ei
 <div class="content">
 <pre class="rouge highlight"><code data-lang="java">    <span class="o">...</span>
 
-    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.city"</span><span class="o">)</span>
+    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.city"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
     <span class="nc">String</span> <span class="n">city</span><span class="o">;</span>
 
-    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.cities"</span><span class="o">)</span>
+    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.cities"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
     <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">cities</span><span class="o">;</span>
 
-    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.other.city"</span><span class="o">)</span>
+    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.other.city"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
     <span class="nc">String</span> <span class="n">otherCity</span><span class="o">;</span>
 
-    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.other.cities"</span><span class="o">)</span>
+    <span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"custom.other.cities"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
     <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">otherCities</span><span class="o">;</span>
 
     <span class="o">...</span></code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Die Annotation <strong>@ConfigProperty</strong> ermöglicht es, auf die Konfigurationen zuzugreifen und den Wert in die entsprechende Variable zu speichern. Der <strong>name</strong>-Parameter gibt an, auf welche Konfiguration zugegriffen werden soll.</td>
+</tr>
+</table>
+</div>
 </div>
 </details>
-<div class="paragraph">
-<p><strong>Vorteile:</strong></p>
-</div>
+<div class="sect3">
+<h4 id="_vorteile"><a class="anchor" href="#_vorteile"></a>4.1.1. Vorteile</h4>
 <div class="ulist">
 <ul>
-<li>
-<p>Einfach zu verwenden, ideal für kleinere Projekte</p>
-</li>
 <li>
 <p>Direkter Zugriff einzelner Werte, ohne zusätzliche Klassen oder Interfaces</p>
 </li>
@@ -833,9 +851,9 @@ Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial ei
 </li>
 </ul>
 </div>
-<div class="paragraph">
-<p><strong>Nachteile:</strong></p>
 </div>
+<div class="sect3">
+<h4 id="_nachteile"><a class="anchor" href="#_nachteile"></a>4.1.2. Nachteile</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -847,6 +865,7 @@ Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial ei
 </ul>
 </div>
 </div>
+</div>
 <div class="sect2">
 <h3 id="_configmapping"><a class="anchor" href="#_configmapping"></a>4.2. @ConfigMapping</h3>
 <div class="admonitionblock tip">
@@ -856,7 +875,7 @@ Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial ei
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Diese Option wird im Tutorial eingebaut.
+Diese Option ist in das Tutorial einzubauen.
 </td>
 </tr>
 </table>
@@ -876,25 +895,40 @@ Diese Option wird im Tutorial eingebaut.
 
 <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 
-<span class="nd">@ConfigMapping</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">"custom"</span><span class="o">)</span>
+<span class="nd">@ConfigMapping</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">"custom"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
 <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomConfiguration</span> <span class="o">{</span>
 
-    <span class="nc">String</span> <span class="nf">city</span><span class="o">();</span>
-    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">cities</span><span class="o">();</span>
-    <span class="nc">Other</span> <span class="nf">other</span><span class="o">();</span>
+    <span class="nc">String</span> <span class="nf">city</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">cities</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
+    <span class="nc">Other</span> <span class="nf">other</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
 
-    <span class="kd">interface</span> <span class="nc">Other</span> <span class="o">{</span>
-        <span class="nc">String</span> <span class="nf">city</span><span class="o">();</span>
-        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">cities</span><span class="o">();</span>
+    <span class="kd">interface</span> <span class="nc">Other</span> <span class="o">{</span> <i class="conum" data-value="3"></i><b>(3)</b>
+        <span class="nc">String</span> <span class="nf">city</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">cities</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
     <span class="o">}</span>
 <span class="o">}</span></code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Die Annotation <strong>@ConfigMapping</strong> wird verwendet, um Konfigurationseigenschaften, welche mit einem bestimmten <strong>prefix</strong> beginnen, zu extrahieren.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Die Methoden in einem @ConfigMapping-annotierten Interface definieren die Konfigurationseigenschaften und deren Datentypen. Der Name der Methode sollte dem Namen der Konfigurationseigenschaft (nach dem prefix) entsprechen.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td><strong>Nested Configurations</strong> können durch das Definieren eines weiteren Interfaces innerhalb des @ConfigMapping-annotierten Interface erstellt werden.</td>
+</tr>
+</table>
+</div>
 </div>
 </details>
-<div class="paragraph">
-<p><strong>Vorteile:</strong></p>
-</div>
+<div class="sect3">
+<h4 id="_vorteile_2"><a class="anchor" href="#_vorteile_2"></a>4.2.1. Vorteile</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -907,21 +941,38 @@ Diese Option wird im Tutorial eingebaut.
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_fazit"><a class="anchor" href="#_fazit"></a>4.3. Fazit</h3>
+<div class="paragraph">
+<p>Der Einsatz der beiden Optionen sollte auf Basis der Anforderungen des Projekts entschieden werden.</p>
+</div>
+<div class="paragraph">
+<p>Die Verwendung von <strong>@ConfigProperty</strong> eignet sich besonders, wenn nur wenige Konfigurationswerte benötigt werden, die unabhängig voneinander sind. Dieser Ansatz ist einfach und ermöglicht einen direkten Zugriff auf einzelne Konfigurationswerte.</p>
+</div>
+<div class="paragraph">
+<p><strong>@ConfigMapping</strong> hingegen bietet eine strukturierte Lösung für den Umgang mit Konfigurationen. Es ermöglicht die Definition von Interfaces, die verwandte Konfigurationswerte logisch gruppieren und somit eine klare Trennung schaffen. Besonders in großen Projekten sorgt dieser Ansatz für bessere Wartbarkeit und Lesbarkeit des Codes.</p>
+</div>
+<div class="paragraph">
+<p>In diesem Fall wurde im Tutorial sinnvollerweise @ConfigMapping verwendet, da es den Anforderungen einer komplexen sowie verschachtelten Konfiguration am besten gerecht wird.</p>
+</div>
+</div>
+</div>
 </div>
 <div class="sect1">
 <h2 id="_default_values_definieren"><a class="anchor" href="#_default_values_definieren"></a>5. Default-Values definieren</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Bei dem bisherigen Stand des Projekts werden die Konfigurationen aus der <strong>application.properties</strong> gelesen. Sollte jedoch ein Wert <strong>nicht gesetzt</strong> sein, der jedoch im Interface deklariert ist, fliegt eine <strong>NoSuchElementException</strong>. Um dies zu vermeiden, muss man <strong>Default-Values</strong> im Interface definieren.</p>
+<p>Beim bisherigen Stand des Projekts werden die Konfigurationen aus den <strong>application.properties</strong> gelesen. Sollte jedoch ein Wert <strong>nicht gesetzt</strong> sein, der jedoch im Interface deklariert ist, fliegt eine <strong>NoSuchElementException</strong>.</p>
 </div>
-<details>
-<summary class="title">NoSuchElementException</summary>
+<div class="imageblock">
 <div class="content">
+<img src="images/no-such-element-exception.png" alt="no such element exception">
+</div>
+<div class="title">Figure 3. NoSuchElementException</div>
+</div>
 <div class="paragraph">
-<p><span class="image"><img src="images/no-such-element-exception.png" alt="no such element exception"></span></p>
+<p>Um dies zu vermeiden, muss man <strong>Default-Values</strong> im Interface definieren.</p>
 </div>
-</div>
-</details>
 <details>
 <summary class="title">ConfigMapping mit Default-Values</summary>
 <div class="content">
@@ -960,11 +1011,11 @@ Diese Option wird im Tutorial eingebaut.
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><strong>@WithDefault</strong> ermöglicht es, einen Standardwert für eine Konfiguration festzulegen, falls diese in den application.properties oder anderen Konfigurationsquellen nicht gesetzt wurde</td>
+<td><strong>@WithDefault</strong> ermöglicht es, einen Standardwert für eine Konfiguration festzulegen, falls diese in keiner Config-Source gesetzt wurde.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Wenn ein Mapping nicht mit der Konfiguration übereinstimmt, wird eine <strong>NoSuchElementException</strong> ausgelöst, es sei denn, das zugeordnete Element ist <strong>Optional</strong></td>
+<td>Bei Listen funktioniert die @WithDefault-Annotation nicht. Hierbei wird ein <strong>Optional</strong>-Typ verwendet, um zu signalisieren, dass die Liste leer sein kann.</td>
 </tr>
 </table>
 </div>
@@ -976,7 +1027,7 @@ Diese Option wird im Tutorial eingebaut.
 <h2 id="_endpoints_erstellen"><a class="anchor" href="#_endpoints_erstellen"></a>6. Endpoints erstellen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Um die Konfigurationswerte auszugeben, erstellen wir einen REST-Endpoints. Dieser gibt die Konfigurationen als JSON-Objekt zurück. Um jedoch auf die Konfigurationen zugreifen zu können, benötigen wir eine <strong>Service-Klasse</strong>.</p>
+<p>Um die Konfigurationswerte auszugeben, erstellen wir REST-Endpoints. Diese geben die Konfigurationen als JSON-Objekte zurück. Um jedoch auf die Konfigurationen zugreifen zu können, benötigen wir eine <strong>Service-Klasse</strong>.</p>
 </div>
 <details>
 <summary class="title">Service-Klasse</summary>
@@ -1000,15 +1051,15 @@ Diese Option wird im Tutorial eingebaut.
     <span class="nc">CustomConfiguration</span> <span class="n">configuration</span><span class="o">;</span> <i class="conum" data-value="2"></i><b>(2)</b>
 
     <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getCity</span><span class="o">(){</span>
-        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">city</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">city</span><span class="o">();</span> <i class="conum" data-value="3"></i><b>(3)</b>
     <span class="o">}</span>
 
     <span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">getCities</span><span class="o">(){</span>
-        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">cities</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">cities</span><span class="o">();</span> <i class="conum" data-value="3"></i><b>(3)</b>
     <span class="o">}</span>
 
     <span class="kd">public</span> <span class="nc">CustomConfiguration</span><span class="o">.</span><span class="na">Other</span> <span class="nf">getOther</span><span class="o">(){</span>
-        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">other</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">configuration</span><span class="o">.</span><span class="na">other</span><span class="o">();</span> <i class="conum" data-value="3"></i><b>(3)</b>
     <span class="o">}</span>
 <span class="o">}</span></code></pre>
 </div>
@@ -1017,18 +1068,22 @@ Diese Option wird im Tutorial eingebaut.
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><strong>@ApplicationScoped</strong> sorgt dafür, dass alle Klassen, die diese Klasse per @Inject nutzen, auf dieselbe Instanz zugreifen.</td>
+<td><strong>@ApplicationScoped</strong> sorgt dafür, dass alle Klassen, die diese Klasse per <strong>@Inject</strong> nutzen, auf dieselbe Instanz zugreifen.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td><strong>@Inject</strong> sorgt dafür, dass die <strong>CustomConfiguration</strong>-Instanz in die Klasse injiziert wird.</td>
+<td><strong>@Inject</strong> sorgt dafür, dass eine Instanz von <strong>CustomConfiguration</strong> zur Verfügung gestellt wird.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Diese GET-Methoden liefern die Konfigurationswerte zurück und sorgen schlussendlich dafür, dass man im Programm Zugriff auf die Konfigurationswerte hat.</td>
 </tr>
 </table>
 </div>
 </div>
 </details>
 <div class="paragraph">
-<p>Bevor die Resource-Klasse implementiert wird, erstellen wir eine <strong>RestConfig</strong>-Klasse, welche dafür sorgt, dass alle REST-Endpunkte in der Anwendung mit <strong>/api</strong> beginnen.</p>
+<p>Bevor die Endpoints implementiert werden, wird eine <strong>RestConfig</strong>-Klasse erstellt, welche die Basis-URL für alle Endpoints des Servers festlegt.</p>
 </div>
 <details>
 <summary class="title">RestConfig</summary>
@@ -1041,15 +1096,27 @@ Diese Option wird im Tutorial eingebaut.
 <span class="kn">import</span> <span class="nn">jakarta.ws.rs.ApplicationPath</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">jakarta.ws.rs.core.Application</span><span class="o">;</span>
 
-<span class="nd">@ApplicationPath</span><span class="o">(</span><span class="s">"api"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestConfig</span> <span class="kd">extends</span> <span class="nc">Application</span> <span class="o">{</span>
+<span class="nd">@ApplicationPath</span><span class="o">(</span><span class="s">"api"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RestConfig</span> <span class="kd">extends</span> <span class="nc">Application</span> <span class="o">{</span> <i class="conum" data-value="2"></i><b>(2)</b>
 <span class="o">}</span></code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Die <strong>@ApplicationPath</strong>-Annotation legt die Basis-URL für alle Endpoints fest. In diesem Fall bedeutet es, dass alle Endpoints unter dem Pfad <strong>/api</strong> erreichbar sind.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Die Klasse <strong>RestConfig</strong> erweitert <strong>Application</strong>, was sie zur <strong>REST-Konfigurationsklasse</strong> macht. Durch die Vererbung von Application kann diese Klasse verwendet werden, um globales Verhalten oder zusätzliche Konfigurationen für Endpoints zu definieren.</td>
+</tr>
+</table>
 </div>
 </div>
 </details>
 <div class="paragraph">
-<p>Nun wird die <strong>Resource-Klasse</strong> implementiert, welche die Konfigurationen als JSON-Objekt per Endpoint zurückgibt.</p>
+<p>Nun wird die <strong>Resource-Klasse</strong> implementiert, welche die Konfigurationen als JSON-Objekte per Endpoint zurückgibt.</p>
 </div>
 <details>
 <summary class="title">Resource-Klasse</summary>
@@ -1074,43 +1141,55 @@ Diese Option wird im Tutorial eingebaut.
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CityConfigResource</span> <span class="o">{</span>
 
     <span class="nd">@Inject</span>
-    <span class="nc">CityConfig</span> <span class="n">cityConfig</span><span class="o">;</span>
+    <span class="nc">CityConfig</span> <span class="n">cityConfig</span><span class="o">;</span> <i class="conum" data-value="1"></i><b>(1)</b>
 
     <span class="nd">@GET</span>
     <span class="nd">@Path</span><span class="o">(</span><span class="s">"city"</span><span class="o">)</span>
     <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getCity</span><span class="o">(){</span>
-        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getCity</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getCity</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
     <span class="o">}</span>
 
     <span class="nd">@GET</span>
     <span class="nd">@Path</span><span class="o">(</span><span class="s">"cities"</span><span class="o">)</span>
     <span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">getCities</span><span class="o">(){</span>
-        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getCities</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getCities</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
     <span class="o">}</span>
 
     <span class="nd">@GET</span>
     <span class="nd">@Path</span><span class="o">(</span><span class="s">"other/city"</span><span class="o">)</span>
     <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getOtherCity</span><span class="o">(){</span>
-        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getOther</span><span class="o">().</span><span class="na">city</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getOther</span><span class="o">().</span><span class="na">city</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
     <span class="o">}</span>
 
     <span class="nd">@GET</span>
     <span class="nd">@Path</span><span class="o">(</span><span class="s">"other/cities"</span><span class="o">)</span>
     <span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;&gt;</span> <span class="nf">getOtherCities</span><span class="o">(){</span>
-        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getOther</span><span class="o">().</span><span class="na">cities</span><span class="o">();</span>
+        <span class="k">return</span> <span class="n">cityConfig</span><span class="o">.</span><span class="na">getOther</span><span class="o">().</span><span class="na">cities</span><span class="o">();</span> <i class="conum" data-value="2"></i><b>(2)</b>
     <span class="o">}</span>
 <span class="o">}</span></code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><strong>@Inject</strong> sorgt dafür, dass eine Instanz der <strong>CityConfig</strong>-Klasse zur Verfügung gestellt wird und somit der Zugriff auf die Konfigurationen ermöglicht wird.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Die einzelnen Endpoints liefern die Konfigurationswerte zurück.</td>
+</tr>
+</table>
 </div>
 </div>
 </details>
 </div>
 </div>
 <div class="sect1">
-<h2 id="testing"><a class="anchor" href="#testing"></a>7. Testen des Projekts</h2>
+<h2 id="_testen_des_projekts"><a class="anchor" href="#_testen_des_projekts"></a>7. Testen des Projekts</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Der Zugriff auf die Konfigurationen und die Endpoints zur Rückgabe der Werte sind implementiert. Um diese zu testen, benötigen wir vorerst ein <strong>requests.http</strong>-File.</p>
+<p>Der Zugriff auf die Konfigurationen und die Endpoints zur Rückgabe der Werte sind implementiert. Um diese zu testen, benötigt man ein <strong>requests.http</strong>-File.</p>
 </div>
 <details>
 <summary class="title">requests.http</summary>
@@ -1146,95 +1225,59 @@ Accept: application/json</code></pre>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Nun muss nur noch der <strong>Quarkus-Server</strong> gestartet werden und die Requests im <strong>requests.http</strong>-File ausgeführt werden.
+Nun muss nur noch der <strong>Quarkus-Server</strong> gestartet und die Requests im <strong>requests.http</strong>-File ausgeführt werden.
 </td>
 </tr>
 </table>
 </div>
 <div class="listingblock">
-<div class="title">Server starten</div>
+<div class="title">Server starten (im Dev-Mode)</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash">./mvnw quarkus:dev clean</code></pre>
+<pre class="rouge highlight"><code data-lang="shell">./mvnw quarkus:dev clean</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_requests_ausführen"><a class="anchor" href="#_requests_ausführen"></a>7.1. Requests ausführen</h3>
+<h3 id="testing"><a class="anchor" href="#testing"></a>7.1. Requests ausführen</h3>
 <div class="paragraph">
 <p>Nachdem der Server gestartet wurde, können die Requests im <strong>requests.http</strong>-File ausgeführt werden. Die Responses sollten hierbei wie folgt aussehen:</p>
 </div>
 <details>
 <summary class="title">GET city</summary>
 <div class="content">
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">### GET city
-GET http://localhost:8080/api/config/city
-Accept: application/json</code></pre>
-</div>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/response-get-city.png" alt="response get city">
 </div>
-<div class="title">Figure 2. Response</div>
 </div>
 </div>
 </details>
 <details>
 <summary class="title">GET cities</summary>
 <div class="content">
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">### GET cities
-GET http://localhost:8080/api/config/cities
-Accept: application/json</code></pre>
-</div>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/response-get-cities.png" alt="response get cities">
 </div>
-<div class="title">Figure 3. Response</div>
 </div>
 </div>
 </details>
 <details>
 <summary class="title">GET other city</summary>
 <div class="content">
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">### Get other city
-GET http://localhost:8080/api/config/other/city
-Accept: application/json</code></pre>
-</div>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/response-get-other-city.png" alt="response get other city">
 </div>
-<div class="title">Figure 4. Response</div>
 </div>
 </div>
 </details>
 <details>
 <summary class="title">GET other cities</summary>
 <div class="content">
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">### Get other cities
-GET http://localhost:8080/api/config/other/cities
-Accept: application/json</code></pre>
-</div>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/response-get-other-cities.png" alt="response get other cities">
 </div>
-<div class="title">Figure 5. Response</div>
 </div>
 </div>
 </details>
@@ -1251,7 +1294,7 @@ Accept: application/json</code></pre>
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Bei komplexeren bzw. hierarchischen Strukturen empfiehlt es sich, die Konfigurationen im <strong>YAML-Format</strong> zu speichern. Da dies die Lesbarkeit der Konfigurationen erhöht.
+Bei komplexeren bzw. hierarchischen Strukturen empfiehlt es sich, die Konfigurationen im <strong>YAML-Format</strong> zu definieren. Da dies die Lesbarkeit der Konfigurationen erhöht.
 </td>
 </tr>
 </table>
@@ -1260,6 +1303,18 @@ Bei komplexeren bzw. hierarchischen Strukturen empfiehlt es sich, die Konfigurat
 <h3 id="_konvertierung_in_yaml"><a class="anchor" href="#_konvertierung_in_yaml"></a>8.1. Konvertierung in YAML</h3>
 <div class="paragraph">
 <p><span class="line-through">application.properties</span> wird nun von <strong>application.yaml</strong> abgelöst.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Die Konfigurationen bzw. die Konfigurationswerte bleiben gleich, nur das <strong>Format</strong> ändert sich.
+</td>
+</tr>
+</table>
 </div>
 <div class="listingblock">
 <div class="title">src/main/resources/application.yaml</div>
@@ -1319,13 +1374,13 @@ Nun sollte beim Testen des Projekts die gleiche Ausgabe wie zuvor erzielt werden
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen die Konfigurationen gelesen werden können. Je weiter links sich die Config-Source in der Grafik befindet, desto höher ist die Priorität, sprich desto mehr Vorrang hat sie.
+In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen die Konfigurationen gelesen werden können. Je weiter links sich die Config-Source in der Grafik befindet, desto höher ist die Priorität, sprich Konfigurationswerte von weiter links gelegenen Config-Sources überschreiben die Werte von weiter rechts gelegenen Config-Sources.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Als nächsten Schritt werden die Konfigurationen aus verschiedensten Config-Sources gelesen und im Projekt verwendet.</p>
+<p>Als nächsten Schritt werden die Konfigurationen aus verschiedensten Config-Sources gelesen und im Projekt verwendet. Dies soll als Demonstration der <strong>Priorität</strong> der einzelnen Config-Sources dienen.</p>
 </div>
 <div class="sect2">
 <h3 id="_configapplication_properties"><a class="anchor" href="#_configapplication_properties"></a>9.1. config/application.properties</h3>
@@ -1333,8 +1388,9 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 <div class="content">
 <img src="images/config-sources-config-application-properties.png" alt="config sources config application properties">
 </div>
-<div class="title">Figure 6. config/application.properties</div>
 </div>
+<div class="sect3">
+<h4 id="_erstellen"><a class="anchor" href="#_erstellen"></a>9.1.1. Erstellen</h4>
 <div class="paragraph">
 <p>Zuerst muss ein Verzeichnis <strong>config</strong> im Projekt-Root erstellt werden. In dieses Verzeichnis kommt schlussendlich entweder ein <strong>application.properties</strong>- oder <strong>application.yaml</strong>-File.</p>
 </div>
@@ -1342,6 +1398,9 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 <div class="content">
 <img src="https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqa_EpqlBJDTDIStDroykIjRNqzFJHn65ilKJ2mfoCfCJIpBpy_GAYl8BKejACe46EAJcfO2D0W00" alt="SoWkIImgISlCIItcqa EpqlBJDTDIStDroykIjRNqzFJHn65ilKJ2mfoCfCJIpBpy GAYl8BKejACe46EAJcfO2D0W00">
 </div>
+</div>
+<div class="paragraph">
+<p>In das <strong>application.properties</strong>- oder <strong>application.yaml</strong>-File kommt folgende Konfiguration:</p>
 </div>
 <div class="listingblock">
 <div class="title">application.properties</div>
@@ -1356,25 +1415,23 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
   <span class="na">city</span><span class="pi">:</span> <span class="s">Salzburg</span></code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_testen"><a class="anchor" href="#_testen"></a>9.1.2. Testen</h4>
+<div class="paragraph">
+<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:</p>
+</div>
 <details>
 <summary class="title">Get city</summary>
 <div class="content">
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">### GET city
-GET http://localhost:8080/api/config/city
-Accept: application/json</code></pre>
-</div>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/response-config-application-properties-get-city.png" alt="response config application properties get city">
 </div>
-<div class="title">Figure 7. Response</div>
 </div>
 </div>
 </details>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_env_files"><a class="anchor" href="#_env_files"></a>9.2. .env-Files</h3>
@@ -1382,8 +1439,9 @@ Accept: application/json</code></pre>
 <div class="content">
 <img src="images/config-sources-env-file.png" alt="config sources env file">
 </div>
-<div class="title">Figure 8. .env-file</div>
 </div>
+<div class="sect3">
+<h4 id="_erstellen_2"><a class="anchor" href="#_erstellen_2"></a>9.2.1. Erstellen</h4>
 <div class="paragraph">
 <p>Das .env-File wird im Projekt-Root erstellt.</p>
 </div>
@@ -1392,28 +1450,28 @@ Accept: application/json</code></pre>
 <img src="https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqa_EpqlBJDTDIStDroykIjRNqzFJHnNLIyqhut98pKi1wm00" alt="SoWkIImgISlCIItcqa EpqlBJDTDIStDroykIjRNqzFJHnNLIyqhut98pKi1wm00">
 </div>
 </div>
+<div class="paragraph">
+<p>In das <strong>.env-File</strong> kommt folgende Konfiguration:</p>
+</div>
 <div class="listingblock">
 <div class="title">.env</div>
 <div class="content">
 <pre class="rouge highlight"><code>CUSTOM_CITY=Moscow</code></pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_testen_2"><a class="anchor" href="#_testen_2"></a>9.2.2. Testen</h4>
+<div class="paragraph">
+<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:</p>
+</div>
 <details>
 <summary class="title">Get city</summary>
 <div class="content">
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">### GET city
-GET http://localhost:8080/api/config/city
-Accept: application/json</code></pre>
-</div>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/response-env-file-get-city.png" alt="response env file get city">
 </div>
-<div class="title">Figure 9. Response</div>
 </div>
 </div>
 </details>
@@ -1424,22 +1482,33 @@ Accept: application/json</code></pre>
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Das .env-File soll <strong>nicht</strong> in das Repository gepusht werden, da es oft sensible Daten wie Passwörter oder API-Keys enthält.
+Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in das Repository zu pushen gepusht, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer in der <strong>.gitignore</strong>-Datei enthalten sein.
 </td>
 </tr>
 </table>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="env-variables"><a class="anchor" href="#env-variables"></a>9.3. Umgebungsvariablen</h3>
+<h3 id="_umgebungsvariablen"><a class="anchor" href="#_umgebungsvariablen"></a>9.3. Umgebungsvariablen</h3>
 <div class="imageblock">
 <div class="content">
 <img src="images/config-sources-environment-variables.png" alt="config sources environment variables">
 </div>
-<div class="title">Figure 10. Umgebungsvariablen</div>
 </div>
-<div class="paragraph">
-<p>Hierbei benötigt man ein uberjar-File, welches man wie folgt bekommt:</p>
+<div class="sect3">
+<h4 id="env-variables"><a class="anchor" href="#env-variables"></a>9.3.1. Erstellen</h4>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Hierbei benötigt man ein uber-jar, welches alle Dependencies der Anwendung, den Code der Anwendung und eine ausführbare Main-Klasse (Entry-Point) enthält. Um dieses zu erstellen, muss der folgende Abschnitt Schritt für Schritt durchgegangen werden.
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>Zuerst application.properties um folgende Zeile erweitern:</p>
@@ -1460,11 +1529,11 @@ Das .env-File soll <strong>nicht</strong> in das Repository gepusht werden, da e
       <span class="na">type</span><span class="pi">:</span> <span class="s">uber-jar</span></code></pre>
 </div>
 </div>
-<div class="admonitionblock important">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-important" title="Important"></i>
+<i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
 Je nachdem, ob mit <strong>application.properties</strong> oder <strong>application.yaml</strong> gearbeitet wird, muss die entsprechende Datei erweitert werden.
@@ -1472,12 +1541,10 @@ Je nachdem, ob mit <strong>application.properties</strong> oder <strong>applicat
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Danach Package erstellen:</p>
-</div>
 <div class="listingblock">
+<div class="title">Package erstellen</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash">./mvnw clean package</code></pre>
+<pre class="rouge highlight"><code data-lang="shell">./mvnw clean package</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1493,28 +1560,26 @@ Je nachdem, ob mit <strong>application.properties</strong> oder <strong>applicat
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash"><span class="nb">export </span><span class="nv">CUSTOM_CITY</span><span class="o">=</span>Munich <span class="p">;</span> java <span class="nt">-jar</span> target/<span class="k">*</span><span class="nt">-runner</span>.jar</code></pre>
+<pre class="rouge highlight"><code data-lang="shell"><span class="nb">export </span><span class="nv">CUSTOM_CITY</span><span class="o">=</span>Munich <span class="p">;</span> java <span class="nt">-jar</span> target/<span class="k">*</span><span class="nt">-runner</span>.jar</code></pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_testen_3"><a class="anchor" href="#_testen_3"></a>9.3.2. Testen</h4>
+<div class="paragraph">
+<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:</p>
 </div>
 <details>
 <summary class="title">Get city</summary>
 <div class="content">
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">### GET city
-GET http://localhost:8080/api/config/city
-Accept: application/json</code></pre>
-</div>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/response-env-variables-get-city.png" alt="response env variables get city">
 </div>
-<div class="title">Figure 11. Response</div>
 </div>
 </div>
 </details>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_system_properties"><a class="anchor" href="#_system_properties"></a>9.4. System Properties</h3>
@@ -1522,8 +1587,9 @@ Accept: application/json</code></pre>
 <div class="content">
 <img src="images/config-sources-system-properties.png" alt="config sources system properties">
 </div>
-<div class="title">Figure 12. System Properties</div>
 </div>
+<div class="sect3">
+<h4 id="_erstellen_3"><a class="anchor" href="#_erstellen_3"></a>9.4.1. Erstellen</h4>
 <div class="paragraph">
 <p>System Properties können entweder beim Starten des Quarkus-Servers im Dev-Mode oder beim Starten des jar-Files mitgegeben werden.</p>
 </div>
@@ -1539,40 +1605,31 @@ Auch bei den System Properties benötigt man ein uber-jar (falls man den Server 
 </tr>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_dev_mode"><a class="anchor" href="#_dev_mode"></a>9.4.1. Dev-Mode</h4>
 <div class="listingblock">
+<div class="title">Im Dev-Mode</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash">./mvnw quarkus:dev <span class="nt">-Dcustom</span>.city<span class="o">=</span>Amsterdam</code></pre>
+<pre class="rouge highlight"><code data-lang="shell">./mvnw quarkus:dev <span class="nt">-Dcustom</span>.city<span class="o">=</span>Amsterdam</code></pre>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_runner_jar"><a class="anchor" href="#_runner_jar"></a>9.4.2. Runner-Jar</h4>
 <div class="listingblock">
+<div class="title">Als uber-jar</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash">java <span class="nt">-Dcustom</span>.city<span class="o">=</span>Amsterdam <span class="nt">-jar</span> target/config-demo-1.0-SNAPSHOT-runner.jar</code></pre>
+<pre class="rouge highlight"><code data-lang="shell">java <span class="nt">-Dcustom</span>.city<span class="o">=</span>Amsterdam <span class="nt">-jar</span> target/config-demo-1.0-SNAPSHOT-runner.jar</code></pre>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_response"><a class="anchor" href="#_response"></a>9.4.3. Response</h4>
+<h4 id="_testen_4"><a class="anchor" href="#_testen_4"></a>9.4.2. Testen</h4>
+<div class="paragraph">
+<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:</p>
+</div>
 <details>
 <summary class="title">GET city</summary>
 <div class="content">
-<div class="listingblock">
-<div class="title">Request</div>
-<div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">### GET city
-GET http://localhost:8080/api/config/city
-Accept: application/json</code></pre>
-</div>
-</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/response-system-properties-get-city.png" alt="response system properties get city">
 </div>
-<div class="title">Figure 13. Response</div>
 </div>
 </div>
 </details>
@@ -1586,9 +1643,8 @@ Accept: application/json</code></pre>
 <div class="paragraph">
 <p>Profiles ermöglichen es, verschiedene Konfigurationen für verschiedene Umgebungen zu setzen.</p>
 </div>
-<div class="paragraph">
-<p><strong>Default Profiles</strong>:</p>
-</div>
+<div class="sect2">
+<h3 id="_default_profiles"><a class="anchor" href="#_default_profiles"></a>10.1. Default Profiles</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1635,8 +1691,9 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 </tr>
 </table>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_wie_setzt_man_profiles"><a class="anchor" href="#_wie_setzt_man_profiles"></a>10.1. Wie setzt man Profiles?</h3>
+<h3 id="_wie_setzt_man_profiles"><a class="anchor" href="#_wie_setzt_man_profiles"></a>10.2. Wie setzt man Profiles?</h3>
 <div class="listingblock">
 <div class="title">Im *.properties-File setzen</div>
 <div class="content">
@@ -1646,7 +1703,7 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 <div class="listingblock">
 <div class="title">Im Terminal ausführen</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="bash">./mvnw quarkus:&lt;Profile&gt; clean</code></pre>
+<pre class="rouge highlight"><code data-lang="shell">./mvnw quarkus:&lt;Profile&gt; clean</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -1662,7 +1719,7 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 </table>
 </div>
 <div class="paragraph">
-<p>Je nachdem mit welchem Profile man den Server startet, wird die entsprechende Konfiguration aus dem <strong>*.properties</strong>-File genommen.</p>
+<p>Je nachdem mit welchem Profile man den Server startet, wird die entsprechende Konfiguration aus dem <strong>*.properties</strong>-File verwendet.</p>
 </div>
 </div>
 </div>
@@ -1671,7 +1728,7 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-11-19 13:13:21 UTC
+Last updated 2024-11-20 18:05:16 UTC
 </div>
 </div>
 </body>
