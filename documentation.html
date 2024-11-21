@@ -565,7 +565,7 @@ pre.rouge .gs {
 <div class="details">
 <span id="author" class="author">Armin Salkovic</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2024-11-20</span>
+<span id="revdate">2024-11-21</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -582,7 +582,7 @@ pre.rouge .gs {
 <li><a href="#_projektstruktur">2.3. Projektstruktur</a></li>
 </ul>
 </li>
-<li><a href="#_konfiguration_hinzufügen">3. Konfiguration hinzufügen</a></li>
+<li><a href="#application-properties">3. Konfiguration hinzufügen</a></li>
 <li><a href="#_zugriff_auf_die_konfigurationen">4. Zugriff auf die Konfigurationen</a>
 <ul class="sectlevel2">
 <li><a href="#_configproperty">4.1. @ConfigProperty</a></li>
@@ -590,7 +590,12 @@ pre.rouge .gs {
 <li><a href="#_fazit">4.3. Fazit</a></li>
 </ul>
 </li>
-<li><a href="#_default_values_definieren">5. Default-Values definieren</a></li>
+<li><a href="#_default_values_definieren">5. Default-Values definieren</a>
+<ul class="sectlevel2">
+<li><a href="#_configmapping_2">5.1. ConfigMapping</a></li>
+<li><a href="#_configproperty_2">5.2. ConfigProperty</a></li>
+</ul>
+</li>
 <li><a href="#_endpoints_erstellen">6. Endpoints erstellen</a></li>
 <li><a href="#_testen_des_projekts">7. Testen des Projekts</a>
 <ul class="sectlevel2">
@@ -604,10 +609,10 @@ pre.rouge .gs {
 </li>
 <li><a href="#_config_sources">9. Config-Sources</a>
 <ul class="sectlevel2">
-<li><a href="#_configapplication_properties">9.1. config/application.properties</a></li>
-<li><a href="#_env_files">9.2. .env-Files</a></li>
-<li><a href="#_umgebungsvariablen">9.3. Umgebungsvariablen</a></li>
-<li><a href="#_system_properties">9.4. System Properties</a></li>
+<li><a href="#config-application-properties">9.1. config/application.properties</a></li>
+<li><a href="#env-files">9.2. .env-Files</a></li>
+<li><a href="#env-variables">9.3. Umgebungsvariablen</a></li>
+<li><a href="#system-properties">9.4. System Properties</a></li>
 </ul>
 </li>
 <li><a href="#_profiles">10. Profiles</a>
@@ -715,7 +720,7 @@ idea .</code></pre>
 <div class="sect2">
 <h3 id="_projektstruktur"><a class="anchor" href="#_projektstruktur"></a>2.3. Projektstruktur</h3>
 <div class="paragraph">
-<p>Bevor die Implementierung beginnt, sollen alle Verzeichnisse und Klassen, die im weiteren Verlauf zum Einsatz kommen, erstellt werden. Die Projektstruktur soll wie folgt aussehen:</p>
+<p>Bevor die Implementierung beginnt, sollten alle Verzeichnisse und Klassen, die im weiteren Verlauf zum Einsatz kommen, erstellt werden. Die Projektstruktur soll schlussendlich wie folgt aussehen:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -727,7 +732,7 @@ idea .</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_konfiguration_hinzufügen"><a class="anchor" href="#_konfiguration_hinzufügen"></a>3. Konfiguration hinzufügen</h2>
+<h2 id="application-properties"><a class="anchor" href="#application-properties"></a>3. Konfiguration hinzufügen</h2>
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
@@ -970,8 +975,10 @@ Diese Option ist in das Tutorial einzubauen.
 </div>
 <div class="title">Figure 3. NoSuchElementException</div>
 </div>
+<div class="sect2">
+<h3 id="_configmapping_2"><a class="anchor" href="#_configmapping_2"></a>5.1. ConfigMapping</h3>
 <div class="paragraph">
-<p>Um dies zu vermeiden, muss man <strong>Default-Values</strong> im Interface definieren.</p>
+<p>Um eine NoSuchElementException zu vermeiden, muss man <strong>Default-Values</strong> im Interface definieren.</p>
 </div>
 <details>
 <summary class="title">ConfigMapping mit Default-Values</summary>
@@ -1011,7 +1018,7 @@ Diese Option ist in das Tutorial einzubauen.
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><strong>@WithDefault</strong> ermöglicht es, einen Standardwert für eine Konfiguration festzulegen, falls diese in keiner Config-Source gesetzt wurde.</td>
+<td><strong>@WithDefault</strong> injected einen Standardwert, falls keine Konfiguration in jeglichen Config-Source gesetzt wurde.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1021,6 +1028,48 @@ Diese Option ist in das Tutorial einzubauen.
 </div>
 </div>
 </details>
+</div>
+<div class="sect2">
+<h3 id="_configproperty_2"><a class="anchor" href="#_configproperty_2"></a>5.2. ConfigProperty</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial eingebunden.
+</td>
+</tr>
+</table>
+</div>
+<details>
+<summary class="title">ConfigProperty mit Default-Values</summary>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="java"><span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"greeting.suffix"</span><span class="o">,</span> <span class="n">defaultValue</span><span class="o">=</span><span class="s">"!"</span><span class="o">)</span> <i class="conum" data-value="1"></i><b>(1)</b>
+<span class="nc">String</span> <span class="n">suffix</span><span class="o">;</span>
+
+<span class="nd">@ConfigProperty</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"greeting.name"</span><span class="o">)</span>
+<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">name</span><span class="o">;</span> <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Die <strong>defaultValue</strong> wird injected, falls die Konfiguration nicht gesetzt ist.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Ein <strong>empty-Optional</strong> wird injected, falls die Konfiguration nicht gesetzt ist.</td>
+</tr>
+</table>
+</div>
+</div>
+</details>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1362,6 +1411,43 @@ Nun sollte beim Testen des Projekts die gleiche Ausgabe wie zuvor erzielt werden
 <div class="sect1">
 <h2 id="_config_sources"><a class="anchor" href="#_config_sources"></a>9. Config-Sources</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Per Default liest Quarkus Konfigurationseigenschaften aus mehreren Quellen in absteigender Reihenfolge:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>(400) <a href="#system-properties">System Properties</a></p>
+</li>
+<li>
+<p>(300) <a href="#env-variables">Umgebungsvariablen</a></p>
+</li>
+<li>
+<p>(295) <a href="#env-files">.env-Files</a></p>
+</li>
+<li>
+<p>(260) <a href="#config-application-properties">config/application.properties</a></p>
+</li>
+<li>
+<p>(250) <a href="#application-properties">application.properties</a></p>
+</li>
+<li>
+<p>(100) META-INF/microprofile-config.properties</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+In diesem Tutorial wird nicht ins Detail auf die <strong>META-INF/microprofile-config.properties</strong>-Configuration eingegangen. Für weitere Informationen bezüglich MicroProfile-Config siehe <a href="https://quarkus.io/guides/config-reference#microprofile-config-properties-file" target="_blank" rel="noopener">hier</a>.
+</td>
+</tr>
+</table>
+</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/config-sources.png" alt="config sources">
@@ -1383,7 +1469,7 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 <p>Als nächsten Schritt werden die Konfigurationen aus verschiedensten Config-Sources gelesen und im Projekt verwendet. Dies soll als Demonstration der <strong>Priorität</strong> der einzelnen Config-Sources dienen.</p>
 </div>
 <div class="sect2">
-<h3 id="_configapplication_properties"><a class="anchor" href="#_configapplication_properties"></a>9.1. config/application.properties</h3>
+<h3 id="config-application-properties"><a class="anchor" href="#config-application-properties"></a>9.1. config/application.properties</h3>
 <div class="imageblock">
 <div class="content">
 <img src="images/config-sources-config-application-properties.png" alt="config sources config application properties">
@@ -1434,7 +1520,7 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 </div>
 </div>
 <div class="sect2">
-<h3 id="_env_files"><a class="anchor" href="#_env_files"></a>9.2. .env-Files</h3>
+<h3 id="env-files"><a class="anchor" href="#env-files"></a>9.2. .env-Files</h3>
 <div class="imageblock">
 <div class="content">
 <img src="images/config-sources-env-file.png" alt="config sources env file">
@@ -1482,7 +1568,7 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in das Repository zu pushen gepusht, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer in der <strong>.gitignore</strong>-Datei enthalten sein.
+Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in das Repository zu <strong>pushen</strong> gepusht, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im <strong>.gitignore</strong> enthalten sein.
 </td>
 </tr>
 </table>
@@ -1490,7 +1576,10 @@ Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in
 </div>
 </div>
 <div class="sect2">
-<h3 id="_umgebungsvariablen"><a class="anchor" href="#_umgebungsvariablen"></a>9.3. Umgebungsvariablen</h3>
+<h3 id="env-variables"><a class="anchor" href="#env-variables"></a>9.3. Umgebungsvariablen</h3>
+<div class="paragraph">
+<p>Umgebungsvariablen können der Anwendung beim Start durch das Schlüsselwort <strong>export</strong> übergeben werden.</p>
+</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/config-sources-environment-variables.png" alt="config sources environment variables">
@@ -1582,7 +1671,10 @@ Je nachdem, ob mit <strong>application.properties</strong> oder <strong>applicat
 </div>
 </div>
 <div class="sect2">
-<h3 id="_system_properties"><a class="anchor" href="#_system_properties"></a>9.4. System Properties</h3>
+<h3 id="system-properties"><a class="anchor" href="#system-properties"></a>9.4. System Properties</h3>
+<div class="paragraph">
+<p>System Properties können der Anwendung beim Start durch das Flag <strong>-D</strong> übergeben werden.</p>
+</div>
 <div class="imageblock">
 <div class="content">
 <img src="images/config-sources-system-properties.png" alt="config sources system properties">
@@ -1590,9 +1682,6 @@ Je nachdem, ob mit <strong>application.properties</strong> oder <strong>applicat
 </div>
 <div class="sect3">
 <h4 id="_erstellen_3"><a class="anchor" href="#_erstellen_3"></a>9.4.1. Erstellen</h4>
-<div class="paragraph">
-<p>System Properties können entweder beim Starten des Quarkus-Servers im Dev-Mode oder beim Starten des jar-Files mitgegeben werden.</p>
-</div>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -1728,7 +1817,7 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-11-20 18:05:16 UTC
+Last updated 2024-11-21 15:42:18 UTC
 </div>
 </div>
 </body>
