@@ -21,7 +21,7 @@ https://2425-5bhif-wmc.github.io/01-referate-Armin1503/documentation.html[Gettin
 
 == Quellen
 
-* Redhat. Configuration Profiles: https://docs.redhat.com/en/documentation/red_hat_build_of_quarkus/1.3/html/configuring_your_quarkus_applications/proc-using-configuration-profiles_quarkus-configuration-guide
+* Red Hat. Configuration Profiles: https://docs.redhat.com/en/documentation/red_hat_build_of_quarkus/1.3/html/configuring_your_quarkus_applications/proc-using-configuration-profiles_quarkus-configuration-guide
 * Quarkus. Configuration Reference Guide: https://quarkus.io/guides/config-reference
 * Quarkus. Configuring Your Application: https://quarkus.io/guides/config
 * Quarkus. Config-Mapping: https://quarkus.io/guides/config-mappings

@@ -68,12 +68,12 @@ idea .
 <2> Ermöglicht Serialisierung und Deserialisierung von JSON zu Java-Objekten
 
 === Projektstruktur
-Bevor die Implementierung beginnt, sollen alle Verzeichnisse und Klassen, die im weiteren Verlauf zum Einsatz kommen, erstellt werden. Die Projektstruktur soll wie folgt aussehen:
+Bevor die Implementierung beginnt, sollten alle Verzeichnisse und Klassen, die im weiteren Verlauf zum Einsatz kommen, erstellt werden. Die Projektstruktur soll schlussendlich wie folgt aussehen:
 
 .Projektstruktur
 image::https://www.plantuml.com/plantuml/png/fT313S8m30NGUtS1hr2f6x21ILqmIkt8Tf2wFMtQ0oSau1Ob-K_VxZtGOk9Cta5IcVXs6cbMS4im8miyy8c00VV8nuVsVjKg8ze20ySojFiBkLPBTDuYNsdRCKpp6_O7ilQ8dn6IM3l0K3rqtfLg6Apo2RDZT0Si9NFQ0yMqa0MJTpt9sBRy0W00[]
 
-== Konfiguration hinzufügen
+== Konfiguration hinzufügen [[application-properties]]
 
 TIP: In diesem Schritt fügen wir in die **application.properties** Konfigurationen mit dem **prefix custom** hinzu.
 
@@ -208,7 +208,9 @@ Beim bisherigen Stand des Projekts werden die Konfigurationen aus den **applicat
 .NoSuchElementException
 image::no-such-element-exception.png[]
 
-Um dies zu vermeiden, muss man **Default-Values** im Interface definieren.
+=== ConfigMapping
+
+Um eine NoSuchElementException zu vermeiden, muss man **Default-Values** im Interface definieren.
 
 .ConfigMapping mit Default-Values
 [%collapsible]
@@ -244,8 +246,28 @@ public interface CustomConfiguration {
 }
 ----
 
-<1> **@WithDefault** ermöglicht es, einen Standardwert für eine Konfiguration festzulegen, falls diese in keiner Config-Source gesetzt wurde.
+<1> **@WithDefault** injected einen Standardwert, falls keine Konfiguration in jeglichen Config-Source gesetzt wurde.
 <2> Bei Listen funktioniert die @WithDefault-Annotation nicht. Hierbei wird ein **Optional**-Typ verwendet, um zu signalisieren, dass die Liste leer sein kann.
+====
+
+=== ConfigProperty
+
+IMPORTANT: Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial eingebunden.
+
+.ConfigProperty mit Default-Values
+[%collapsible]
+====
+[source,java]
+----
+@ConfigProperty(name = "greeting.suffix", defaultValue="!") // <1>
+String suffix;
+
+@ConfigProperty(name = "greeting.name")
+Optional<String> name; // <2>
+----
+
+<1> Die **defaultValue** wird injected, falls die Konfiguration nicht gesetzt ist.
+<2> Ein **empty-Optional** wird injected, falls die Konfiguration nicht gesetzt ist.
 ====
 
 == Endpoints erstellen
@@ -475,13 +497,24 @@ TIP: Nun sollte beim Testen des Projekts die gleiche Ausgabe wie zuvor erzielt w
 
 == Config-Sources
 
+Per Default liest Quarkus Konfigurationseigenschaften aus mehreren Quellen in absteigender Reihenfolge:
+
+* (400) <<system-properties,System Properties>>
+* (300) <<env-variables,Umgebungsvariablen>>
+* (295) <<env-files,.env-Files>>
+* (260) <<config-application-properties,config/application.properties>>
+* (250) <<application-properties,application.properties>>
+* (100) META-INF/microprofile-config.properties
+
+TIP: In diesem Tutorial wird nicht ins Detail auf die **META-INF/microprofile-config.properties**-Configuration eingegangen. Für weitere Informationen bezüglich MicroProfile-Config siehe https://quarkus.io/guides/config-reference#microprofile-config-properties-file[hier^].
+
 image::config-sources.png[]
 
 TIP: In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen die Konfigurationen gelesen werden können. Je weiter links sich die Config-Source in der Grafik befindet, desto höher ist die Priorität, sprich Konfigurationswerte von weiter links gelegenen Config-Sources überschreiben die Werte von weiter rechts gelegenen Config-Sources.
 
 Als nächsten Schritt werden die Konfigurationen aus verschiedensten Config-Sources gelesen und im Projekt verwendet. Dies soll als Demonstration der **Priorität** der einzelnen Config-Sources dienen.
 
-=== config/application.properties
+=== config/application.properties [[config-application-properties]]
 
 image::config-sources-config-application-properties.png[]
 
@@ -515,7 +548,7 @@ Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegebe
 image::response-config-application-properties-get-city.png[]
 ====
 
-=== .env-Files
+=== .env-Files [[env-files]]
 
 image::config-sources-env-file.png[]
 
@@ -543,9 +576,11 @@ Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegebe
 image::response-env-file-get-city.png[]
 ====
 
-IMPORTANT: Das .env-File ist in der Regel bei richtigen Projekten **nicht** in das Repository zu pushen gepusht, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer in der **.gitignore**-Datei enthalten sein.
+IMPORTANT: Das .env-File ist in der Regel bei richtigen Projekten **nicht** in das Repository zu **pushen** gepusht, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im **.gitignore** enthalten sein.
 
-=== Umgebungsvariablen
+=== Umgebungsvariablen [[env-variables]]
+
+Umgebungsvariablen können der Anwendung beim Start durch das Schlüsselwort **export** übergeben werden.
 
 image::config-sources-environment-variables.png[]
 
@@ -597,13 +632,13 @@ Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegebe
 image::response-env-variables-get-city.png[]
 ====
 
-=== System Properties
+=== System Properties [[system-properties]]
+
+System Properties können der Anwendung beim Start durch das Flag **-D** übergeben werden.
 
 image::config-sources-system-properties.png[]
 
 ==== Erstellen
-
-System Properties können entweder beim Starten des Quarkus-Servers im Dev-Mode oder beim Starten des jar-Files mitgegeben werden.
 
 TIP: Auch bei den System Properties benötigt man ein uber-jar (falls man den Server nicht im Dev-Mode starten möchte), genau wie bei den Umgebungsvariablen. Siehe <<env-variables,hier>>.
 
