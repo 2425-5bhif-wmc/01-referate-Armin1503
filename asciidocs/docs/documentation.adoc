@@ -80,7 +80,7 @@ TIP: In diesem Schritt fügen wir in die **application.properties** Konfiguratio
 .application.properties
 image::config-sources-application-properties.png[]
 
-.Befülle die **application.properties** mit Konfigurationswerten
+.**application.properties** mit Konfigurationswerten befüllen
 
 [%collapsible]
 ====
@@ -102,18 +102,18 @@ custom.other.cities[0]=Berlin <1>
 custom.other.cities[1]=Chicago <1>
 custom.other.cities[2]=Boston <1>
 ----
-<1> Um eine Liste von Konfigurationen zu erstellen, wird der Index in eckigen Klammern angegeben. Diese Liste ist damit leicht erweiterbar.
+<1> Um eine Liste von Konfigurationen zu erstellen, wird der Index in eckigen Klammern angegeben.
 ====
 
 == Zugriff auf die Konfigurationen
 
 Die Konfigurationen wurden im vorherigen Schritt gesetzt, nun möchte man auf diese im Code zugreifen können. Hierbei gibt es zwei Möglichkeiten, welche in den folgenden 2 Abschnitten erklärt werden.
 
-=== @ConfigProperty
+=== ConfigProperty
 
-IMPORTANT: Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial eingebunden.
+IMPORTANT: Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial eingebaut.
 
-Einerseits kann man auf die Konfigurationen mithilfe von **@ConfigProperty** zugreifen.
+Eine Möglichkeit, um auf die Konfigurationswerte zuzugreifen, bietet die Annotation **@ConfigProperty**.
 
 .ConfigProperty
 [%collapsible]
@@ -142,18 +142,17 @@ Einerseits kann man auf die Konfigurationen mithilfe von **@ConfigProperty** zug
 ==== Vorteile
 
 * Direkter Zugriff einzelner Werte, ohne zusätzliche Klassen oder Interfaces
-* Unterstützt Standardwerte (**defaultValue**)
 
 ==== Nachteile
 
 * Bei vielen Konfigurationen wird der Code unübersichtlich
 * Zusammenhängende Konfigurationswerte (wie z. B. greeting.message und greeting.language) kann man nicht zusammenfassen
 
-=== @ConfigMapping
+=== ConfigMapping
 
 TIP: Diese Option ist in das Tutorial einzubauen.
 
-Andererseits kann man auf die Konfigurationen mithilfe von **@ConfigMapping** zugreifen.
+Eine andere Möglichkeit, um auf die Konfigurationswerte zuzugreifen, bietet die Annotation **@ConfigMapping**.
 
 .ConfigMapping
 [%collapsible]
@@ -188,18 +187,18 @@ public interface CustomConfiguration {
 
 ==== Vorteile
 
-* Verwandte Konfigurationswerte können in einer Interface-Klasse zusammengefasst werden
+* Verwandte Konfigurationswerte können in einem Interface zusammengefasst werden
 * Besonders bei großen Projekten sorgt **@ConfigMapping** für saubere und wartbare Konfigurationsmodelle
 
 === Fazit
 
-Der Einsatz der beiden Optionen sollte auf Basis der Anforderungen des Projekts entschieden werden.
+Der Einsatz der oben vorgestellten Optionen sollte auf Basis der Anforderungen des Projekts entschieden werden.
 
 Die Verwendung von **@ConfigProperty** eignet sich besonders, wenn nur wenige Konfigurationswerte benötigt werden, die unabhängig voneinander sind. Dieser Ansatz ist einfach und ermöglicht einen direkten Zugriff auf einzelne Konfigurationswerte.
 
 **@ConfigMapping** hingegen bietet eine strukturierte Lösung für den Umgang mit Konfigurationen. Es ermöglicht die Definition von Interfaces, die verwandte Konfigurationswerte logisch gruppieren und somit eine klare Trennung schaffen. Besonders in großen Projekten sorgt dieser Ansatz für bessere Wartbarkeit und Lesbarkeit des Codes.
 
-In diesem Fall wurde im Tutorial sinnvollerweise @ConfigMapping verwendet, da es den Anforderungen einer komplexen sowie verschachtelten Konfiguration am besten gerecht wird.
+Im Tutorial wird @ConfigMapping verwendet, da es den Anforderungen einer komplexen sowie verschachtelten Konfiguration am besten gerecht wird.
 
 == Default-Values definieren
 
@@ -246,8 +245,8 @@ public interface CustomConfiguration {
 }
 ----
 
-<1> **@WithDefault** injected einen Standardwert, falls keine Konfiguration in jeglichen Config-Source gesetzt wurde.
-<2> Bei Listen funktioniert die @WithDefault-Annotation nicht. Hierbei wird ein **Optional**-Typ verwendet, um zu signalisieren, dass die Liste leer sein kann.
+<1> **@WithDefault** injected einen Standardwert, falls keine Konfiguration in jeglichen Config-Sources gesetzt wurde.
+<2> Bei Listen funktioniert die @WithDefault-Annotation nicht. Hierbei kommt **Optional** zum Einsatz, welches ein **empty-Optional** injected, falls die Konfiguration nicht gesetzt ist.
 ====
 
 === ConfigProperty
@@ -310,7 +309,7 @@ public class CityConfig {
 
 <1> **@ApplicationScoped** sorgt dafür, dass alle Klassen, die diese Klasse per **@Inject** nutzen, auf dieselbe Instanz zugreifen.
 <2> **@Inject** sorgt dafür, dass eine Instanz von **CustomConfiguration** zur Verfügung gestellt wird.
-<3> Diese GET-Methoden liefern die Konfigurationswerte zurück und sorgen schlussendlich dafür, dass man im Programm Zugriff auf die Konfigurationswerte hat.
+<3> Diese GETTER liefern die Konfigurationswerte zurück und sorgen schlussendlich dafür, dass man im Programm Zugriff auf die Konfigurationswerte hat.
 ====
 
 Bevor die Endpoints implementiert werden, wird eine **RestConfig**-Klasse erstellt, welche die Basis-URL für alle Endpoints des Servers festlegt.
@@ -400,7 +399,7 @@ Der Zugriff auf die Konfigurationen und die Endpoints zur Rückgabe der Werte si
 .http-requests/requests.http
 [source, httprequest]
 ----
-@baseUrl = http://localhost:8080/api/config/
+@baseUrl = http://localhost:8080/api/config
 
 ### GET city
 GET {{baseUrl}}/city
@@ -422,7 +421,7 @@ Accept: application/json
 
 TIP: Nun muss nur noch der **Quarkus-Server** gestartet und die Requests im **requests.http**-File ausgeführt werden.
 
-.Server starten (im Dev-Mode)
+.Server starten (Dev-Mode)
 [source, shell]
 ----
 ./mvnw quarkus:dev clean
@@ -460,7 +459,7 @@ image::response-get-other-cities.png[]
 
 TIP: Bei komplexeren bzw. hierarchischen Strukturen empfiehlt es sich, die Konfigurationen im **YAML-Format** zu definieren. Da dies die Lesbarkeit der Konfigurationen erhöht.
 
-=== Konvertierung in YAML
+=== application.yaml erstellen
 
 [.line-through]#application.properties# wird nun von **application.yaml** abgelöst.
 
@@ -493,7 +492,7 @@ Damit die Konfigurationen aus dem **application.yaml**-File gelesen werden könn
 </dependency>
 ----
 
-TIP: Nun sollte beim Testen des Projekts die gleiche Ausgabe wie zuvor erzielt werden. Siehe <<testing,hier>>.
+TIP: Nun sollten beim Testen des Projekts die gleichen Responses wie zuvor zurückgeliefert werden. Siehe <<testing,hier>>.
 
 == Config-Sources
 
@@ -506,7 +505,7 @@ Per Default liest Quarkus Konfigurationseigenschaften aus mehreren Quellen in ab
 * (250) <<application-properties,application.properties>>
 * (100) META-INF/microprofile-config.properties
 
-TIP: In diesem Tutorial wird nicht ins Detail auf die **META-INF/microprofile-config.properties**-Configuration eingegangen. Für weitere Informationen bezüglich MicroProfile-Config siehe https://quarkus.io/guides/config-reference#microprofile-config-properties-file[hier^].
+TIP: In diesem Tutorial wird nicht auf die **META-INF/microprofile-config.properties** eingegangen. Für weitere Informationen bezüglich MicroProfile-Config siehe https://quarkus.io/guides/config-reference#microprofile-config-properties-file[hier^].
 
 image::config-sources.png[]
 
@@ -540,7 +539,7 @@ custom:
 
 ==== Testen
 
-Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:
+Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgeliefert werden:
 
 .Get city
 [%collapsible]
@@ -568,7 +567,7 @@ CUSTOM_CITY=Moscow
 
 ==== Testen
 
-Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:
+Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgeliefert werden:
 
 .Get city
 [%collapsible]
@@ -576,7 +575,7 @@ Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegebe
 image::response-env-file-get-city.png[]
 ====
 
-IMPORTANT: Das .env-File ist in der Regel bei richtigen Projekten **nicht** in das Repository zu **pushen** gepusht, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im **.gitignore** enthalten sein.
+IMPORTANT: Das .env-File ist in der Regel bei richtigen Projekten **nicht** in das Repository zu **pushen**, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im **.gitignore** enthalten sein.
 
 === Umgebungsvariablen [[env-variables]]
 
@@ -584,7 +583,7 @@ Umgebungsvariablen können der Anwendung beim Start durch das Schlüsselwort **e
 
 image::config-sources-environment-variables.png[]
 
-==== Erstellen [[env-variables]]
+==== Erstellen
 
 TIP: Hierbei benötigt man ein uber-jar, welches alle Dependencies der Anwendung, den Code der Anwendung und eine ausführbare Main-Klasse (Entry-Point) enthält. Um dieses zu erstellen, muss der folgende Abschnitt Schritt für Schritt durchgegangen werden.
 
@@ -624,7 +623,7 @@ export CUSTOM_CITY=Munich ; java -jar target/*-runner.jar
 
 ==== Testen
 
-Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:
+Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgeliefert werden:
 
 .Get city
 [%collapsible]
@@ -657,7 +656,7 @@ java -Dcustom.city=Amsterdam -jar target/config-demo-1.0-SNAPSHOT-runner.jar
 
 ==== Testen
 
-Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:
+Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgeliefert werden:
 
 .GET city
 [%collapsible]
