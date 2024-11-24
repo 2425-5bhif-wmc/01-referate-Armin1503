@@ -565,7 +565,7 @@ pre.rouge .gs {
 <div class="details">
 <span id="author" class="author">Armin Salkovic</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2024-11-21</span>
+<span id="revdate">2024-11-24</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -619,6 +619,7 @@ pre.rouge .gs {
 <ul class="sectlevel2">
 <li><a href="#_default_profiles">10.1. Default Profiles</a></li>
 <li><a href="#_wie_setzt_man_profiles">10.2. Wie setzt man Profiles?</a></li>
+<li><a href="#_profile_aware_files">10.3. Profile-aware Files</a></li>
 </ul>
 </li>
 </ul>
@@ -1783,16 +1784,22 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 </div>
 <div class="sect2">
 <h3 id="_wie_setzt_man_profiles"><a class="anchor" href="#_wie_setzt_man_profiles"></a>10.2. Wie setzt man Profiles?</h3>
+<div class="sect3">
+<h4 id="_properties_file"><a class="anchor" href="#_properties_file"></a>10.2.1. *.properties-File</h4>
+<div class="paragraph">
+<p>In *.properties-Files werden Profiles wie folgt gesetzt:
+<strong>%{profile-name}.config.name=value</strong></p>
+</div>
 <div class="listingblock">
-<div class="title">Im *.properties-File setzen</div>
+<div class="title">Profile setzen</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="properties"><span class="err">%&lt;Profile&gt;</span><span class="py">.custom.city</span><span class="p">=</span><span class="s">Vienna</span></code></pre>
+<pre class="rouge highlight"><code data-lang="properties"><span class="err">%{profile}</span><span class="py">.custom.city</span><span class="p">=</span><span class="s">Vienna</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">Im Terminal ausführen</div>
+<div class="title">Anwendung in bestimmter Umgebung starten</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="shell">./mvnw quarkus:&lt;Profile&gt; clean</code></pre>
+<pre class="rouge highlight"><code data-lang="shell">./mvnw quarkus:&lt;profile&gt; clean</code></pre>
 </div>
 </div>
 <div class="admonitionblock tip">
@@ -1802,13 +1809,41 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-&lt;Profile&gt; ist hierbei der Platzhalter für das jeweilige Profile (dev, test, prod, &#8230;&#8203;).
+<strong>Profile</strong> ist hierbei der Platzhalter für die jeweilige Umgebung (dev, test, prod, &#8230;&#8203;).
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Je nachdem mit welchem Profile man den Server startet, wird die entsprechende Konfiguration aus dem <strong>*.properties</strong>-File verwendet.</p>
+<p>Je nachdem in welcher Umgebung der Server gestartet wird, wird die entsprechende Konfiguration aus dem <strong>*.properties</strong>-File verwendet.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_env_file"><a class="anchor" href="#_env_file"></a>10.2.2. .env-File</h4>
+<div class="paragraph">
+<p>In .env-Files werden Profiles wie folgt gesetzt: <strong>_{PROFILE}_CONFIG_KEY=value</strong></p>
+</div>
+<div class="listingblock">
+<div class="title">Profile setzen</div>
+<div class="content">
+<pre class="rouge highlight"><code>_{PROFILE}_CUSTOM_CITY=Vienna</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_profile_aware_files"><a class="anchor" href="#_profile_aware_files"></a>10.3. Profile-aware Files</h3>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Um nicht alle Konfigurationen aus verschiedenster Umgebungen in ein *.properties-File zu stopfen, können Konfigurationen für eine bestimmte Umgebung in eine eigene Datei ausgelagert werden (<strong>application-{profile}.properties</strong>). Für weitere Informationen siehe <a href="https://quarkus.io/guides/config-reference#profile-aware-files" target="_blank" rel="noopener">hier</a>.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
@@ -1817,7 +1852,7 @@ Außerdem kann man noch <strong>Custom Profiles</strong> erstellen. Genaueres da
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-11-21 15:42:18 UTC
+Last updated 2024-11-24 11:44:58 UTC
 </div>
 </div>
 </body>
