@@ -682,18 +682,38 @@ TIP: Außerdem kann man noch **Custom Profiles** erstellen. Genaueres dazu ist h
 
 === Wie setzt man Profiles?
 
-.Im *.properties-File setzen
+==== *.properties-File
+
+In *.properties-Files werden Profiles wie folgt gesetzt:
+**%{profile-name}.config.name=value**
+
+.Profile setzen
 [source, properties]
 ----
-%<Profile>.custom.city=Vienna
+%{profile}.custom.city=Vienna
 ----
 
-.Im Terminal ausführen
+.Anwendung in bestimmter Umgebung starten
 [source, shell]
 ----
-./mvnw quarkus:<Profile> clean
+./mvnw quarkus:<profile> clean
 ----
 
-TIP: <Profile> ist hierbei der Platzhalter für das jeweilige Profile (dev, test, prod, ...).
+TIP: **Profile** ist hierbei der Platzhalter für die jeweilige Umgebung (dev, test, prod, ...).
 
-Je nachdem mit welchem Profile man den Server startet, wird die entsprechende Konfiguration aus dem ***.properties**-File verwendet.
+Je nachdem in welcher Umgebung der Server gestartet wird, wird die entsprechende Konfiguration aus dem ***.properties**-File verwendet.
+
+==== .env-File
+
+In .env-Files werden Profiles wie folgt gesetzt: **_{PROFILE}_CONFIG_KEY=value**
+
+.Profile setzen
+[source]
+----
+_{PROFILE}_CUSTOM_CITY=Vienna
+----
+
+=== Profile-aware Files
+
+TIP: Um nicht alle Konfigurationen aus verschiedenster Umgebungen in ein *.properties-File zu stopfen, können Konfigurationen für eine bestimmte Umgebung in eine eigene Datei ausgelagert werden (**application-{profile}.properties**). Für weitere Informationen siehe https://quarkus.io/guides/config-reference#profile-aware-files[hier^].
+

@@ -25,56 +25,32 @@ endif::[]
 
 === Vermeidung von Hardcoding
 
-* keine festen Werte im Code
+* keine fixen Werte im Code
 * Anpassungen ohne Codeänderungen möglich
 
+.*.java
 [source,java, role="strikethrough"]
 ----
 public String greeting = "Hello, World!";
 ----
 
-=== Wartbarkeit und Flexibilität
-
-* Änderungen an Konfigurationen ohne neu deployen zu müssen
-* zentrale Verwaltung der Werte
+.*.properties
+[source,properties]
+----
+greeting=Hello, World!
+----
 
 === Umgebungsanpassung
 
-* verschiedene Einstellungen für verschiedene Umgebungen mithilfe von Profiles (dev, test, prod)
+* verschiedene Konfigurationswerte für verschiedene Umgebungen mithilfe von Profiles (dev, test, prod)
 * gleicher Code läuft in mehreren Umgebungen
 
 === Sicherheit
 
-* sensible Daten wie Passwörter oder API-Keys sind nicht im Code bzw. im Repository zu finden
+* sensible Daten wie Passwörter oder API-Keys sind nicht im Code bzw. Repository zu finden
 
 == Config Sources
 
 image::config-sources.png[]
 
-=== System Properties
-
-[source,bash]
-----
-./mvnw quarkus:dev -Dquarkus.datasource.password=youshallnotpass
-----
-
-[source,bash]
-----
-java -Dquarkus.datasource.password=youshallnotpass -jar target/quarkus-app/quarkus-run.jar
-----
-
-=== Environment Variables
-
-=== .env-Files
-
-image::https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqYyeoizAJIxHBovArjVJqzD7YEYbvfLnEQJcfO1L0W00[]
-
-=== config/application.properties
-
-=== src/main/resources/application.properties
-
-image::https://www.plantuml.com/plantuml/png/7Sl13O1020J0lyL82zSAmJN1d0TPi7-DyvzHhUpJ9sgJP5ombgB9hRw4g7XeAD7CwQRjiVPa9DZ-bO5r_Fa5[]
-
-=== microprofile-config.properties
-
-image::https://www.plantuml.com/plantuml/png/SoWkIImgISlCIItcqYyeoizAJIxHBovArizDpCpJBqejpYyjIaujrlTr3N7KzVHpqy_DJ2xA1oe4QT5DpizBoqpN0t8BKejACe5cEAJcfO1D0m00[]
+=== https://2425-5bhif-wmc.github.io/01-referate-Armin1503/documentation.html[Getting Started]
