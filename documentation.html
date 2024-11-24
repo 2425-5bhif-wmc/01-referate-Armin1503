@@ -585,8 +585,8 @@ pre.rouge .gs {
 <li><a href="#application-properties">3. Konfiguration hinzufügen</a></li>
 <li><a href="#_zugriff_auf_die_konfigurationen">4. Zugriff auf die Konfigurationen</a>
 <ul class="sectlevel2">
-<li><a href="#_configproperty">4.1. @ConfigProperty</a></li>
-<li><a href="#_configmapping">4.2. @ConfigMapping</a></li>
+<li><a href="#_configproperty">4.1. ConfigProperty</a></li>
+<li><a href="#_configmapping">4.2. ConfigMapping</a></li>
 <li><a href="#_fazit">4.3. Fazit</a></li>
 </ul>
 </li>
@@ -604,7 +604,7 @@ pre.rouge .gs {
 </li>
 <li><a href="#_konfigurationen_im_yaml_format">8. Konfigurationen im YAML-Format</a>
 <ul class="sectlevel2">
-<li><a href="#_konvertierung_in_yaml">8.1. Konvertierung in YAML</a></li>
+<li><a href="#_application_yaml_erstellen">8.1. application.yaml erstellen</a></li>
 </ul>
 </li>
 <li><a href="#_config_sources">9. Config-Sources</a>
@@ -754,7 +754,7 @@ In diesem Schritt fügen wir in die <strong>application.properties</strong> Konf
 <div class="title">Figure 2. application.properties</div>
 </div>
 <details>
-<summary class="title">Befülle die <strong>application.properties</strong> mit Konfigurationswerten</summary>
+<summary class="title"><strong>application.properties</strong> mit Konfigurationswerten befüllen</summary>
 <div class="content">
 <div class="imageblock">
 <div class="content">
@@ -782,7 +782,7 @@ In diesem Schritt fügen wir in die <strong>application.properties</strong> Konf
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Um eine Liste von Konfigurationen zu erstellen, wird der Index in eckigen Klammern angegeben. Diese Liste ist damit leicht erweiterbar.</td>
+<td>Um eine Liste von Konfigurationen zu erstellen, wird der Index in eckigen Klammern angegeben.</td>
 </tr>
 </table>
 </div>
@@ -797,7 +797,7 @@ In diesem Schritt fügen wir in die <strong>application.properties</strong> Konf
 <p>Die Konfigurationen wurden im vorherigen Schritt gesetzt, nun möchte man auf diese im Code zugreifen können. Hierbei gibt es zwei Möglichkeiten, welche in den folgenden 2 Abschnitten erklärt werden.</p>
 </div>
 <div class="sect2">
-<h3 id="_configproperty"><a class="anchor" href="#_configproperty"></a>4.1. @ConfigProperty</h3>
+<h3 id="_configproperty"><a class="anchor" href="#_configproperty"></a>4.1. ConfigProperty</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -805,13 +805,13 @@ In diesem Schritt fügen wir in die <strong>application.properties</strong> Konf
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial eingebunden.
+Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial eingebaut.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Einerseits kann man auf die Konfigurationen mithilfe von <strong>@ConfigProperty</strong> zugreifen.</p>
+<p>Eine Möglichkeit, um auf die Konfigurationswerte zuzugreifen, bietet die Annotation <strong>@ConfigProperty</strong>.</p>
 </div>
 <details>
 <summary class="title">ConfigProperty</summary>
@@ -852,9 +852,6 @@ Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial ei
 <li>
 <p>Direkter Zugriff einzelner Werte, ohne zusätzliche Klassen oder Interfaces</p>
 </li>
-<li>
-<p>Unterstützt Standardwerte (<strong>defaultValue</strong>)</p>
-</li>
 </ul>
 </div>
 </div>
@@ -873,7 +870,7 @@ Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial ei
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configmapping"><a class="anchor" href="#_configmapping"></a>4.2. @ConfigMapping</h3>
+<h3 id="_configmapping"><a class="anchor" href="#_configmapping"></a>4.2. ConfigMapping</h3>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -887,7 +884,7 @@ Diese Option ist in das Tutorial einzubauen.
 </table>
 </div>
 <div class="paragraph">
-<p>Andererseits kann man auf die Konfigurationen mithilfe von <strong>@ConfigMapping</strong> zugreifen.</p>
+<p>Eine andere Möglichkeit, um auf die Konfigurationswerte zuzugreifen, bietet die Annotation <strong>@ConfigMapping</strong>.</p>
 </div>
 <details>
 <summary class="title">ConfigMapping</summary>
@@ -938,7 +935,7 @@ Diese Option ist in das Tutorial einzubauen.
 <div class="ulist">
 <ul>
 <li>
-<p>Verwandte Konfigurationswerte können in einer Interface-Klasse zusammengefasst werden</p>
+<p>Verwandte Konfigurationswerte können in einem Interface zusammengefasst werden</p>
 </li>
 <li>
 <p>Besonders bei großen Projekten sorgt <strong>@ConfigMapping</strong> für saubere und wartbare Konfigurationsmodelle</p>
@@ -950,7 +947,7 @@ Diese Option ist in das Tutorial einzubauen.
 <div class="sect2">
 <h3 id="_fazit"><a class="anchor" href="#_fazit"></a>4.3. Fazit</h3>
 <div class="paragraph">
-<p>Der Einsatz der beiden Optionen sollte auf Basis der Anforderungen des Projekts entschieden werden.</p>
+<p>Der Einsatz der oben vorgestellten Optionen sollte auf Basis der Anforderungen des Projekts entschieden werden.</p>
 </div>
 <div class="paragraph">
 <p>Die Verwendung von <strong>@ConfigProperty</strong> eignet sich besonders, wenn nur wenige Konfigurationswerte benötigt werden, die unabhängig voneinander sind. Dieser Ansatz ist einfach und ermöglicht einen direkten Zugriff auf einzelne Konfigurationswerte.</p>
@@ -959,7 +956,7 @@ Diese Option ist in das Tutorial einzubauen.
 <p><strong>@ConfigMapping</strong> hingegen bietet eine strukturierte Lösung für den Umgang mit Konfigurationen. Es ermöglicht die Definition von Interfaces, die verwandte Konfigurationswerte logisch gruppieren und somit eine klare Trennung schaffen. Besonders in großen Projekten sorgt dieser Ansatz für bessere Wartbarkeit und Lesbarkeit des Codes.</p>
 </div>
 <div class="paragraph">
-<p>In diesem Fall wurde im Tutorial sinnvollerweise @ConfigMapping verwendet, da es den Anforderungen einer komplexen sowie verschachtelten Konfiguration am besten gerecht wird.</p>
+<p>Im Tutorial wird @ConfigMapping verwendet, da es den Anforderungen einer komplexen sowie verschachtelten Konfiguration am besten gerecht wird.</p>
 </div>
 </div>
 </div>
@@ -1019,11 +1016,11 @@ Diese Option ist in das Tutorial einzubauen.
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td><strong>@WithDefault</strong> injected einen Standardwert, falls keine Konfiguration in jeglichen Config-Source gesetzt wurde.</td>
+<td><strong>@WithDefault</strong> injected einen Standardwert, falls keine Konfiguration in jeglichen Config-Sources gesetzt wurde.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Bei Listen funktioniert die @WithDefault-Annotation nicht. Hierbei wird ein <strong>Optional</strong>-Typ verwendet, um zu signalisieren, dass die Liste leer sein kann.</td>
+<td>Bei Listen funktioniert die @WithDefault-Annotation nicht. Hierbei kommt <strong>Optional</strong> zum Einsatz, welches ein <strong>empty-Optional</strong> injected, falls die Konfiguration nicht gesetzt ist.</td>
 </tr>
 </table>
 </div>
@@ -1126,7 +1123,7 @@ Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial ei
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>Diese GET-Methoden liefern die Konfigurationswerte zurück und sorgen schlussendlich dafür, dass man im Programm Zugriff auf die Konfigurationswerte hat.</td>
+<td>Diese GETTER liefern die Konfigurationswerte zurück und sorgen schlussendlich dafür, dass man im Programm Zugriff auf die Konfigurationswerte hat.</td>
 </tr>
 </table>
 </div>
@@ -1247,7 +1244,7 @@ Diese Option ist nur zur Demonstration gedacht und wird nicht in das Tutorial ei
 <div class="listingblock">
 <div class="title">http-requests/requests.http</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="httprequest">@baseUrl = http://localhost:8080/api/config/
+<pre class="rouge highlight"><code data-lang="httprequest">@baseUrl = http://localhost:8080/api/config
 
 ### GET city
 GET {{baseUrl}}/city
@@ -1281,7 +1278,7 @@ Nun muss nur noch der <strong>Quarkus-Server</strong> gestartet und die Requests
 </table>
 </div>
 <div class="listingblock">
-<div class="title">Server starten (im Dev-Mode)</div>
+<div class="title">Server starten (Dev-Mode)</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="shell">./mvnw quarkus:dev clean</code></pre>
 </div>
@@ -1350,7 +1347,7 @@ Bei komplexeren bzw. hierarchischen Strukturen empfiehlt es sich, die Konfigurat
 </table>
 </div>
 <div class="sect2">
-<h3 id="_konvertierung_in_yaml"><a class="anchor" href="#_konvertierung_in_yaml"></a>8.1. Konvertierung in YAML</h3>
+<h3 id="_application_yaml_erstellen"><a class="anchor" href="#_application_yaml_erstellen"></a>8.1. application.yaml erstellen</h3>
 <div class="paragraph">
 <p><span class="line-through">application.properties</span> wird nun von <strong>application.yaml</strong> abgelöst.</p>
 </div>
@@ -1401,7 +1398,7 @@ Die Konfigurationen bzw. die Konfigurationswerte bleiben gleich, nur das <strong
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Nun sollte beim Testen des Projekts die gleiche Ausgabe wie zuvor erzielt werden. Siehe <a href="#testing">hier</a>.
+Nun sollten beim Testen des Projekts die gleichen Responses wie zuvor zurückgeliefert werden. Siehe <a href="#testing">hier</a>.
 </td>
 </tr>
 </table>
@@ -1444,7 +1441,7 @@ Nun sollte beim Testen des Projekts die gleiche Ausgabe wie zuvor erzielt werden
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-In diesem Tutorial wird nicht ins Detail auf die <strong>META-INF/microprofile-config.properties</strong>-Configuration eingegangen. Für weitere Informationen bezüglich MicroProfile-Config siehe <a href="https://quarkus.io/guides/config-reference#microprofile-config-properties-file" target="_blank" rel="noopener">hier</a>.
+In diesem Tutorial wird nicht auf die <strong>META-INF/microprofile-config.properties</strong> eingegangen. Für weitere Informationen bezüglich MicroProfile-Config siehe <a href="https://quarkus.io/guides/config-reference#microprofile-config-properties-file" target="_blank" rel="noopener">hier</a>.
 </td>
 </tr>
 </table>
@@ -1506,7 +1503,7 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 <div class="sect3">
 <h4 id="_testen"><a class="anchor" href="#_testen"></a>9.1.2. Testen</h4>
 <div class="paragraph">
-<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:</p>
+<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgeliefert werden:</p>
 </div>
 <details>
 <summary class="title">Get city</summary>
@@ -1550,7 +1547,7 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 <div class="sect3">
 <h4 id="_testen_2"><a class="anchor" href="#_testen_2"></a>9.2.2. Testen</h4>
 <div class="paragraph">
-<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:</p>
+<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgeliefert werden:</p>
 </div>
 <details>
 <summary class="title">Get city</summary>
@@ -1569,7 +1566,7 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in das Repository zu <strong>pushen</strong> gepusht, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im <strong>.gitignore</strong> enthalten sein.
+Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in das Repository zu <strong>pushen</strong>, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im <strong>.gitignore</strong> enthalten sein.
 </td>
 </tr>
 </table>
@@ -1587,7 +1584,7 @@ Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in
 </div>
 </div>
 <div class="sect3">
-<h4 id="env-variables"><a class="anchor" href="#env-variables"></a>9.3.1. Erstellen</h4>
+<h4 id="_erstellen_3"><a class="anchor" href="#_erstellen_3"></a>9.3.1. Erstellen</h4>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -1657,7 +1654,7 @@ Je nachdem, ob mit <strong>application.properties</strong> oder <strong>applicat
 <div class="sect3">
 <h4 id="_testen_3"><a class="anchor" href="#_testen_3"></a>9.3.2. Testen</h4>
 <div class="paragraph">
-<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:</p>
+<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgeliefert werden:</p>
 </div>
 <details>
 <summary class="title">Get city</summary>
@@ -1682,7 +1679,7 @@ Je nachdem, ob mit <strong>application.properties</strong> oder <strong>applicat
 </div>
 </div>
 <div class="sect3">
-<h4 id="_erstellen_3"><a class="anchor" href="#_erstellen_3"></a>9.4.1. Erstellen</h4>
+<h4 id="_erstellen_4"><a class="anchor" href="#_erstellen_4"></a>9.4.1. Erstellen</h4>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -1711,7 +1708,7 @@ Auch bei den System Properties benötigt man ein uber-jar (falls man den Server 
 <div class="sect3">
 <h4 id="_testen_4"><a class="anchor" href="#_testen_4"></a>9.4.2. Testen</h4>
 <div class="paragraph">
-<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgegeben werden:</p>
+<p>Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgeliefert werden:</p>
 </div>
 <details>
 <summary class="title">GET city</summary>
@@ -1852,7 +1849,7 @@ Um nicht alle Konfigurationen aus verschiedenster Umgebungen in ein *.properties
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-11-24 12:05:15 UTC
+Last updated 2024-11-24 12:38:34 UTC
 </div>
 </div>
 </body>
