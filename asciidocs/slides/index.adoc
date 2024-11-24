@@ -28,13 +28,11 @@ endif::[]
 * keine fixen Werte im Code
 * Anpassungen ohne Codeänderungen möglich
 
-.*.java
 [source,java, role="strikethrough"]
 ----
 public String greeting = "Hello, World!";
 ----
 
-.*.properties
 [source,properties]
 ----
 greeting=Hello, World!
