@@ -10,7 +10,7 @@ Armin Salkovic
 
 == Einführung
 
-Das Ziel dieses Tutorials ist es, mithilfe von **@ConfigMapping** auf Konfigurationen aus verschiedensten Config-Sources zuzugreifen. Besonders ersichtlich wird hierbei auch, welche Config-Source den Vorrang hat, wenn Konfigurationen aus mehreren Sources gelesen werden.
+Das Ziel dieses Tutorials ist es, mithilfe von **@ConfigMapping** auf Konfigurationen aus verschiedensten Config-Sources zuzugreifen. Besonders ersichtlich wird im Tutorial, welche Config-Source den Vorrang hat, wenn Konfigurationen aus mehreren Sources gelesen werden.
 
 === Voraussetzungen
 
@@ -714,5 +714,5 @@ _{PROFILE}_CUSTOM_CITY=Vienna
 
 === Profile-aware Files
 
-TIP: Um nicht alle Konfigurationen aus verschiedenster Umgebungen in ein *.properties-File zu stopfen, können Konfigurationen für eine bestimmte Umgebung in eine eigene Datei ausgelagert werden (**application-{profile}.properties**). Für weitere Informationen siehe https://quarkus.io/guides/config-reference#profile-aware-files[hier^].
+TIP: Um nicht alle Konfigurationen aus verschiedensten Umgebungen in ein *.properties-File zu stopfen, können Konfigurationen für eine bestimmte Umgebung in eine eigene Datei ausgelagert werden (**application-{profile}.properties**). Für weitere Informationen siehe https://quarkus.io/guides/config-reference#profile-aware-files[hier^].
 
