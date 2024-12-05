@@ -51,4 +51,20 @@ greeting=Hello, World!
 
 image::config-sources.png[]
 
+== Alternativen
+
+=== Kubernetes
+
+* ConfigMap
+* Secret
+
+=== Cloud
+
+* Azure
+** https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-app-configuration.html[Azure App Configuration^]
+**  https://docs.quarkiverse.io/quarkus-azure-services/dev/quarkus-azure-key-vault.html[Azure Key Vault^]
+* AWS
+** https://docs.quarkiverse.io/quarkus-amazon-services/dev/amazon-ssm.html[AWS Systems Manager^]
+** https://docs.quarkiverse.io/quarkus-amazon-services/dev/amazon-secretsmanager.html[AWS Secrets Manager^]
+
 == https://2425-5bhif-wmc.github.io/01-referate-Armin1503/documentation.html[Getting Started^]
