@@ -51,12 +51,11 @@ greeting=Hello, World!
 
 image::config-sources.png[]
 
-== Alternativen
+== Alternativen (für Quarkus)
 
 === Kubernetes
 
-* ConfigMap
-* Secret
+* https://quarkus.io/guides/kubernetes-config#:~:text=Quarkus%20includes%20the%20kubernetes%2Dconfig,Deployment%20(or%20OpenShift%20DeploymentConfig%20).[ConfigMap & Secret^]
 
 === Cloud
 
