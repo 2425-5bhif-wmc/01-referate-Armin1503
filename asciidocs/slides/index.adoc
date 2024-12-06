@@ -68,7 +68,7 @@ image::config-sources.png[]
 
 === Vergleich
 
-[cols="1,1,1,1"]
+[cols="1,1,1,1", height="75%"]
 |===
 | Kriterium             | Quarkus Config-Sources         | Kubernetes ConfigMaps/Secrets         | Azure Configs                | AWS Configs
 
