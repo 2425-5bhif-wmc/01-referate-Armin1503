@@ -66,4 +66,34 @@ image::config-sources.png[]
 ** https://docs.quarkiverse.io/quarkus-amazon-services/dev/amazon-ssm.html[AWS Systems Manager^]
 ** https://docs.quarkiverse.io/quarkus-amazon-services/dev/amazon-secretsmanager.html[AWS Secrets Manager^]
 
+=== Vergleich
+
+|===
+| Kriterium             | Quarkus Config-Sources         | Kubernetes ConfigMaps/Secrets         | Azure Configs                | AWS Configs
+
+| **Verwaltungsort**
+| Im Projekt (z. B. application.properties).
+| Extern als ConfigMaps/Secrets.
+| Zentral in Azure-Diensten.
+| Zentral in AWS-Diensten.
+
+| **Dynamik**
+| Nicht dynamisch (Neustart nötig)
+| Eingeschränkt (Neustart nötig)
+| Sehr dynamisch
+| Sehr dynamisch
+
+| **Plattformunabhängig**
+| Ja, überall nutzbar
+| Ja, Kubernetes-basiert
+| Nein, Azure-spezifisch
+| Nein, AWS-spezifisch
+
+| **Komplexität**
+| Einfach
+| Mittel (Cluster-Setup)
+| Mittel (Azure-Setup)
+| Mittel (AWS-Setup)
+|===
+
 == https://2425-5bhif-wmc.github.io/01-referate-Armin1503/documentation.html[Getting Started^]
