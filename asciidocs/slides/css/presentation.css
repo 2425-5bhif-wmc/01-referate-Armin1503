@@ -15,3 +15,7 @@
 .strikethrough {
     text-decoration: line-through;
 }
+
+.myTable {
+    font-size: 0.5em;
+}
