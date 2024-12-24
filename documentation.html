@@ -565,7 +565,7 @@ pre.rouge .gs {
 <div class="details">
 <span id="author" class="author">Armin Salkovic</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2024-12-06</span>
+<span id="revdate">2024-12-24</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -622,6 +622,14 @@ pre.rouge .gs {
 <li><a href="#_profile_aware_files">10.3. Profile-aware Files</a></li>
 </ul>
 </li>
+<li><a href="#git-secrets">11. Git-Secrets</a>
+<ul class="sectlevel2">
+<li><a href="#_was_ist_git_secret">11.1. Was ist git-secret?</a></li>
+<li><a href="#_welches_problem_wird_gelöst">11.2. Welches Problem wird gelöst?</a></li>
+<li><a href="#_wie_wendet_man_es_an">11.3. Wie wendet man es an?</a></li>
+<li><a href="#_wie_entschlüsselt_man_dateien_mit_git_secret">11.4. Wie entschlüsselt man Dateien mit git-secret?</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -641,6 +649,15 @@ pre.rouge .gs {
 <ul>
 <li>
 <p>Entwicklungsumgebung (IntelliJ IDEA)</p>
+</li>
+<li>
+<p>Git-Repository (GitHub)</p>
+</li>
+<li>
+<p>git-secret</p>
+</li>
+<li>
+<p>gpg (GNU Privacy Guard)</p>
 </li>
 </ul>
 </div>
@@ -1566,7 +1583,7 @@ In der Abbildung sind die verschiedenen Config-Sources dargestellt, aus denen di
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in das Repository zu <strong>pushen</strong>, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im <strong>.gitignore</strong> enthalten sein.
+Das .env-File ist in der Regel bei richtigen Projekten <strong>nicht</strong> in das Repository zu <strong>pushen</strong>, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im <strong>.gitignore</strong> enthalten sein. Wie man das .env-File trotzdem mit weiteren, berechtigten Entwicklern teilen kann, ist <a href="#git-secrets">hier</a> dokumentiert.
 </td>
 </tr>
 </table>
@@ -1845,11 +1862,175 @@ Um nicht alle Konfigurationen aus verschiedensten Umgebungen in ein *.properties
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="git-secrets"><a class="anchor" href="#git-secrets"></a>11. Git-Secrets</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_was_ist_git_secret"><a class="anchor" href="#_was_ist_git_secret"></a>11.1. Was ist git-secret?</h3>
+<div class="paragraph">
+<p><strong>git-secret</strong> ist ein Tool, das entwickelt wurde, um sensible Daten wie Passwörter, API-Schlüssel oder Konfigurationsdateien sicher in Git-Repositories zu speichern. Es nutzt <strong>GPG-Verschlüsselung</strong> (GNU Privacy Guard), um diese Dateien bzw. Daten vor unbefugtem Zugriff zu schützen. Nur autorisierte Benutzer, die über den entsprechenden GPG-Schlüssel verfügen, können die verschlüsselten Inhalte entschlüsseln.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_welches_problem_wird_gelöst"><a class="anchor" href="#_welches_problem_wird_gelöst"></a>11.2. Welches Problem wird gelöst?</h3>
+<div class="paragraph">
+<p><strong>git-secret</strong> löst das Problem, dass sensible Daten wie Passwörter, Token oder andere geheime Informationen unbeabsichtigt in Git-Repositories landen können, wo sie für jeden sichtbar sind, der Zugriff auf das Repository hat. Dies ist besonders in öffentlichen Repositories gefährlich.</p>
+</div>
+<div class="paragraph">
+<p>Durch die Verschlüsselung der sensiblen Dateien stellt <strong>git-secret</strong> sicher, dass nur autorisierte Personen auf diese Informationen zugreifen können. Es bietet:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Sicherheit</strong>: Schutz sensibler Daten durch starke Verschlüsselung.</p>
+</li>
+<li>
+<p><strong>Versionierung</strong>: Möglichkeit, Änderungen an sensiblen Daten nachzuverfolgen.</p>
+</li>
+<li>
+<p><strong>Einfache Integration</strong>: Automatisierung in Git-Workflows ohne große Umstellungen.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wie_wendet_man_es_an"><a class="anchor" href="#_wie_wendet_man_es_an"></a>11.3. Wie wendet man es an?</h3>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+Das Tutorial muss sich in einem Git-Repository befinden, um <strong>git-secret</strong> verwenden zu können.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_gpg_schlüsselpaar_erstellen"><a class="anchor" href="#_gpg_schlüsselpaar_erstellen"></a>11.3.1. GPG-Schlüsselpaar erstellen</h4>
+<div class="paragraph">
+<p>Zuerst muss ein GPG-Schlüsselpaar (privater und öffentlicher Schlüssel) erstellt werden.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">gpg <span class="nt">--full-generate-key</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_git_secret_initialisieren"><a class="anchor" href="#_git_secret_initialisieren"></a>11.3.2. git-secret initialisieren</h4>
+<div class="paragraph">
+<p>Nun wird git-secret im Repository initialisiert. Dadurch wird ein .gitsecret-Verzeichnis erstellt, in dem die GPG-Schlüssel autorisierter Benutzer und andere Metadaten gespeichert werden</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">git secret init</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_benutzer_hinzufügen"><a class="anchor" href="#_benutzer_hinzufügen"></a>11.3.3. Benutzer hinzufügen</h4>
+<div class="paragraph">
+<p>Nun fügt man sich selbst mit dem GPG-Schlüssel als autorisierten Benutzer hinzu.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">git secret tell you@domain.com <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><strong>you@domain.com</strong> wird mit der eigenen E-Mail-Adresse, die beim Erstellen des GPG-Schlüsselpaars verwendet wurde, ersetzt.</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_datei_hinzufügen"><a class="anchor" href="#_datei_hinzufügen"></a>11.3.4. Datei hinzufügen</h4>
+<div class="paragraph">
+<p>Nun wird das <strong>.env-File</strong>, welches <a href="#env-files">im Tutorial</a> erstellt wurde, hinzugefügt, um es im weiteren Verlauf verschlüsseln zu können.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">git secret add config-demo/.env</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_weitere_benutzer_hinzufügen"><a class="anchor" href="#_weitere_benutzer_hinzufügen"></a>11.3.5. Weitere Benutzer hinzufügen</h4>
+<div class="paragraph">
+<p>Um nun anderen Benutzern Zugriff auf die verschlüsselte Datei zu gewähren, müssen folgende Schritte durchgeführt werden:</p>
+</div>
+<div class="listingblock">
+<div class="title">Zuerst muss der öffentliche GPG-Schlüssel des Benutzers hinzugefügt werden.</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">gpg <span class="nt">--import</span> key.txt</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Danach wird der Benutzer in git-secret hinzugefügt.</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">git secret tell user@domain.com</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_datei_verschlüsseln"><a class="anchor" href="#_datei_verschlüsseln"></a>11.3.6. Datei verschlüsseln</h4>
+<div class="paragraph">
+<p>Nun wird das <strong>.env-File</strong> verschlüsselt, sodass nur autorisierte Benutzer darauf zugreifen und die Datei lesen können.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">git secret hide</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nachdem der Befehl ausgeführt wurde, wird das <strong>.env-File</strong> verschlüsselt und das <strong>.env.secret</strong>-File erstellt, welches im Repository sichtbar sein darf, da es, dass <strong>verschlüsselte .env-File</strong> darstellt.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Dies war nun die Vorgehensweise für das Hinzufügen und Verschlüsseln einer Datei, um diese Datei schlussendlich sicher im Repository zu speichern.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_wie_entschlüsselt_man_dateien_mit_git_secret"><a class="anchor" href="#_wie_entschlüsselt_man_dateien_mit_git_secret"></a>11.4. Wie entschlüsselt man Dateien mit git-secret?</h3>
+<div class="paragraph">
+<p>Nun wird gezeigt, wie einer weiterer Benutzer, welcher ebenfalls im gleichen Git-Repository arbeitet, auf die verschlüsselten Dateien zugreifen kann. Sprich es wird gezeigt, wie man von der gegenüberliegenden Seite zum <strong>entschlüsselten .env-File</strong> kommt.</p>
+</div>
+<div class="sect3">
+<h4 id="_datei_entschlüsseln"><a class="anchor" href="#_datei_entschlüsseln"></a>11.4.1. Datei entschlüsseln</h4>
+<div class="paragraph">
+<p>Autorisierte Benutzer können auf die verschlüsselten Dateien zugreifen, indem sie diese mit folgendem Befehl entschlüsseln.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="shell">git secret reveal</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Nachdem der Befehl ausgeführt wurde, wird das <strong>.env.secret-File</strong> entschlüsselt und das <strong>.env-File</strong> kann nun gelesen und bearbeitet werden.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-12-06 08:00:53 UTC
+Last updated 2024-12-24 17:56:43 UTC
 </div>
 </div>
 </body>
