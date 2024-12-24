@@ -17,6 +17,9 @@ Das Ziel dieses Tutorials ist es, mithilfe von **@ConfigMapping** auf Konfigurat
 Folgendes wird benötigt:
 
 * Entwicklungsumgebung (IntelliJ IDEA)
+* Git-Repository (GitHub)
+* git-secret
+* gpg (GNU Privacy Guard)
 
 == Erstellung des Projekts
 
@@ -575,7 +578,7 @@ Beim Testen des betroffenen Endpoints sollte nun folgende Response zurückgelief
 image::response-env-file-get-city.png[]
 ====
 
-IMPORTANT: Das .env-File ist in der Regel bei richtigen Projekten **nicht** in das Repository zu **pushen**, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im **.gitignore** enthalten sein.
+IMPORTANT: Das .env-File ist in der Regel bei richtigen Projekten **nicht** in das Repository zu **pushen**, da es oft sensible Daten wie Passwörter oder API-Keys enthält. Somit sollte es immer im **.gitignore** enthalten sein. Wie man das .env-File trotzdem mit weiteren, berechtigten Entwicklern teilen kann, ist <<git-secrets, hier>> dokumentiert.
 
 === Umgebungsvariablen [[env-variables]]
 
@@ -716,3 +719,104 @@ _{PROFILE}_CUSTOM_CITY=Vienna
 
 TIP: Um nicht alle Konfigurationen aus verschiedensten Umgebungen in ein *.properties-File zu stopfen, können Konfigurationen für eine bestimmte Umgebung in eine eigene Datei ausgelagert werden (**application-{profile}.properties**). Für weitere Informationen siehe https://quarkus.io/guides/config-reference#profile-aware-files[hier^].
 
+== Git-Secrets [[git-secrets]]
+
+=== Was ist git-secret?
+
+**git-secret** ist ein Tool, das entwickelt wurde, um sensible Daten wie Passwörter, API-Schlüssel oder Konfigurationsdateien sicher in Git-Repositories zu speichern. Es nutzt **GPG-Verschlüsselung** (GNU Privacy Guard), um diese Dateien bzw. Daten vor unbefugtem Zugriff zu schützen. Nur autorisierte Benutzer, die über den entsprechenden GPG-Schlüssel verfügen, können die verschlüsselten Inhalte entschlüsseln.
+
+=== Welches Problem wird gelöst?
+
+**git-secret** löst das Problem, dass sensible Daten wie Passwörter, Token oder andere geheime Informationen unbeabsichtigt in Git-Repositories landen können, wo sie für jeden sichtbar sind, der Zugriff auf das Repository hat. Dies ist besonders in öffentlichen Repositories gefährlich.
+
+Durch die Verschlüsselung der sensiblen Dateien stellt **git-secret** sicher, dass nur autorisierte Personen auf diese Informationen zugreifen können. Es bietet:
+
+* **Sicherheit**: Schutz sensibler Daten durch starke Verschlüsselung.
+* **Versionierung**: Möglichkeit, Änderungen an sensiblen Daten nachzuverfolgen.
+* **Einfache Integration**: Automatisierung in Git-Workflows ohne große Umstellungen.
+
+=== Wie wendet man es an?
+
+IMPORTANT: Das Tutorial muss sich in einem Git-Repository befinden, um **git-secret** verwenden zu können.
+
+==== GPG-Schlüsselpaar erstellen
+
+Zuerst muss ein GPG-Schlüsselpaar (privater und öffentlicher Schlüssel) erstellt werden.
+
+[source, shell]
+----
+gpg --full-generate-key
+----
+
+==== git-secret initialisieren
+
+Nun wird git-secret im Repository initialisiert. Dadurch wird ein .gitsecret-Verzeichnis erstellt, in dem die GPG-Schlüssel autorisierter Benutzer und andere Metadaten gespeichert werden
+
+[source, shell]
+----
+git secret init
+----
+
+==== Benutzer hinzufügen
+
+Nun fügt man sich selbst mit dem GPG-Schlüssel als autorisierten Benutzer hinzu.
+
+[source, shell]
+----
+git secret tell you@domain.com <1>
+----
+
+<1> **you@domain.com** wird mit der eigenen E-Mail-Adresse, die beim Erstellen des GPG-Schlüsselpaars verwendet wurde, ersetzt.
+
+==== Datei hinzufügen
+
+Nun wird das **.env-File**, welches <<env-files,im Tutorial>> erstellt wurde, hinzugefügt, um es im weiteren Verlauf verschlüsseln zu können.
+
+[source, shell]
+----
+git secret add config-demo/.env
+----
+
+==== Weitere Benutzer hinzufügen
+
+Um nun anderen Benutzern Zugriff auf die verschlüsselte Datei zu gewähren, müssen folgende Schritte durchgeführt werden:
+
+.Zuerst muss der öffentliche GPG-Schlüssel des Benutzers hinzugefügt werden.
+[source, shell]
+----
+gpg --import key.txt
+----
+
+.Danach wird der Benutzer in git-secret hinzugefügt.
+[source, shell]
+----
+git secret tell user@domain.com
+----
+
+==== Datei verschlüsseln
+
+Nun wird das **.env-File** verschlüsselt, sodass nur autorisierte Benutzer darauf zugreifen und die Datei lesen können.
+
+[source, shell]
+----
+git secret hide
+----
+
+Nachdem der Befehl ausgeführt wurde, wird das **.env-File** verschlüsselt und das **.env.secret**-File erstellt, welches im Repository sichtbar sein darf, da es, dass **verschlüsselte .env-File** darstellt.
+
+TIP: Dies war nun die Vorgehensweise für das Hinzufügen und Verschlüsseln einer Datei, um diese Datei schlussendlich sicher im Repository zu speichern.
+
+=== Wie entschlüsselt man Dateien mit git-secret?
+
+Nun wird gezeigt, wie einer weiterer Benutzer, welcher ebenfalls im gleichen Git-Repository arbeitet, auf die verschlüsselten Dateien zugreifen kann. Sprich es wird gezeigt, wie man von der gegenüberliegenden Seite zum **entschlüsselten .env-File** kommt.
+
+==== Datei entschlüsseln
+
+Autorisierte Benutzer können auf die verschlüsselten Dateien zugreifen, indem sie diese mit folgendem Befehl entschlüsseln.
+
+[source, shell]
+----
+git secret reveal
+----
+
+Nachdem der Befehl ausgeführt wurde, wird das **.env.secret-File** entschlüsselt und das **.env-File** kann nun gelesen und bearbeitet werden.
