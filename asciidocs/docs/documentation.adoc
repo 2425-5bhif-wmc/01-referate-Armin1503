@@ -820,3 +820,33 @@ git secret reveal
 ----
 
 Nachdem der Befehl ausgeführt wurde, wird das **.env.secret-File** entschlüsselt und das **.env-File** kann nun gelesen und bearbeitet werden.
+
+=== Erklärung der Befehle
+
+Nun folgt eine detaillierte Erklärung der wichtigsten Befehle in Zusammenhang mit **git-secret**.
+
+==== git secret tell
+
+**git secret tell** fügt den öffentlichen GPG-Schlüssel des angegebenen Benutzers zur Konfiguration von **git-secret** hinzu. Dadurch wird dieser Benutzer für die Entschlüsselung von verschlüsselten Dateien autorisiert.
+
+Es wird sicherstellt, dass der angegebene Benutzer (mit seinem öffentlichen GPG-Schlüssel) in der Lage ist, die verschlüsselten Dateien zu entschlüsseln, die mit **git secret hide** verschlüsselt wurden.
+
+===== Beispiel
+
+Angenommen, ein Benutzer hat einen öffentlichen GPG-Schlüssel mit einer hinterlegten E-Mail: **user@example.com**. Mit **git secret tell ****user@example.com** wird dieser öffentliche Schlüssel in der **.gitsecret-Konfigurationsdatei** gespeichert.
+
+
+Wenn dieser Benutzer nun **git secret reveal** ausführt, wird der private Schlüssel dieses Benutzers benötigt, um die Datei zu entschlüsseln.
+
+==== git secret hide
+
+Mit **git secret hide** wird die Datei mit GPG verschlüsselt.
+Alle öffentlichen GPG-Schlüssel, die in der **git secret tell-Konfiguration** gespeichert sind, werden verwendet, um die Datei zu verschlüsseln. Dadurch wird die Datei für die entsprechenden Benutzer zugänglich, aber für andere Benutzer bleibt sie verschlüsselt.
+
+
+Der Inhalt der Datei wird mit dem öffentlichen GPG-Schlüssel der autorisierten Benutzer verschlüsselt. Die verschlüsselte Datei wird dann im Git-Repository gespeichert.
+
+==== git secret reveal
+
+Bei **git secret reveal** wird GPG verwendet, um die verschlüsselten Dateien zu entschlüsseln.
+Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüssel, der dem öffentlichen Schlüssel entspricht, mit dem die Datei verschlüsselt wurde. Das bedeutet, der private Schlüssel des Benutzers, der für die Entschlüsselung durch **git secret tell** autorisiert wurde, muss auf dem eigenen Rechner vorhanden sein.
