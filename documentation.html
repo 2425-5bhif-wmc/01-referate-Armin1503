@@ -628,6 +628,7 @@ pre.rouge .gs {
 <li><a href="#_welches_problem_wird_gelöst">11.2. Welches Problem wird gelöst?</a></li>
 <li><a href="#_wie_wendet_man_es_an">11.3. Wie wendet man es an?</a></li>
 <li><a href="#_wie_entschlüsselt_man_dateien_mit_git_secret">11.4. Wie entschlüsselt man Dateien mit git-secret?</a></li>
+<li><a href="#_erklärung_der_befehle">11.5. Erklärung der Befehle</a></li>
 </ul>
 </li>
 </ul>
@@ -2024,13 +2025,54 @@ Dies war nun die Vorgehensweise für das Hinzufügen und Verschlüsseln einer Da
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_erklärung_der_befehle"><a class="anchor" href="#_erklärung_der_befehle"></a>11.5. Erklärung der Befehle</h3>
+<div class="paragraph">
+<p>Nun folgt eine detaillierte Erklärung der wichtigsten Befehle in Zusammenhang mit <strong>git-secret</strong>.</p>
+</div>
+<div class="sect3">
+<h4 id="_git_secret_tell"><a class="anchor" href="#_git_secret_tell"></a>11.5.1. git secret tell</h4>
+<div class="paragraph">
+<p><strong>git secret tell</strong> fügt den öffentlichen GPG-Schlüssel des angegebenen Benutzers zur Konfiguration von <strong>git-secret</strong> hinzu. Dadurch wird dieser Benutzer für die Entschlüsselung von verschlüsselten Dateien autorisiert.</p>
+</div>
+<div class="paragraph">
+<p>Es wird sicherstellt, dass der angegebene Benutzer (mit seinem öffentlichen GPG-Schlüssel) in der Lage ist, die verschlüsselten Dateien zu entschlüsseln, die mit <strong>git secret hide</strong> verschlüsselt wurden.</p>
+</div>
+<div class="sect4">
+<h5 id="_beispiel"><a class="anchor" href="#_beispiel"></a>Beispiel</h5>
+<div class="paragraph">
+<p>Angenommen, ein Benutzer hat einen öffentlichen GPG-Schlüssel mit einer hinterlegten E-Mail: <strong>user@example.com</strong>. Mit <strong>git secret tell </strong><strong>user@example.com</strong> wird dieser öffentliche Schlüssel in der <strong>.gitsecret-Konfigurationsdatei</strong> gespeichert.</p>
+</div>
+<div class="paragraph">
+<p>Wenn dieser Benutzer nun <strong>git secret reveal</strong> ausführt, wird der private Schlüssel dieses Benutzers benötigt, um die Datei zu entschlüsseln.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_git_secret_hide"><a class="anchor" href="#_git_secret_hide"></a>11.5.2. git secret hide</h4>
+<div class="paragraph">
+<p>Mit <strong>git secret hide</strong> wird die Datei mit GPG verschlüsselt.
+Alle öffentlichen GPG-Schlüssel, die in der <strong>git secret tell-Konfiguration</strong> gespeichert sind, werden verwendet, um die Datei zu verschlüsseln. Dadurch wird die Datei für die entsprechenden Benutzer zugänglich, aber für andere Benutzer bleibt sie verschlüsselt.</p>
+</div>
+<div class="paragraph">
+<p>Der Inhalt der Datei wird mit dem öffentlichen GPG-Schlüssel der autorisierten Benutzer verschlüsselt. Die verschlüsselte Datei wird dann im Git-Repository gespeichert.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_git_secret_reveal"><a class="anchor" href="#_git_secret_reveal"></a>11.5.3. git secret reveal</h4>
+<div class="paragraph">
+<p>Bei <strong>git secret reveal</strong> wird GPG verwendet, um die verschlüsselten Dateien zu entschlüsseln.
+Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüssel, der dem öffentlichen Schlüssel entspricht, mit dem die Datei verschlüsselt wurde. Das bedeutet, der private Schlüssel des Benutzers, der für die Entschlüsselung durch <strong>git secret tell</strong> autorisiert wurde, muss auf dem eigenen Rechner vorhanden sein.</p>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2024-12-24 17:56:43 UTC
+Last updated 2024-12-24 18:17:35 UTC
 </div>
 </div>
 </body>
