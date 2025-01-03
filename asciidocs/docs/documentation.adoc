@@ -850,3 +850,40 @@ Der Inhalt der Datei wird mit dem öffentlichen GPG-Schlüssel der autorisierten
 
 Bei **git secret reveal** wird GPG verwendet, um die verschlüsselten Dateien zu entschlüsseln.
 Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüssel, der dem öffentlichen Schlüssel entspricht, mit dem die Datei verschlüsselt wurde. Das bedeutet, der private Schlüssel des Benutzers, der für die Entschlüsselung durch **git secret tell** autorisiert wurde, muss auf dem eigenen Rechner vorhanden sein.
+
+== Docker-Secrets
+
+TIP: Der folgenden Abschnitt (Dockers-Secrets) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
+
+Mit Docker-Secrets kann man sensible Daten wie Passwörter oder API-Schlüssel sicher in Docker verwalten.
+
+Vorteile:
+
+* Sicherheit (verschlüsselte Speicherung und Übertragung)
+* Zentralisierte Verwaltung
+* Trennung von Code und sensiblen Daten
+
+=== Verwaltung von Secrets in Docker
+
+Docker Secrets ermöglichen die Speicherung, Verteilung und Nutzung sensibler Daten in einem Docker-Swarm-Cluster. Die Daten werden verschlüsselt gespeichert und nur an Container weitergegeben, die explizit Zugriff benötigen.
+
+==== Docker Swarm
+
+Docker Swarm ist der ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts zu einem Cluster (Swarm) zusammenzuschließen.
+
+Alternativen wären Kubernetes oder Docker Compose. Der Unterschied zwischen Docker Swarm und Docker Compose ist, dass Docker Compose nur Container auf einem Docker-Host verwalten kann, während Docker Swarm Container von mehreren Hosts zu einem Cluster verbindet und verwaltet.
+
+Ein Docker Swarm Cluster enthält 3 Hauptkomponenten:
+
+* **Manager Nodes**
+** Verwalten den Cluster und delegieren Aufgaben an Worker Nodes
+* **Worker Nodes**
+** Führen die Container aus
+* **State Store**
+** Speichert den Zustand des Clusters
+*** Status der Nodes
+*** Secrets und Konfigurationen
+
+
+.Docker Swarm Nodes
+image::docker-swarm-nodes.png[]
