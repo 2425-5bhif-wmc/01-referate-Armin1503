@@ -1,0 +1,9 @@
+{
+  "welcome": "Welcome",
+  "user": "Hello, {{name}}!",
+  "header": {
+    "home": "Home",
+    "about": "About Us",
+    "contact": "Contact"
+  }
+}

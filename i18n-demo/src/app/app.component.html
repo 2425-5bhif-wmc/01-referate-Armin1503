@@ -1,0 +1,19 @@
+<div>
+  <h1>{{ 'welcome' | translate }}</h1>
+
+  <!-- Displaying dynamic user greeting with a placeholder -->
+  <p>{{ 'user' | translate: { name: username } }}</p>
+
+  <div>
+    <nav>
+      <ul>
+        <li><a href="#">{{ 'header.home' | translate }}</a></li>
+        <li><a href="#">{{ 'header.about' | translate }}</a></li>
+        <li><a href="#">{{ 'header.contact' | translate }}</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <button (click)="switchLanguage('de')">Deutsch</button>
+  <button (click)="switchLanguage('en')">English</button>
+</div>

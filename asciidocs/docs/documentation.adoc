@@ -853,7 +853,7 @@ Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüss
 
 == Docker-Secrets
 
-TIP: Der folgenden Abschnitt (Dockers-Secrets) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
+TIP: Der folgende Abschnitt (Dockers-Secrets) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
 
 Mit Docker-Secrets kann man sensible Daten wie Passwörter oder API-Schlüssel sicher in Docker verwalten.
 
@@ -869,6 +869,8 @@ Docker Secrets ermöglichen die Speicherung, Verteilung und Nutzung sensibler Da
 
 ==== Docker Swarm
 
+TIP: Docker Secrets sind nur im Swarm-Modus verfügbar.
+
 Docker Swarm ist der ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts zu einem Cluster (Swarm) zusammenzuschließen.
 
 Alternativen wären Kubernetes oder Docker Compose. Der Unterschied zwischen Docker Swarm und Docker Compose ist, dass Docker Compose nur Container auf einem Docker-Host verwalten kann, während Docker Swarm Container von mehreren Hosts zu einem Cluster verbindet und verwaltet.
@@ -879,11 +881,259 @@ Ein Docker Swarm Cluster enthält 3 Hauptkomponenten:
 ** Verwalten den Cluster und delegieren Aufgaben an Worker Nodes
 * **Worker Nodes**
 ** Führen die Container aus
-* **State Store**
+* **State Store** (vergleichbar mit etcd in Kubernetes)
 ** Speichert den Zustand des Clusters
 *** Status der Nodes
 *** Secrets und Konfigurationen
 
-
 .Docker Swarm Nodes
 image::docker-swarm-nodes.png[]
+
+Im Docker Swarm Mode sorgt TLS (Transport Layer Security) für eine sichere Kommunikation zwischen den Manager und Worker-Nodes sowie zwischen den Manager-Nodes untereinander. TLS verschlüsselt die Datenübertragung und stellt sicher, dass die Identität der Knoten überprüft wird, bevor sie miteinander kommunizieren können.
+
+=== Docker Secrets erstellen
+
+Zuerst muss ein Swarm-Cluster initialisiert werden, um Docker Secrets zu verwenden.
+
+.Docker Swarm initialisieren
+[source, shell]
+----
+docker swarm init
+----
+
+Nun kann ein Docker Secret erstellt werden. Als Beispiel wird ein .env-File als Docker Secret verwendet.
+
+.Docker Secret erstellen
+[source, shell]
+----
+docker secret create my_secret ./.env
+----
+
+TIP: Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server dar in einem Docker Swarm Cluster dar. Ein Service legt unter anderem fest, wie viele Replicas erstellt werden sollen und welche Secrets verwendet werden.
+
+Nun wird ein Docker Service erstellt, der Zugriff zum Docker Secret erhält.
+
+.Docker Service mit Zugriff auf Docker Secret erstellen
+[source, shell]
+----
+docker service create \
+  --name my_service \
+  --secret my_secret \
+  eclipse-temurin:21-jre <1>
+----
+
+<1> **eclipse-temurin:21-jre** ist ein Beispiel für ein **Docker(-Base)-Image**, das als Service erstellt wird. Es kann durch jedes andere Docker-Image ersetzt werden.
+
+Um den Zugriff auf das Docker Secret zu entfernen, muss der Service aktualisiert werden.
+
+.Zugriff auf Docker Secret entfernen
+[source, shell]
+----
+docker service update --secret-rm my_secret my_service
+----
+
+Das Docker Secret kann mit folgendem Befehl auch gelöscht werden.
+
+.Docker Secret löschen
+[source, shell]
+----
+docker secret rm my_secret
+----
+
+== Internationalisierung/Mehrsprachlichkeit
+
+TIP: Der folgende Abschnitt (Internationalisierung/Mehrsprachlichkeit) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
+
+i18n steht für "Internationalization" und stellt die Anpassung von Software dar, um sie in verschiedenen Sprachen und Regionen verfügbar zu machen. Das Ziel ist es, nicht nur den Text, sondern auch Datum- und Zahlenformate in mehreren Sprachen bereitzustellen.
+
+Internationalisierung steigert die Benutzerfreundlichkeit für globale Zielgruppen.
+
+TIP: Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in **Angular**.
+
+=== Übersetzungsdateien
+
+Übersetzungsdateien sind zentrale Bestandteile der Internationalisierung (i18n), die verwendet werden, um Textinhalte einer Anwendung in verschiedene Sprachen zu übersetzen. Sie enthalten Key-Value-Paare, bei denen der Key der Platzhalter für den Text ist und der Value die übersetzte Version des Textes in der jeweiligen Sprache.
+
+Bei Webanwendung werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch YAML-Dateien können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).
+
+.de.json
+[source,json]
+----
+{
+  "welcome": "Willkommen",
+  "user": "Hallo, {{name}}!", // <1>
+  "header": {
+    "home": "Startseite",
+    "about": "Über uns",
+    "contact": "Kontakt"
+  }
+}
+----
+
+<1> Platzhalter können in den Übersetzungsdateien verwendet werden, um dynamische Inhalte zu unterstützen. In diesem Fall ersetzt der Platzhalter **{{name}}** den Benutzernamen.
+
+.en.json
+[source,json]
+----
+{
+  "welcome": "Welcome",
+  "user": "Hello, {{name}}!",
+  "header": {
+    "home": "Home",
+    "about": "About Us",
+    "contact": "Contact"
+  }
+}
+----
+
+.Projektstruktur (Angular)
+image::https://www.plantuml.com/plantuml/png/XSqn2e0m34RXtRkOuEROguGsIaj9I_vuVq5dSNuVl8GGZwDsnS9YvzN5r-cZQGw6PvOvcOZuem8QuBhjnaMfOTW_L7jXKYlF-GO0[]
+
+Im **angular.json**-File muss nun das **assets**-Directory definiert werden, um auf die Übersetzungsdateien zugreifen zu können.
+
+.angular.json
+[source,json]
+----
+{
+  ...
+  "projects": {
+    "i18n-demo": {
+      ...
+      "architect": {
+        "build": {
+          ...
+          "options": {
+            ...
+            "assets": [
+              "src/assets", // <1>
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            ...
+          },
+          ...
+        }
+      }
+    }
+  },
+  ...
+}
+----
+
+<1> In diesem Fall wird definiert, dass der **src/assets**-Folder beim Bauen des Projekts in das Build-Verzeichnis kopiert wird.
+
+=== Implementierung
+
+==== Bibliotheken installieren
+
+Zuerst müssen die **@ngx-translate/core**- und **@ngx-translate/http-loader**-Bibliothek installiert werden.
+
+[source, shell]
+----
+npm install @ngx-translate/core @ngx-translate/http-loader
+----
+
+==== AppModule konfigurieren
+
+.app.module.ts
+[source,typescript]
+----
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http); // <1>
+}
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    TranslateModule.forRoot({ // <2>
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
+  ],
+  providers: [HttpClient],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+----
+
+<1> Die Factory-Funktion **HttpLoaderFactory** wird verwendet, um eine Instanz des **TranslateHttpLoader** zu erstellen, die schlussendlich verwendet wird, um Übersetzungsdateien zu laden. Hierbei ist wichtig, dass sich die Übersetzungsdateien im **src/assets/i18n/**-Verzeichnis befinden. Ansonsten muss der Pfad in der Factory-Funktion angepasst werden.
+
+<2> Dieser Code konfiguriert das **@ngx-translate**-Modul, indem ein Loader definiert wird, welcher die Übersetzungsdateien lädt. Der TranslateLoader wird durch die Factory-Funktion **HttpLoaderFactory** bereitgestellt, die den TranslateHttpLoader verwendet, um die Dateien über HTTP zu laden. Der TranslateHttpLoader verwendet schlussendlich den HttpClient, um die HTTP-Anfragen auszuführen bzw. um die Übersetzungsdateien zu laden.
+
+==== Konfigurationswerte in Komponenten verwenden
+
+.app.component.ts
+[source,typescript]
+----
+import { Component } from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  standalone: false,
+  styleUrl: './app.component.css'
+})
+export class AppComponent {
+  username = 'John Doe';
+
+  constructor(private translate: TranslateService) { // <1>
+    translate.setDefaultLang('de');
+  }
+
+  switchLanguage(lang: string) {
+    this.translate.use(lang); // <2>
+  }
+}
+----
+
+<1> Der Konstruktor injiziert den **TranslateService**, der verwendet wird, um die Sprache der Anwendung zu ändern und um auf die Werte der Konfigurationen zuzugreifen. Zusätzlich wird die Default-Sprache auf Deutsch gesetzt.
+
+<2> Die Methode **switchLanguage** wird verwendet, um die Sprache der Anwendung zu ändern. Hierbei wird die **use**-Methode des **TranslateService** verwendet, um die Sprache auf die gewünschte Sprache zu setzen.
+
+.app.component.html
+[source,html]
+----
+<div>
+  <h1>{{ 'welcome' | translate }}</h1> <1>
+
+  <!-- Displaying dynamic user greeting with a placeholder -->
+  <p>{{ 'user' | translate: { name: username } }}</p> <2>
+
+  <div>
+    <nav>
+      <ul>
+        <li><a href="#">{{ 'header.home' | translate }}</a></li>
+        <li><a href="#">{{ 'header.about' | translate }}</a></li>
+        <li><a href="#">{{ 'header.contact' | translate }}</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <button (click)="switchLanguage('de')">Deutsch</button>
+  <button (click)="switchLanguage('en')">English</button>
+</div>
+----
+
+<1> Die **translate**-Pipe wird verwendet, um die Übersetzungen in der View anzuzeigen. Hierbei wird der Key der Übersetzung als Argument übergeben.
+
+<2> Platzhalter können in den Übersetzungsdateien verwendet werden, um dynamische Inhalte zu unterstützen. In diesem Fall wird der Platzhalter **{{name}}** durch den Benutzernamen ersetzt.
