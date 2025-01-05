@@ -20,6 +20,8 @@ Folgendes wird benötigt:
 * Git-Repository (GitHub)
 * git-secret
 * gpg (GNU Privacy Guard)
+* Docker (optional)
+* Angular (optional)
 
 == Erstellung des Projekts
 
@@ -725,15 +727,17 @@ TIP: Um nicht alle Konfigurationen aus verschiedensten Umgebungen in ein *.prope
 
 **git-secret** ist ein Tool, das entwickelt wurde, um sensible Daten wie Passwörter, API-Schlüssel oder Konfigurationsdateien sicher in Git-Repositories zu speichern. Es nutzt **GPG-Verschlüsselung** (GNU Privacy Guard), um diese Dateien bzw. Daten vor unbefugtem Zugriff zu schützen. Nur autorisierte Benutzer, die über den entsprechenden GPG-Schlüssel verfügen, können die verschlüsselten Inhalte entschlüsseln.
 
+.Asymmetrische Verschlüsselung mit GPG
+image::gpg-asymmetric-encryption.png[]
+
 === Welches Problem wird gelöst?
 
 **git-secret** löst das Problem, dass sensible Daten wie Passwörter, Token oder andere geheime Informationen unbeabsichtigt in Git-Repositories landen können, wo sie für jeden sichtbar sind, der Zugriff auf das Repository hat. Dies ist besonders in öffentlichen Repositories gefährlich.
 
 Durch die Verschlüsselung der sensiblen Dateien stellt **git-secret** sicher, dass nur autorisierte Personen auf diese Informationen zugreifen können. Es bietet:
 
-* **Sicherheit**: Schutz sensibler Daten durch starke Verschlüsselung.
+* **Sicherheit**: Schutz sensibler Daten durch Verschlüsselung.
 * **Versionierung**: Möglichkeit, Änderungen an sensiblen Daten nachzuverfolgen.
-* **Einfache Integration**: Automatisierung in Git-Workflows ohne große Umstellungen.
 
 === Wie wendet man es an?
 
@@ -869,16 +873,16 @@ Docker Secrets ermöglichen die Speicherung, Verteilung und Nutzung sensibler Da
 
 ==== Docker Swarm
 
-TIP: Docker Secrets sind nur im Swarm-Modus verfügbar.
+IMPORTANT: Docker Secrets sind nur im Swarm-Modus verfügbar.
 
-Docker Swarm ist der ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts zu einem Cluster (Swarm) zusammenzuschließen.
+Docker Swarm ist ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts (Rechner (physisch oder virtuell), auf dem DOcker läuft) zu einem Cluster (Swarm) zusammenzuschließen.
 
 Alternativen wären Kubernetes oder Docker Compose. Der Unterschied zwischen Docker Swarm und Docker Compose ist, dass Docker Compose nur Container auf einem Docker-Host verwalten kann, während Docker Swarm Container von mehreren Hosts zu einem Cluster verbindet und verwaltet.
 
 Ein Docker Swarm Cluster enthält 3 Hauptkomponenten:
 
 * **Manager Nodes**
-** Verwalten den Cluster und delegieren Aufgaben an Worker Nodes
+** Verwalten das Cluster und delegieren Aufgaben an Worker Nodes
 * **Worker Nodes**
 ** Führen die Container aus
 * **State Store** (vergleichbar mit etcd in Kubernetes)
@@ -940,21 +944,21 @@ Das Docker Secret kann mit folgendem Befehl auch gelöscht werden.
 docker secret rm my_secret
 ----
 
-== Internationalisierung/Mehrsprachlichkeit
+== Internationalisierung
 
-TIP: Der folgende Abschnitt (Internationalisierung/Mehrsprachlichkeit) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
+TIP: Der folgende Abschnitt (Internationalisierung) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
 
 i18n steht für "Internationalization" und stellt die Anpassung von Software dar, um sie in verschiedenen Sprachen und Regionen verfügbar zu machen. Das Ziel ist es, nicht nur den Text, sondern auch Datum- und Zahlenformate in mehreren Sprachen bereitzustellen.
 
 Internationalisierung steigert die Benutzerfreundlichkeit für globale Zielgruppen.
 
-TIP: Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in **Angular**.
+IMPORTANT: Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in **Angular**.
 
 === Übersetzungsdateien
 
-Übersetzungsdateien sind zentrale Bestandteile der Internationalisierung (i18n), die verwendet werden, um Textinhalte einer Anwendung in verschiedene Sprachen zu übersetzen. Sie enthalten Key-Value-Paare, bei denen der Key der Platzhalter für den Text ist und der Value die übersetzte Version des Textes in der jeweiligen Sprache.
+Übersetzungsdateien sind zentrale Bestandteile der Internationalisierung (i18n), die verwendet werden, um Textinhalte einer Anwendung in verschiedene Sprachen zu übersetzen. Sie enthalten Key-Value-Paare, bei denen der Key der Platzhalter für den Text ist und die Value die übersetzte Version des Textes in der jeweiligen Sprache.
 
-Bei Webanwendung werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch YAML-Dateien können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).
+Bei Webanwendungen werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch YAML-Dateien können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).
 
 .de.json
 [source,json]
@@ -985,6 +989,8 @@ Bei Webanwendung werden Übersetzungsdateien häufig im JSON-Format gespeichert,
   }
 }
 ----
+
+Die Übersetzungsdateien werden im **src/assets/i18n**-Verzeichnis gespeichert.
 
 .Projektstruktur (Angular)
 image::https://www.plantuml.com/plantuml/png/XSqn2e0m34RXtRkOuEROguGsIaj9I_vuVq5dSNuVl8GGZwDsnS9YvzN5r-cZQGw6PvOvcOZuem8QuBhjnaMfOTW_L7jXKYlF-GO0[]
@@ -1028,8 +1034,19 @@ Im **angular.json**-File muss nun das **assets**-Directory definiert werden, um 
 
 ==== Bibliotheken installieren
 
-Zuerst müssen die **@ngx-translate/core**- und **@ngx-translate/http-loader**-Bibliothek installiert werden.
+Zuerst müssen die **@ngx-translate/core**- und **@ngx-translate/http-loader**-Bibliothek installiert werden, welche für folgendes benötigt werden:
 
+* **@ngx-translate/core**
+** Kernkomponente für die Übersetzungslogik
+** Funktionen:
+*** Übersetzung verwalten
+*** Sprache wechseln
+*** Parameterisierte Übersetzungen
+* **@ngx-translate/http-loader**
+** bietet Möglichkeit, Übersetzungsdateien aus einem externen Verzeichnis wie src/assets/i18n/ zu laden
+** Ergänzt die @ngx-translate/core-Bibliothek
+
+.Bibliotheken installieren
 [source, shell]
 ----
 npm install @ngx-translate/core @ngx-translate/http-loader
