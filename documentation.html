@@ -565,7 +565,7 @@ pre.rouge .gs {
 <div class="details">
 <span id="author" class="author">Armin Salkovic</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2025-01-04</span>
+<span id="revdate">2025-01-05</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -637,7 +637,7 @@ pre.rouge .gs {
 <li><a href="#_docker_secrets_erstellen">12.2. Docker Secrets erstellen</a></li>
 </ul>
 </li>
-<li><a href="#_internationalisierungmehrsprachlichkeit">13. Internationalisierung/Mehrsprachlichkeit</a>
+<li><a href="#_internationalisierung">13. Internationalisierung</a>
 <ul class="sectlevel2">
 <li><a href="#_übersetzungsdateien">13.1. Übersetzungsdateien</a></li>
 <li><a href="#_implementierung">13.2. Implementierung</a></li>
@@ -671,6 +671,12 @@ pre.rouge .gs {
 </li>
 <li>
 <p>gpg (GNU Privacy Guard)</p>
+</li>
+<li>
+<p>Docker (optional)</p>
+</li>
+<li>
+<p>Angular (optional)</p>
 </li>
 </ul>
 </div>
@@ -1883,6 +1889,12 @@ Um nicht alle Konfigurationen aus verschiedensten Umgebungen in ein *.properties
 <div class="paragraph">
 <p><strong>git-secret</strong> ist ein Tool, das entwickelt wurde, um sensible Daten wie Passwörter, API-Schlüssel oder Konfigurationsdateien sicher in Git-Repositories zu speichern. Es nutzt <strong>GPG-Verschlüsselung</strong> (GNU Privacy Guard), um diese Dateien bzw. Daten vor unbefugtem Zugriff zu schützen. Nur autorisierte Benutzer, die über den entsprechenden GPG-Schlüssel verfügen, können die verschlüsselten Inhalte entschlüsseln.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/gpg-asymmetric-encryption.png" alt="gpg asymmetric encryption">
+</div>
+<div class="title">Figure 4. Asymmetrische Verschlüsselung mit GPG</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_welches_problem_wird_gelöst"><a class="anchor" href="#_welches_problem_wird_gelöst"></a>11.2. Welches Problem wird gelöst?</h3>
@@ -1895,13 +1907,10 @@ Um nicht alle Konfigurationen aus verschiedensten Umgebungen in ein *.properties
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Sicherheit</strong>: Schutz sensibler Daten durch starke Verschlüsselung.</p>
+<p><strong>Sicherheit</strong>: Schutz sensibler Daten durch Verschlüsselung.</p>
 </li>
 <li>
 <p><strong>Versionierung</strong>: Möglichkeit, Änderungen an sensiblen Daten nachzuverfolgen.</p>
-</li>
-<li>
-<p><strong>Einfache Integration</strong>: Automatisierung in Git-Workflows ohne große Umstellungen.</p>
 </li>
 </ul>
 </div>
@@ -2121,11 +2130,11 @@ Der folgende Abschnitt (Dockers-Secrets) ist nicht Teil des Tutorials, sondern d
 </div>
 <div class="sect3">
 <h4 id="_docker_swarm"><a class="anchor" href="#_docker_swarm"></a>12.1.1. Docker Swarm</h4>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
 Docker Secrets sind nur im Swarm-Modus verfügbar.
@@ -2134,7 +2143,7 @@ Docker Secrets sind nur im Swarm-Modus verfügbar.
 </table>
 </div>
 <div class="paragraph">
-<p>Docker Swarm ist der ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts zu einem Cluster (Swarm) zusammenzuschließen.</p>
+<p>Docker Swarm ist ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts (Rechner (physisch oder virtuell), auf dem DOcker läuft) zu einem Cluster (Swarm) zusammenzuschließen.</p>
 </div>
 <div class="paragraph">
 <p>Alternativen wären Kubernetes oder Docker Compose. Der Unterschied zwischen Docker Swarm und Docker Compose ist, dass Docker Compose nur Container auf einem Docker-Host verwalten kann, während Docker Swarm Container von mehreren Hosts zu einem Cluster verbindet und verwaltet.</p>
@@ -2149,7 +2158,7 @@ Docker Secrets sind nur im Swarm-Modus verfügbar.
 <div class="ulist">
 <ul>
 <li>
-<p>Verwalten den Cluster und delegieren Aufgaben an Worker Nodes</p>
+<p>Verwalten das Cluster und delegieren Aufgaben an Worker Nodes</p>
 </li>
 </ul>
 </div>
@@ -2190,7 +2199,7 @@ Docker Secrets sind nur im Swarm-Modus verfügbar.
 <div class="content">
 <img src="images/docker-swarm-nodes.png" alt="docker swarm nodes">
 </div>
-<div class="title">Figure 4. Docker Swarm Nodes</div>
+<div class="title">Figure 5. Docker Swarm Nodes</div>
 </div>
 <div class="paragraph">
 <p>Im Docker Swarm Mode sorgt TLS (Transport Layer Security) für eine sichere Kommunikation zwischen den Manager und Worker-Nodes sowie zwischen den Manager-Nodes untereinander. TLS verschlüsselt die Datenübertragung und stellt sicher, dass die Identität der Knoten überprüft wird, bevor sie miteinander kommunizieren können.</p>
@@ -2271,7 +2280,7 @@ Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_internationalisierungmehrsprachlichkeit"><a class="anchor" href="#_internationalisierungmehrsprachlichkeit"></a>13. Internationalisierung/Mehrsprachlichkeit</h2>
+<h2 id="_internationalisierung"><a class="anchor" href="#_internationalisierung"></a>13. Internationalisierung</h2>
 <div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
@@ -2280,7 +2289,7 @@ Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server 
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Der folgende Abschnitt (Internationalisierung/Mehrsprachlichkeit) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
+Der folgende Abschnitt (Internationalisierung) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
 </td>
 </tr>
 </table>
@@ -2291,11 +2300,11 @@ Der folgende Abschnitt (Internationalisierung/Mehrsprachlichkeit) ist nicht Teil
 <div class="paragraph">
 <p>Internationalisierung steigert die Benutzerfreundlichkeit für globale Zielgruppen.</p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock important">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
+<i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
 Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in <strong>Angular</strong>.
@@ -2306,10 +2315,10 @@ Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in <
 <div class="sect2">
 <h3 id="_übersetzungsdateien"><a class="anchor" href="#_übersetzungsdateien"></a>13.1. Übersetzungsdateien</h3>
 <div class="paragraph">
-<p>Übersetzungsdateien sind zentrale Bestandteile der Internationalisierung (i18n), die verwendet werden, um Textinhalte einer Anwendung in verschiedene Sprachen zu übersetzen. Sie enthalten Key-Value-Paare, bei denen der Key der Platzhalter für den Text ist und der Value die übersetzte Version des Textes in der jeweiligen Sprache.</p>
+<p>Übersetzungsdateien sind zentrale Bestandteile der Internationalisierung (i18n), die verwendet werden, um Textinhalte einer Anwendung in verschiedene Sprachen zu übersetzen. Sie enthalten Key-Value-Paare, bei denen der Key der Platzhalter für den Text ist und die Value die übersetzte Version des Textes in der jeweiligen Sprache.</p>
 </div>
 <div class="paragraph">
-<p>Bei Webanwendung werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch YAML-Dateien können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).</p>
+<p>Bei Webanwendungen werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch YAML-Dateien können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).</p>
 </div>
 <div class="listingblock">
 <div class="title">de.json</div>
@@ -2347,11 +2356,14 @@ Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in <
 </span><span class="p">}</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Die Übersetzungsdateien werden im <strong>src/assets/i18n</strong>-Verzeichnis gespeichert.</p>
+</div>
 <div class="imageblock">
 <div class="content">
 <img src="https://www.plantuml.com/plantuml/png/XSqn2e0m34RXtRkOuEROguGsIaj9I_vuVq5dSNuVl8GGZwDsnS9YvzN5r-cZQGw6PvOvcOZuem8QuBhjnaMfOTW_L7jXKYlF-GO0" alt="XSqn2e0m34RXtRkOuEROguGsIaj9I vuVq5dSNuVl8GGZwDsnS9YvzN5r cZQGw6PvOvcOZuem8QuBhjnaMfOTW L7jXKYlF GO0">
 </div>
-<div class="title">Figure 5. Projektstruktur (Angular)</div>
+<div class="title">Figure 6. Projektstruktur (Angular)</div>
 </div>
 <div class="paragraph">
 <p>Im <strong>angular.json</strong>-File muss nun das <strong>assets</strong>-Directory definiert werden, um auf die Übersetzungsdateien zugreifen zu können.</p>
@@ -2401,9 +2413,53 @@ Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in <
 <div class="sect3">
 <h4 id="_bibliotheken_installieren"><a class="anchor" href="#_bibliotheken_installieren"></a>13.2.1. Bibliotheken installieren</h4>
 <div class="paragraph">
-<p>Zuerst müssen die <strong>@ngx-translate/core</strong>- und <strong>@ngx-translate/http-loader</strong>-Bibliothek installiert werden.</p>
+<p>Zuerst müssen die <strong>@ngx-translate/core</strong>- und <strong>@ngx-translate/http-loader</strong>-Bibliothek installiert werden, welche für folgendes benötigt werden:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>@ngx-translate/core</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>Kernkomponente für die Übersetzungslogik</p>
+</li>
+<li>
+<p>Funktionen:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Übersetzung verwalten</p>
+</li>
+<li>
+<p>Sprache wechseln</p>
+</li>
+<li>
+<p>Parameterisierte Übersetzungen</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><strong>@ngx-translate/http-loader</strong></p>
+<div class="ulist">
+<ul>
+<li>
+<p>bietet Möglichkeit, Übersetzungsdateien aus einem externen Verzeichnis wie src/assets/i18n/ zu laden</p>
+</li>
+<li>
+<p>Ergänzt die @ngx-translate/core-Bibliothek</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 <div class="listingblock">
+<div class="title">Bibliotheken installieren</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="shell">npm <span class="nb">install</span> @ngx-translate/core @ngx-translate/http-loader</code></pre>
 </div>
@@ -2545,7 +2601,7 @@ Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in <
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2025-01-04 23:01:02 UTC
+Last updated 2025-01-05 22:04:12 UTC
 </div>
 </div>
 </body>
