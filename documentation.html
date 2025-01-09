@@ -565,7 +565,7 @@ pre.rouge .gs {
 <div class="details">
 <span id="author" class="author">Armin Salkovic</span><br>
 <span id="revnumber">version 1.0.0,</span>
-<span id="revdate">2025-01-05</span>
+<span id="revdate">2025-01-09</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -626,7 +626,7 @@ pre.rouge .gs {
 <ul class="sectlevel2">
 <li><a href="#_was_ist_git_secret">11.1. Was ist git-secret?</a></li>
 <li><a href="#_welches_problem_wird_gelöst">11.2. Welches Problem wird gelöst?</a></li>
-<li><a href="#_wie_wendet_man_es_an">11.3. Wie wendet man es an?</a></li>
+<li><a href="#_wie_wendet_man_git_secret_an">11.3. Wie wendet man git-secret an?</a></li>
 <li><a href="#_wie_entschlüsselt_man_dateien_mit_git_secret">11.4. Wie entschlüsselt man Dateien mit git-secret?</a></li>
 <li><a href="#_erklärung_der_befehle">11.5. Erklärung der Befehle</a></li>
 </ul>
@@ -641,6 +641,7 @@ pre.rouge .gs {
 <ul class="sectlevel2">
 <li><a href="#_übersetzungsdateien">13.1. Übersetzungsdateien</a></li>
 <li><a href="#_implementierung">13.2. Implementierung</a></li>
+<li><a href="#_resultat">13.3. Resultat</a></li>
 </ul>
 </li>
 </ul>
@@ -1916,7 +1917,7 @@ Um nicht alle Konfigurationen aus verschiedensten Umgebungen in ein *.properties
 </div>
 </div>
 <div class="sect2">
-<h3 id="_wie_wendet_man_es_an"><a class="anchor" href="#_wie_wendet_man_es_an"></a>11.3. Wie wendet man es an?</h3>
+<h3 id="_wie_wendet_man_git_secret_an"><a class="anchor" href="#_wie_wendet_man_git_secret_an"></a>11.3. Wie wendet man git-secret an?</h3>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -1943,7 +1944,7 @@ Das Tutorial muss sich in einem Git-Repository befinden, um <strong>git-secret</
 <div class="sect3">
 <h4 id="_git_secret_initialisieren"><a class="anchor" href="#_git_secret_initialisieren"></a>11.3.2. git-secret initialisieren</h4>
 <div class="paragraph">
-<p>Nun wird git-secret im Repository initialisiert. Dadurch wird ein .gitsecret-Verzeichnis erstellt, in dem die GPG-Schlüssel autorisierter Benutzer und andere Metadaten gespeichert werden</p>
+<p>Nun wird git-secret im Repository initialisiert. Dadurch wird ein .gitsecret-Verzeichnis erstellt, in dem die GPG-Schlüssel autorisierter Benutzer und andere Metadaten gespeichert werden.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1986,14 +1987,18 @@ Das Tutorial muss sich in einem Git-Repository befinden, um <strong>git-secret</
 <div class="paragraph">
 <p>Um nun anderen Benutzern Zugriff auf die verschlüsselte Datei zu gewähren, müssen folgende Schritte durchgeführt werden:</p>
 </div>
+<div class="paragraph">
+<p>Zuerst muss der öffentliche GPG-Schlüssel des Benutzers hinzugefügt werden.</p>
+</div>
 <div class="listingblock">
-<div class="title">Zuerst muss der öffentliche GPG-Schlüssel des Benutzers hinzugefügt werden.</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="shell">gpg <span class="nt">--import</span> key.txt</code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>Schlussendlich wird noch der Benutzer hinzugefügt.</p>
+</div>
 <div class="listingblock">
-<div class="title">Danach wird der Benutzer in git-secret hinzugefügt.</div>
 <div class="content">
 <pre class="rouge highlight"><code data-lang="shell">git secret tell user@domain.com</code></pre>
 </div>
@@ -2029,7 +2034,7 @@ Dies war nun die Vorgehensweise für das Hinzufügen und Verschlüsseln einer Da
 <div class="sect2">
 <h3 id="_wie_entschlüsselt_man_dateien_mit_git_secret"><a class="anchor" href="#_wie_entschlüsselt_man_dateien_mit_git_secret"></a>11.4. Wie entschlüsselt man Dateien mit git-secret?</h3>
 <div class="paragraph">
-<p>Nun wird gezeigt, wie einer weiterer Benutzer, welcher ebenfalls im gleichen Git-Repository arbeitet, auf die verschlüsselten Dateien zugreifen kann. Sprich es wird gezeigt, wie man von der gegenüberliegenden Seite zum <strong>entschlüsselten .env-File</strong> kommt.</p>
+<p>Nun wird demonstriert wie ein weiterer Benutzer, welcher ebenfalls im gleichen Git-Repository arbeitet, auf die verschlüsselten Dateien zugreifen kann. Sprich es wird dargestellt, wie man von der gegenüberliegenden Seite zum <strong>entschlüsselten .env-File</strong> kommt.</p>
 </div>
 <div class="sect3">
 <h4 id="_datei_entschlüsseln"><a class="anchor" href="#_datei_entschlüsseln"></a>11.4.1. Datei entschlüsseln</h4>
@@ -2083,7 +2088,7 @@ Alle öffentlichen GPG-Schlüssel, die in der <strong>git secret tell-Konfigurat
 <h4 id="_git_secret_reveal"><a class="anchor" href="#_git_secret_reveal"></a>11.5.3. git secret reveal</h4>
 <div class="paragraph">
 <p>Bei <strong>git secret reveal</strong> wird GPG verwendet, um die verschlüsselten Dateien zu entschlüsseln.
-Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüssel, der dem öffentlichen Schlüssel entspricht, mit dem die Datei verschlüsselt wurde. Das bedeutet, der private Schlüssel des Benutzers, der für die Entschlüsselung durch <strong>git secret tell</strong> autorisiert wurde, muss auf dem eigenen Rechner vorhanden sein.</p>
+Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüssel, der dem öffentlichen Schlüssel zugeordnet ist, mit dem die Datei verschlüsselt wurde. Das bedeutet, der private Schlüssel des Benutzers, der für die Entschlüsselung durch <strong>git secret tell</strong> autorisiert wurde, muss auf dem eigenen Rechner vorhanden sein.</p>
 </div>
 </div>
 </div>
@@ -2099,7 +2104,7 @@ Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüss
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Der folgende Abschnitt (Dockers-Secrets) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
+Der folgende Abschnitt (Docker-Secrets) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
 </td>
 </tr>
 </table>
@@ -2143,13 +2148,13 @@ Docker Secrets sind nur im Swarm-Modus verfügbar.
 </table>
 </div>
 <div class="paragraph">
-<p>Docker Swarm ist ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts (Rechner (physisch oder virtuell), auf dem DOcker läuft) zu einem Cluster (Swarm) zusammenzuschließen.</p>
+<p>Docker Swarm ist ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts (Rechner auf denen Docker läuft) zu einem Cluster zusammenzuschließen.</p>
 </div>
 <div class="paragraph">
 <p>Alternativen wären Kubernetes oder Docker Compose. Der Unterschied zwischen Docker Swarm und Docker Compose ist, dass Docker Compose nur Container auf einem Docker-Host verwalten kann, während Docker Swarm Container von mehreren Hosts zu einem Cluster verbindet und verwaltet.</p>
 </div>
 <div class="paragraph">
-<p>Ein Docker Swarm Cluster enthält 3 Hauptkomponenten:</p>
+<p>3 Komponenten des Docker Swarm Clusters:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2233,7 +2238,7 @@ Docker Secrets sind nur im Swarm-Modus verfügbar.
 <i class="fa icon-tip" title="Tip"></i>
 </td>
 <td class="content">
-Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server dar in einem Docker Swarm Cluster dar. Ein Service legt unter anderem fest, wie viele Replicas erstellt werden sollen und welche Secrets verwendet werden.
+Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server in einem Docker Swarm Cluster dar. Ein Service legt unter anderem fest, wie viele Replicas erstellt werden sollen und welche Secrets verwendet werden.
 </td>
 </tr>
 </table>
@@ -2318,7 +2323,7 @@ Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in <
 <p>Übersetzungsdateien sind zentrale Bestandteile der Internationalisierung (i18n), die verwendet werden, um Textinhalte einer Anwendung in verschiedene Sprachen zu übersetzen. Sie enthalten Key-Value-Paare, bei denen der Key der Platzhalter für den Text ist und die Value die übersetzte Version des Textes in der jeweiligen Sprache.</p>
 </div>
 <div class="paragraph">
-<p>Bei Webanwendungen werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch YAML-Dateien können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).</p>
+<p>Bei Webanwendungen werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch andere Dateiformate wie YAML können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).</p>
 </div>
 <div class="listingblock">
 <div class="title">de.json</div>
@@ -2413,7 +2418,7 @@ Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in <
 <div class="sect3">
 <h4 id="_bibliotheken_installieren"><a class="anchor" href="#_bibliotheken_installieren"></a>13.2.1. Bibliotheken installieren</h4>
 <div class="paragraph">
-<p>Zuerst müssen die <strong>@ngx-translate/core</strong>- und <strong>@ngx-translate/http-loader</strong>-Bibliothek installiert werden, welche für folgendes benötigt werden:</p>
+<p>Zuerst muss die <strong>@ngx-translate/core</strong>- und die <strong>@ngx-translate/http-loader</strong>-Bibliothek installiert werden, welche für folgendes benötigt werden:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2595,13 +2600,30 @@ Die folgende Erklärung bezieht sich speziell auf die Internationalisierung in <
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_resultat"><a class="anchor" href="#_resultat"></a>13.3. Resultat</h3>
+<div class="paragraph">
+<p>Nachdem die Implementierung abgeschlossen ist, sollte die Anwendung in der Lage sein, die Übersetzungen in verschiedenen Sprachen anzuzeigen. Durch Klicken auf die Buttons "Deutsch" und "English" wird die Sprache der Anwendung entsprechend geändert.</p>
+</div>
+<div class="videoblock">
+<div class="content">
+<video src="images/i18n-ui.mp4" width="640" height="autoplay" controls>
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<video width="640" height="360" controls>
+  <source src="images/i18n-ui.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 1.0.0<br>
-Last updated 2025-01-05 22:04:12 UTC
+Last updated 2025-01-09 15:30:34 UTC
 </div>
 </div>
 </body>
