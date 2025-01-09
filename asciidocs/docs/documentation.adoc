@@ -739,7 +739,7 @@ Durch die Verschlüsselung der sensiblen Dateien stellt **git-secret** sicher, d
 * **Sicherheit**: Schutz sensibler Daten durch Verschlüsselung.
 * **Versionierung**: Möglichkeit, Änderungen an sensiblen Daten nachzuverfolgen.
 
-=== Wie wendet man es an?
+=== Wie wendet man git-secret an?
 
 IMPORTANT: Das Tutorial muss sich in einem Git-Repository befinden, um **git-secret** verwenden zu können.
 
@@ -754,7 +754,7 @@ gpg --full-generate-key
 
 ==== git-secret initialisieren
 
-Nun wird git-secret im Repository initialisiert. Dadurch wird ein .gitsecret-Verzeichnis erstellt, in dem die GPG-Schlüssel autorisierter Benutzer und andere Metadaten gespeichert werden
+Nun wird git-secret im Repository initialisiert. Dadurch wird ein .gitsecret-Verzeichnis erstellt, in dem die GPG-Schlüssel autorisierter Benutzer und andere Metadaten gespeichert werden.
 
 [source, shell]
 ----
@@ -785,13 +785,15 @@ git secret add config-demo/.env
 
 Um nun anderen Benutzern Zugriff auf die verschlüsselte Datei zu gewähren, müssen folgende Schritte durchgeführt werden:
 
-.Zuerst muss der öffentliche GPG-Schlüssel des Benutzers hinzugefügt werden.
+Zuerst muss der öffentliche GPG-Schlüssel des Benutzers hinzugefügt werden.
+
 [source, shell]
 ----
 gpg --import key.txt
 ----
 
-.Danach wird der Benutzer in git-secret hinzugefügt.
+Schlussendlich wird noch der Benutzer hinzugefügt.
+
 [source, shell]
 ----
 git secret tell user@domain.com
@@ -812,7 +814,7 @@ TIP: Dies war nun die Vorgehensweise für das Hinzufügen und Verschlüsseln ein
 
 === Wie entschlüsselt man Dateien mit git-secret?
 
-Nun wird gezeigt, wie einer weiterer Benutzer, welcher ebenfalls im gleichen Git-Repository arbeitet, auf die verschlüsselten Dateien zugreifen kann. Sprich es wird gezeigt, wie man von der gegenüberliegenden Seite zum **entschlüsselten .env-File** kommt.
+Nun wird demonstriert wie ein weiterer Benutzer, welcher ebenfalls im gleichen Git-Repository arbeitet, auf die verschlüsselten Dateien zugreifen kann. Sprich es wird dargestellt, wie man von der gegenüberliegenden Seite zum **entschlüsselten .env-File** kommt.
 
 ==== Datei entschlüsseln
 
@@ -853,11 +855,11 @@ Der Inhalt der Datei wird mit dem öffentlichen GPG-Schlüssel der autorisierten
 ==== git secret reveal
 
 Bei **git secret reveal** wird GPG verwendet, um die verschlüsselten Dateien zu entschlüsseln.
-Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüssel, der dem öffentlichen Schlüssel entspricht, mit dem die Datei verschlüsselt wurde. Das bedeutet, der private Schlüssel des Benutzers, der für die Entschlüsselung durch **git secret tell** autorisiert wurde, muss auf dem eigenen Rechner vorhanden sein.
+Um die Datei zu entschlüsseln, benötigt der Benutzer den privaten GPG-Schlüssel, der dem öffentlichen Schlüssel zugeordnet ist, mit dem die Datei verschlüsselt wurde. Das bedeutet, der private Schlüssel des Benutzers, der für die Entschlüsselung durch **git secret tell** autorisiert wurde, muss auf dem eigenen Rechner vorhanden sein.
 
 == Docker-Secrets
 
-TIP: Der folgende Abschnitt (Dockers-Secrets) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
+TIP: Der folgende Abschnitt (Docker-Secrets) ist nicht Teil des Tutorials, sondern dient nur als Zusatzinformation.
 
 Mit Docker-Secrets kann man sensible Daten wie Passwörter oder API-Schlüssel sicher in Docker verwalten.
 
@@ -875,11 +877,11 @@ Docker Secrets ermöglichen die Speicherung, Verteilung und Nutzung sensibler Da
 
 IMPORTANT: Docker Secrets sind nur im Swarm-Modus verfügbar.
 
-Docker Swarm ist ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts (Rechner (physisch oder virtuell), auf dem DOcker läuft) zu einem Cluster (Swarm) zusammenzuschließen.
+Docker Swarm ist ein Container-Orchestrierungsdienst von Docker, der es ermöglicht, mehrere Docker-Hosts (Rechner auf denen Docker läuft) zu einem Cluster zusammenzuschließen.
 
 Alternativen wären Kubernetes oder Docker Compose. Der Unterschied zwischen Docker Swarm und Docker Compose ist, dass Docker Compose nur Container auf einem Docker-Host verwalten kann, während Docker Swarm Container von mehreren Hosts zu einem Cluster verbindet und verwaltet.
 
-Ein Docker Swarm Cluster enthält 3 Hauptkomponenten:
+3 Komponenten des Docker Swarm Clusters:
 
 * **Manager Nodes**
 ** Verwalten das Cluster und delegieren Aufgaben an Worker Nodes
@@ -913,7 +915,7 @@ Nun kann ein Docker Secret erstellt werden. Als Beispiel wird ein .env-File als 
 docker secret create my_secret ./.env
 ----
 
-TIP: Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server dar in einem Docker Swarm Cluster dar. Ein Service legt unter anderem fest, wie viele Replicas erstellt werden sollen und welche Secrets verwendet werden.
+TIP: Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server in einem Docker Swarm Cluster dar. Ein Service legt unter anderem fest, wie viele Replicas erstellt werden sollen und welche Secrets verwendet werden.
 
 Nun wird ein Docker Service erstellt, der Zugriff zum Docker Secret erhält.
 
@@ -958,7 +960,7 @@ IMPORTANT: Die folgende Erklärung bezieht sich speziell auf die Internationalis
 
 Übersetzungsdateien sind zentrale Bestandteile der Internationalisierung (i18n), die verwendet werden, um Textinhalte einer Anwendung in verschiedene Sprachen zu übersetzen. Sie enthalten Key-Value-Paare, bei denen der Key der Platzhalter für den Text ist und die Value die übersetzte Version des Textes in der jeweiligen Sprache.
 
-Bei Webanwendungen werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch YAML-Dateien können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).
+Bei Webanwendungen werden Übersetzungsdateien häufig im JSON-Format gespeichert, aber auch andere Dateiformate wie YAML können verwendet werden. Diese Dateien sind typischerweise nach der Sprache strukturiert (z. B. en.json für Englisch, de.json für Deutsch).
 
 .de.json
 [source,json]
@@ -1034,7 +1036,7 @@ Im **angular.json**-File muss nun das **assets**-Directory definiert werden, um 
 
 ==== Bibliotheken installieren
 
-Zuerst müssen die **@ngx-translate/core**- und **@ngx-translate/http-loader**-Bibliothek installiert werden, welche für folgendes benötigt werden:
+Zuerst muss die **@ngx-translate/core**- und die **@ngx-translate/http-loader**-Bibliothek installiert werden, welche für folgendes benötigt werden:
 
 * **@ngx-translate/core**
 ** Kernkomponente für die Übersetzungslogik
@@ -1154,3 +1156,17 @@ export class AppComponent {
 <1> Die **translate**-Pipe wird verwendet, um die Übersetzungen in der View anzuzeigen. Hierbei wird der Key der Übersetzung als Argument übergeben.
 
 <2> Platzhalter können in den Übersetzungsdateien verwendet werden, um dynamische Inhalte zu unterstützen. In diesem Fall wird der Platzhalter **{{name}}** durch den Benutzernamen ersetzt.
+
+=== Resultat
+
+Nachdem die Implementierung abgeschlossen ist, sollte die Anwendung in der Lage sein, die Übersetzungen in verschiedenen Sprachen anzuzeigen. Durch Klicken auf die Buttons "Deutsch" und "English" wird die Sprache der Anwendung entsprechend geändert.
+
+video::i18n-ui.mp4[width=640, height=360, autoplay, loop]
+
+
+++++
+<video width="640" height="360" controls>
+  <source src="images/i18n-ui.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+++++
