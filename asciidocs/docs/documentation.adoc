@@ -1162,4 +1162,4 @@ export class AppComponent {
 Nachdem die Implementierung abgeschlossen ist, sollte die Anwendung in der Lage sein, die Übersetzungen in verschiedenen Sprachen anzuzeigen. Durch Klicken auf die Buttons "Deutsch" und "English" wird die Sprache der Anwendung entsprechend geändert.
 
 [.text-center]
-video::i18n-ui.mp4[width=640, height=360, autoplay, loop]
+video::i18n-ui.mp4[width=430, height=240, autoplay=autoplay, loop=loop]
