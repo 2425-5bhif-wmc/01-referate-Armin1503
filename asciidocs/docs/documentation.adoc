@@ -915,9 +915,9 @@ Nun kann ein Docker Secret erstellt werden. Als Beispiel wird ein .env-File als 
 docker secret create my_secret ./.env
 ----
 
-TIP: Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server in einem Docker Swarm Cluster dar. Ein Service legt unter anderem fest, wie viele Replicas erstellt werden sollen und welche Secrets verwendet werden.
-
 Nun wird ein Docker Service erstellt, der Zugriff zum Docker Secret erhält.
+
+TIP: Docker Services stellen beispielsweise eine Web-App oder einen Datenbank-Server in einem Docker Swarm Cluster dar. Ein Service legt unter anderem fest, wie viele Replicas erstellt werden sollen und welche Secrets verwendet werden.
 
 .Docker Service mit Zugriff auf Docker Secret erstellen
 [source, shell]
