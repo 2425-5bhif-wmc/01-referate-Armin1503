@@ -752,6 +752,14 @@ Zuerst muss ein GPG-Schlüsselpaar (privater und öffentlicher Schlüssel) erste
 gpg --full-generate-key
 ----
 
+.Ablauf bei der Erstellung eines GPG-Schlüsselpaares
+[%collapsible]
+====
+image::creating-gpg-key-pair.png[]
+
+TIP: Die Optionen, welche mit *default* versehen sind, werden automatisch ausgewählt, wenn man *ENTER* drückt.
+====
+
 ==== git-secret initialisieren
 
 Nun wird git-secret im Repository initialisiert. Dadurch wird ein .gitsecret-Verzeichnis erstellt, in dem die GPG-Schlüssel autorisierter Benutzer und andere Metadaten gespeichert werden.
